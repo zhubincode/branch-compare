@@ -1,14 +1,16 @@
 {
   "name": "@cn-zhubin-007/branch-compare",
-  "version": "1.0.2",
+  "version": "1.0.9",
   "description": "Git branch comparison tool",
   "main": "index.js",
   "bin": {
+    "@cn-zhubin-007/branch-compare": "./index.js",
     "branch-compare": "./index.js"
   },
   "scripts": {
     "start": "node index.js",
-    "pkg:fix": "npm pkg fix"
+    "pkg:fix": "npm pkg fix",
+    "postinstall": "node -e \"const fs=require('fs'); const path=require('path'); const dir=path.join(require('os').homedir(), '.config', 'branch-compare'); !fs.existsSync(dir) && fs.mkdirSync(dir, {recursive:true});\""
   },
   "files": [
     "index.js",

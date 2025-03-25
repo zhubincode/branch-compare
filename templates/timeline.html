@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -6,7 +6,8 @@
     <title>{{title}}</title>
     <style>
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
         line-height: 1.6;
         margin: 0;
         padding: 20px;
@@ -474,7 +475,7 @@
         background: #e3f2fd;
         border-color: #2196f3;
       }
-      .reason-option input[type='radio'] {
+      .reason-option input[type="radio"] {
         margin-right: 10px;
         width: 18px;
         height: 18px;
@@ -597,7 +598,8 @@
         font-size: 14px;
         line-height: 1.5;
         box-sizing: border-box;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
         color: #333;
       }
       .remark-textarea:focus {
@@ -846,7 +848,11 @@
       }
 
       .timeline.flat-layout .commit-container.both .branch-indicator {
-        background: linear-gradient(135deg, #28a745 50%, #ff9800 50%); /* 改为绿色和橙色 */
+        background: linear-gradient(
+          135deg,
+          #28a745 50%,
+          #ff9800 50%
+        ); /* 改为绿色和橙色 */
       }
 
       /* Adjust content padding in flat layout */
@@ -1153,11 +1159,19 @@
           <!-- 原因选项将通过 JavaScript 动态添加 -->
         </div>
         <div id="customReasonInput" class="custom-reason">
-          <input type="text" placeholder="请输入忽略原因" id="customReasonText" />
+          <input
+            type="text"
+            placeholder="请输入忽略原因"
+            id="customReasonText"
+          />
         </div>
         <div class="modal-buttons">
-          <button class="modal-button cancel" onclick="closeIgnoreModal()">取消</button>
-          <button class="modal-button confirm" onclick="confirmIgnore()">确认</button>
+          <button class="modal-button cancel" onclick="closeIgnoreModal()">
+            取消
+          </button>
+          <button class="modal-button confirm" onclick="confirmIgnore()">
+            确认
+          </button>
         </div>
       </div>
     </div>
@@ -1166,11 +1180,31 @@
     <div id="remarkModal" class="remark-modal">
       <div class="remark-modal-content">
         <h3>编辑备注</h3>
-        <textarea id="remarkText" class="remark-textarea" placeholder="请输入备注内容..."></textarea>
+        <textarea
+          id="remarkText"
+          class="remark-textarea"
+          placeholder="请输入备注内容..."
+        ></textarea>
         <div class="remark-modal-buttons">
-          <button class="remark-modal-button remark-delete" id="deleteRemarkBtn" onclick="deleteRemark()">删除备注</button>
-          <button class="remark-modal-button remark-cancel" onclick="closeRemarkModal()">取消</button>
-          <button class="remark-modal-button remark-save" onclick="confirmRemark()">保存</button>
+          <button
+            class="remark-modal-button remark-delete"
+            id="deleteRemarkBtn"
+            onclick="deleteRemark()"
+          >
+            删除备注
+          </button>
+          <button
+            class="remark-modal-button remark-cancel"
+            onclick="closeRemarkModal()"
+          >
+            取消
+          </button>
+          <button
+            class="remark-modal-button remark-save"
+            onclick="confirmRemark()"
+          >
+            保存
+          </button>
         </div>
       </div>
     </div>
@@ -1190,21 +1224,41 @@
           <div class="meta-info">
             <div>生成时间: {{generatedTime}}</div>
             <div id="authorInfo" style="display: none">提交者: {{author}}</div>
-            <div id="timeRangeInfo" style="display: none">时间范围: {{timeRange}}</div>
+            <div id="timeRangeInfo" style="display: none">
+              时间范围: {{timeRange}}
+            </div>
           </div>
         </div>
         <div class="timeline-legend">
-          <div class="legend-item"><span class="legend-dot source"></span> {{sourceBranch}} (基准分支)</div>
-          <div class="legend-item"><span class="legend-dot target"></span> {{targetBranch}}</div>
-          <div class="legend-item"><span class="legend-dot both" style="background-color: #1890ff"></span> 消息相同的共同提交</div>
+          <div class="legend-item">
+            <span class="legend-dot source"></span> {{sourceBranch}} (基准分支)
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot target"></span> {{targetBranch}}
+          </div>
+          <div class="legend-item">
+            <span
+              class="legend-dot both"
+              style="background-color: #1890ff"
+            ></span>
+            消息相同的共同提交
+          </div>
         </div>
 
         <div class="theme-switcher">
-          <button id="chatLayoutBtn" class="theme-button active" onclick="switchLayout('chat')">
+          <button
+            id="chatLayoutBtn"
+            class="theme-button active"
+            onclick="switchLayout('chat')"
+          >
             <span>聊天布局</span>
             <span class="layout-icon">💬</span>
           </button>
-          <button id="flatLayoutBtn" class="theme-button" onclick="switchLayout('flat')">
+          <button
+            id="flatLayoutBtn"
+            class="theme-button"
+            onclick="switchLayout('flat')"
+          >
             <span>列表布局</span>
             <span class="layout-icon">📑</span>
           </button>
@@ -1213,39 +1267,104 @@
 
       <div class="filter-section">
         <div class="filter-buttons">
-          <button class="filter-button active" data-filter="all" onclick="filterCommits('all')">全部提交</button>
-          <button class="filter-button" data-filter="source" onclick="filterCommits('source')">仅{{sourceBranch}}分支</button>
-          <button class="filter-button" data-filter="target" onclick="filterCommits('target')">仅{{targetBranch}}分支</button>
-          <button class="filter-button" data-filter="common" onclick="filterCommits('common')">共同提交</button>
-          <button class="filter-button" data-filter="ignored" onclick="filterCommits('ignored')">已忽略提交</button>
+          <button
+            class="filter-button active"
+            data-filter="all"
+            onclick="filterCommits('all')"
+          >
+            全部提交
+          </button>
+          <button
+            class="filter-button"
+            data-filter="source"
+            onclick="filterCommits('source')"
+          >
+            仅{{sourceBranch}}分支
+          </button>
+          <button
+            class="filter-button"
+            data-filter="target"
+            onclick="filterCommits('target')"
+          >
+            仅{{targetBranch}}分支
+          </button>
+          <button
+            class="filter-button"
+            data-filter="common"
+            onclick="filterCommits('common')"
+          >
+            共同提交
+          </button>
+          <button
+            class="filter-button"
+            data-filter="ignored"
+            onclick="filterCommits('ignored')"
+          >
+            已忽略提交
+          </button>
         </div>
 
         <div class="sub-filter-section" id="subFilterSection">
           <label class="filter-checkbox">
-            <input type="checkbox" id="hideIgnoredCommits" checked onchange="applySubFilters()" />
+            <input
+              type="checkbox"
+              id="hideIgnoredCommits"
+              checked
+              onchange="applySubFilters()"
+            />
             <span>隐藏已忽略提交</span>
           </label>
           <label class="filter-checkbox">
-            <input type="checkbox" id="hideCommonCommits" onchange="applySubFilters()" />
+            <input
+              type="checkbox"
+              id="hideCommonCommits"
+              onchange="applySubFilters()"
+            />
             <span>隐藏共同提交</span>
           </label>
         </div>
 
         <div class="search-section">
           <div class="search-container">
-            <input type="text" class="search-input" id="searchInput" placeholder="搜索提交信息、作者或哈希..." oninput="searchCommits()" />
-            <button class="clear-search" id="clearSearch" onclick="clearSearch()">✕</button>
+            <input
+              type="text"
+              class="search-input"
+              id="searchInput"
+              placeholder="搜索提交信息、作者或哈希..."
+              oninput="searchCommits()"
+            />
+            <button
+              class="clear-search"
+              id="clearSearch"
+              onclick="clearSearch()"
+            >
+              ✕
+            </button>
             <div class="search-options">
               <label class="search-checkbox">
-                <input type="checkbox" id="searchMessage" checked onchange="searchCommits()" />
+                <input
+                  type="checkbox"
+                  id="searchMessage"
+                  checked
+                  onchange="searchCommits()"
+                />
                 <span>提交信息</span>
               </label>
               <label class="search-checkbox">
-                <input type="checkbox" id="searchAuthor" checked onchange="searchCommits()" />
+                <input
+                  type="checkbox"
+                  id="searchAuthor"
+                  checked
+                  onchange="searchCommits()"
+                />
                 <span>作者</span>
               </label>
               <label class="search-checkbox">
-                <input type="checkbox" id="searchHash" onchange="searchCommits()" />
+                <input
+                  type="checkbox"
+                  id="searchHash"
+                  onchange="searchCommits()"
+                />
                 <span>哈希</span>
               </label>
             </div>
@@ -1257,14 +1376,31 @@
 
       <div class="command-section">
         <div class="command-tabs">
-          <button class="command-tab active" data-command="basic" onclick="switchCommandTab('basic')">基础命令</button>
-          <button class="command-tab" data-command="optimized" onclick="switchCommandTab('optimized')">优化命令</button>
+          <button
+            class="command-tab active"
+            data-command="basic"
+            onclick="switchCommandTab('basic')"
+          >
+            基础命令
+          </button>
+          <button
+            class="command-tab"
+            data-command="optimized"
+            onclick="switchCommandTab('optimized')"
+          >
+            优化命令
+          </button>
         </div>
 
         <div id="basic-content" class="command-content active">
           <h3>
             Cherry-pick 基础指令
-            <button class="copy-button copy-basic-button" onclick="copyCommandBlock('basic')">复制全部</button>
+            <button
+              class="copy-button copy-basic-button"
+              onclick="copyCommandBlock('basic')"
+            >
+              复制全部
+            </button>
           </h3>
           <pre><code id="basic-commands"></code></pre>
         </div>
@@ -1272,7 +1408,12 @@
         <div id="optimized-content" class="command-content">
           <h3>
             Cherry-pick 优化指令
-            <button class="copy-button copy-optimized-button" onclick="copyCommandBlock('optimized')">复制全部</button>
+            <button
+              class="copy-button copy-optimized-button"
+              onclick="copyCommandBlock('optimized')"
+            >
+              复制全部
+            </button>
           </h3>
           <pre><code id="optimized-commands"></code></pre>
         </div>
@@ -1280,17 +1421,79 @@
     </div>
 
     <script>
-            // Create a global variable to track current filter state correctly placed at the top
-            // Create a global variable at the beginning of the script
-            let currentFilterState = {
-              mainFilter: 'all',
-              hideIgnored: true,
-              hideCommon: false,
-              searchText: '',
-              searchMessage: true,
-              searchAuthor: true,
-              searchHash: false
-            };
+      // 获取动态端口
+      const PORT = '{{port}}';
+      const API_BASE = `http://localhost:${PORT}`;
+
+      // 加载忽略的提交
+      async function loadIgnoredCommits() {
+        try {
+          const response = await fetch(`${API_BASE}/ignored-commits`);
+          const data = await response.json();
+          return data.ignoredCommits || [];
+        } catch (error) {
+          console.error('加载忽略的提交失败:', error);
+          return [];
+        }
+      }
+
+      // 保存忽略的提交
+      async function saveIgnoredCommits(commits) {
+        try {
+          const response = await fetch(`${API_BASE}/ignore-commit`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ ignoredCommits: commits })
+          });
+          return response.ok;
+        } catch (error) {
+          console.error('保存忽略的提交失败:', error);
+          return false;
+        }
+      }
+
+      // 加载提交备注
+      async function loadCommitRemarks() {
+        try {
+          const response = await fetch(`${API_BASE}/commit-remarks`);
+          const data = await response.json();
+          return data.commitRemarks || {};
+        } catch (error) {
+          console.error('加载提交备注失败:', error);
+          return {};
+        }
+      }
+
+      // 保存提交备注
+      async function saveCommitRemarks(remarks) {
+        try {
+          const response = await fetch(`${API_BASE}/commit-remarks`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ commitRemarks: remarks })
+          });
+          return response.ok;
+        } catch (error) {
+          console.error('保存提交备注失败:', error);
+          return false;
+        }
+      }
+
+      // Create a global variable to track current filter state correctly placed at the top
+      // Create a global variable at the beginning of the script
+      let currentFilterState = {
+        mainFilter: 'all',
+        hideIgnored: true,
+        hideCommon: false,
+        searchText: '',
+        searchMessage: true,
+        searchAuthor: true,
+        searchHash: false
+      };
 
       // 初始化数据
       const commits = {{commits}};
