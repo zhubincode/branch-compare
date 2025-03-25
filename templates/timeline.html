@@ -431,6 +431,7 @@
         background: rgba(0, 0, 0, 0.5);
         z-index: 1000;
       }
+
       .modal-content {
         position: fixed;
         top: 50%;
@@ -439,72 +440,84 @@
         background: white;
         padding: 24px;
         border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         width: 90%;
-        max-width: 450px;
+        max-width: 500px;
+        max-height: 90vh;
+        overflow-y: auto;
       }
+
       .modal h3 {
         margin-top: 0;
         margin-bottom: 16px;
         color: #333;
         font-size: 18px;
       }
+
       .reason-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin: 20px 0;
+        margin: 16px 0;
+        max-height: 300px;
+        overflow-y: auto;
       }
+
       .reason-option {
         display: flex;
         align-items: center;
-        padding: 10px 15px;
+        padding: 8px 12px;
         border: 1px solid #ddd;
         border-radius: 6px;
+        margin-bottom: 8px;
         cursor: pointer;
         transition: all 0.2s;
-        margin-bottom: 8px;
-        position: relative;
       }
+
       .reason-option:hover {
         background: #f8f9fa;
         border-color: #aaa;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       }
+
       .reason-option.selected {
         background: #e3f2fd;
         border-color: #2196f3;
       }
+
       .reason-option input[type="radio"] {
         margin-right: 10px;
         width: 18px;
         height: 18px;
       }
+
       .reason-option label {
         flex: 1;
         padding: 5px 0;
         cursor: pointer;
       }
+
       .custom-reason {
         display: none;
         margin-top: 16px;
       }
+
       .custom-reason.show {
         display: block;
       }
+
       .custom-reason input {
         width: 100%;
         padding: 10px 12px;
         border: 1px solid #ddd;
         border-radius: 6px;
         font-size: 14px;
+        box-sizing: border-box;
       }
+
       .modal-buttons {
         display: flex;
         justify-content: flex-end;
         gap: 12px;
         margin-top: 24px;
       }
+
       .modal-button {
         padding: 10px 20px;
         border: none;
@@ -513,17 +526,21 @@
         font-size: 14px;
         transition: background 0.2s;
       }
+
       .modal-button:hover {
         opacity: 0.9;
       }
+
       .modal-button.confirm {
         background: #2196f3;
         color: white;
       }
+
       .modal-button.cancel {
         background: #f1f1f1;
         color: #333;
       }
+
       .ignore-reason,
       .commit-remark {
         font-size: 13px;
@@ -533,6 +550,9 @@
         background: #f8f9fa;
         border-radius: 4px;
         line-height: 1.4;
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
 
       /* .ignore-reason {
@@ -553,10 +573,8 @@
       .ignore-reason-content,
       .commit-remark-content {
         display: block;
-        margin-top: 4px;
         padding-left: 24px;
       }
-
       .remark-modal {
         display: none;
         position: fixed;
