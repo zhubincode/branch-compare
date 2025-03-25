@@ -23,10 +23,14 @@ async function getSourceBranch() {
   const branches = getAllBranches();
   const { sourceBranch } = await inquirer.prompt([
     {
-      type: "list",
+      type: "autocomplete",
       name: "sourceBranch",
-      message: "选择基准分支:",
-      choices: branches,
+      message: "选择基准分支 (输入可搜索):",
+      source: async (answersSoFar, input = "") => {
+        return branches.filter((branch) =>
+          branch.toLowerCase().includes((input || "").toLowerCase())
+        );
+      },
     },
   ]);
   return sourceBranch;
@@ -37,10 +41,16 @@ async function getTargetBranch(sourceBranch) {
   const branches = getAllBranches();
   const { targetBranch } = await inquirer.prompt([
     {
-      type: "list",
+      type: "autocomplete",
       name: "targetBranch",
-      message: "选择目标分支:",
-      choices: branches.filter((b) => b !== sourceBranch),
+      message: "选择目标分支 (输入可搜索):",
+      source: async (answersSoFar, input = "") => {
+        return branches
+          .filter((b) => b !== sourceBranch)
+          .filter((branch) =>
+            branch.toLowerCase().includes((input || "").toLowerCase())
+          );
+      },
     },
   ]);
   return targetBranch;
