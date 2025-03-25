@@ -770,14 +770,12 @@
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
 
-      /* Add styling for the theme switcher */
       .theme-switcher {
         display: flex;
         align-items: center;
         background-color: #f5f5f5;
         border-radius: 24px;
         padding: 4px;
-        margin-top: 10px;
       }
 
       .theme-button {
@@ -1150,7 +1148,7 @@
       }
     </style>
   </head>
-  <body>
+  <body data-layout="flat">
     <!-- 添加忽略原因选择弹窗 -->
     <div id="ignoreModal" class="modal">
       <div class="modal-content">
@@ -1248,7 +1246,7 @@
         <div class="theme-switcher">
           <button
             id="chatLayoutBtn"
-            class="theme-button active"
+            class="theme-button"
             onclick="switchLayout('chat')"
           >
             <span>聊天布局</span>
@@ -1256,7 +1254,7 @@
           </button>
           <button
             id="flatLayoutBtn"
-            class="theme-button"
+            class="theme-button active"
             onclick="switchLayout('flat')"
           >
             <span>列表布局</span>
@@ -2823,7 +2821,7 @@
 
             // Add code to initialize layout from localStorage
             function initializeLayout() {
-              const savedLayout = localStorage.getItem('preferredLayout') || 'chat';
+              const savedLayout = localStorage.getItem('preferredLayout') || 'flat';
               switchLayout(savedLayout);
             }
 
@@ -2978,6 +2976,17 @@
 
             // Initialize with correct filter state
             window.addEventListener('DOMContentLoaded', function() {
+              // Check if URL has any parameters
+              const urlParams = new URLSearchParams(window.location.search);
+              if (!urlParams.has('filter') && !urlParams.has('hideIgnored') && !urlParams.has('hideCommon')) {
+                // Set default URL parameters
+                const url = new URL(window.location.href);
+                url.searchParams.set('filter', 'all');
+                url.searchParams.set('hideIgnored', '0');
+                url.searchParams.set('hideCommon', '1');
+                window.history.replaceState({}, '', url.toString());
+              }
+
               // Set up initial filter state tracking
               saveCurrentFilterState();
             });
