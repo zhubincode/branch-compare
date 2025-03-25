@@ -1,6 +1,6 @@
 {
   "name": "@cn-zhubin-007/branch-compare",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Git branch comparison tool",
   "main": "index.js",
   "bin": {
