@@ -63,7 +63,15 @@ async function getTimeRange() {
       type: "list",
       name: "timeRange",
       message: "选择时间范围:",
-      choices: ["全部时间", "最近一周", "最近一月", "最近三月"],
+      choices: [
+        "全部时间",
+        "最近一周",
+        "最近两周",
+        "最近一个月",
+        "最近三个月",
+        "最近半年",
+        "最近一年",
+      ],
     },
   ]);
   return timeRange;
