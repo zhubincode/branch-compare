@@ -1499,6 +1499,30 @@
       const targetBranch = {{targetBranch}};
       let ignoredCommits = {{ignoredCommits}} || [];  // 确保有默认值
 
+      // 检查分支是否完整
+      if (!sourceBranch || !targetBranch) {
+        document.body.innerHTML = `
+          <div style="
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            padding: 20px;
+            background: #fff3f3;
+            border: 1px solid #dc3545;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          ">
+            <h2 style="color: #dc3545; margin-bottom: 10px;">⚠️ 错误</h2>
+            <p style="color: #666; margin-bottom: 15px;">缺少必要的分支信息，无法进行比较。</p>
+            <p style="color: #666;">请确保同时指定源分支和目标分支。</p>
+          </div>
+        `;
+        // 阻止后续代码执行
+        throw new Error('Missing branch information');
+      }
+
       // 确保备注数据是数组格式
       let commitRemarks = [];
       try {

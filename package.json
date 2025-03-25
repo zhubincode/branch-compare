@@ -1,6 +1,6 @@
 {
   "name": "@cn-zhubin-007/branch-compare",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Git branch comparison tool",
   "main": "index.js",
   "bin": {
@@ -29,8 +29,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cn-zhubin-007/branch-compare.git"
+    "url": "git+https://github.com/zhubincode/branch-compare.git"
   },
+  "bugs": {
+    "url": "https://github.com/zhubincode/branch-compare/issues"
+  },
+  "homepage": "https://github.com/zhubincode/branch-compare#readme",
   "dependencies": {
     "chalk": "^4.1.2",
     "inquirer": "^8.2.5",
