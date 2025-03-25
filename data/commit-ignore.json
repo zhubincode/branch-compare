@@ -1,0 +1,54 @@
+{
+  "ignoredCommits": [
+    {
+      "hash": "725cb134eb9c9d2d684e95ffc9a562e87e30cd9c",
+      "reason": "不需要合并",
+      "timestamp": "2025-03-25T01:29:31.535Z"
+    },
+    {
+      "hash": "56f28a86fccf14a734057b872114ea79848fa056",
+      "reason": "已手动合并",
+      "timestamp": "2025-03-25T02:03:03.419Z"
+    },
+    {
+      "hash": "daa41558451d47086bbb5c6170c04cb0bb100c4a",
+      "reason": "已手动合并",
+      "timestamp": "2025-03-25T02:03:06.742Z"
+    },
+    {
+      "hash": "02492fa6ccf008a4c4bbddcc0945627dd0d08ccc",
+      "reason": "已手动合并",
+      "timestamp": "2025-03-25T02:03:09.142Z"
+    },
+    {
+      "hash": "ee5d6563d413d3f07761a8a7aaf032de624c76df",
+      "reason": "已手动合并",
+      "timestamp": "2025-03-25T02:03:12.171Z"
+    },
+    {
+      "hash": "eb32405edf9c30b962e9958f4025818d9f6f851a",
+      "reason": "已手动合并",
+      "timestamp": "2025-03-25T02:03:14.435Z"
+    },
+    {
+      "hash": "a89419be84d47d9d25e26b7492d84d01aeac4191",
+      "reason": "已手动合并",
+      "timestamp": "2025-03-25T02:03:17.023Z"
+    },
+    {
+      "hash": "762de0a627a243f47c7e2f660094e732860b9d68",
+      "reason": "不需要合并",
+      "timestamp": "2025-03-25T02:03:55.058Z"
+    },
+    {
+      "hash": "dba3eb1f8e15831093f64af3264a1114fc75cbfb",
+      "reason": "不需要合并",
+      "timestamp": "2025-03-25T02:18:47.553Z"
+    },
+    {
+      "hash": "4138ca05afe8e787fe2b88a060df368d3def3771",
+      "reason": "auto-test 已有，历史原因导致缺失，这是一个补充修改，所以无需 cherry-pick 回auto-test分支",
+      "timestamp": "2025-03-25T02:26:25.492Z"
+    }
+  ]
+}
