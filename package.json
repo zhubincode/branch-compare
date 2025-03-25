@@ -1,14 +1,40 @@
 {
-  "name": "branch-compare",
-  "version": "1.0.0",
+  "name": "@cn-zhubin-007/branch-compare",
+  "version": "1.0.1",
   "description": "Git branch comparison tool",
   "main": "index.js",
+  "bin": {
+    "branch-compare": "./index.js"
+  },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "pkg:fix": "npm pkg fix"
+  },
+  "files": [
+    "index.js",
+    "lib/",
+    "templates/",
+    "README.md"
+  ],
+  "keywords": [
+    "git",
+    "branch",
+    "compare",
+    "diff",
+    "cli"
+  ],
+  "author": "cn-zhubin-007",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cn-zhubin-007/branch-compare.git"
   },
   "dependencies": {
     "chalk": "^4.1.2",
     "inquirer": "^8.2.5",
     "inquirer-autocomplete-prompt": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=12"
   }
 }
