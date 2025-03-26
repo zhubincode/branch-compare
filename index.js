@@ -13,7 +13,12 @@ const { generateMarkdown, generateTimelineHTML } = require("./lib/report");
 const { generateDiffReport } = require("./lib/report");
 const { execSync } = require("child_process");
 const { ensureDataDir, getDataFilePath } = require("./lib/config");
+const packageJson = require("./package.json");
 // const { startServer } = require('./lib/server');  // 不使用Express服务器
+
+// 显示版本号
+console.log(chalk.cyan(`branch-commit-compare v${packageJson.version}`));
+console.log(chalk.gray("A tool for comparing git branch commits\n"));
 
 // 注册自动完成插件
 inquirer.registerPrompt("autocomplete", autocomplete);
