@@ -310,21 +310,29 @@
       }
       .command-tabs {
         display: flex;
-        gap: 10px;
+        border-bottom: 1px solid #ddd;
         margin-bottom: 15px;
       }
+
       .command-tab {
-        padding: 5px 15px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background: white;
+        background: none;
+        border: none;
+        padding: 8px 15px;
         cursor: pointer;
-        transition: all 0.2s;
+        font-size: 14px;
+        color: #666;
+        position: relative;
+        transition: all 0.2s ease;
       }
+
+      .command-tab:hover {
+        background-color: #f8f8f8;
+      }
+
       .command-tab.active {
-        background: #0366d6;
-        color: white;
-        border-color: #0366d6;
+        color: #007bff;
+        font-weight: bold;
+        border-bottom: 2px solid #007bff;
       }
       .command-content {
         display: none;
@@ -1164,6 +1172,49 @@
         align-items: center;
         height: 20px;
       }
+
+      /* 命令复制按钮 */
+      .copy-button {
+        background-color: #f1f1f1;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 3px 8px;
+        cursor: pointer;
+        margin-left: 10px;
+        font-size: 12px;
+        color: #666;
+      }
+
+      .copy-line-button {
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 2px 6px;
+        font-size: 11px;
+        color: #666;
+        cursor: pointer;
+        margin-left: 8px;
+        transition: all 0.2s ease;
+      }
+
+      .copy-line-button:hover {
+        background-color: #e6e6e6;
+        color: #333;
+      }
+
+      .command-line {
+        display: flex;
+        align-items: center;
+        margin: 2px 0;
+      }
+
+      .command-line pre {
+        margin: 0;
+        flex-grow: 1;
+        font-family: monospace;
+        white-space: pre-wrap;
+        overflow-x: auto;
+      }
     </style>
   </head>
   <body data-layout="flat">
@@ -1394,44 +1445,50 @@
         <div class="command-tabs">
           <button
             class="command-tab active"
-            data-command="basic"
-            onclick="switchCommandTab('basic')"
+            data-command="source-to-target"
+            onclick="switchCommandTab('source-to-target')"
           >
-            基础命令
+            {{sourceBranch}} → {{targetBranch}}
           </button>
           <button
             class="command-tab"
-            data-command="optimized"
-            onclick="switchCommandTab('optimized')"
+            data-command="target-to-source"
+            onclick="switchCommandTab('target-to-source')"
           >
-            优化命令
+            {{targetBranch}} → {{sourceBranch}}
           </button>
         </div>
 
-        <div id="basic-content" class="command-content active">
+        <div id="source-to-target-content" class="command-content active">
           <h3>
-            Cherry-pick 基础指令
+            Cherry-pick 指令 ({{sourceBranch}} → {{targetBranch}})
             <button
-              class="copy-button copy-basic-button"
-              onclick="copyCommandBlock('basic')"
+              class="copy-button copy-source-to-target-button"
+              onclick="copyCommandBlock('source-to-target')"
             >
               复制全部
             </button>
           </h3>
-          <pre><code id="basic-commands"></code></pre>
+          <div id="source-to-target-commands-container"></div>
+          <pre
+            style="display: none"
+          ><code id="source-to-target-commands"></code></pre>
         </div>
 
-        <div id="optimized-content" class="command-content">
+        <div id="target-to-source-content" class="command-content">
           <h3>
-            Cherry-pick 优化指令
+            Cherry-pick 指令 ({{targetBranch}} → {{sourceBranch}})
             <button
-              class="copy-button copy-optimized-button"
-              onclick="copyCommandBlock('optimized')"
+              class="copy-button copy-target-to-source-button"
+              onclick="copyCommandBlock('target-to-source')"
             >
               复制全部
             </button>
           </h3>
-          <pre><code id="optimized-commands"></code></pre>
+          <div id="target-to-source-commands-container"></div>
+          <pre
+            style="display: none"
+          ><code id="target-to-source-commands"></code></pre>
         </div>
       </div>
     </div>
@@ -2221,114 +2278,88 @@
               }
             }
 
-            // 修改cherry-pick命令的生成逻辑，根据commit message来判断连续性
+            // 修改cherry-pick命令的生成逻辑，支持双向命令
             function updateCherryPickCommands() {
+              // 源分支到目标分支的命令（只包含源分支独有的提交）
               const sourceOnlyCommits = commits.filter(commit =>
                 commit.status === 'source' && !ignoredCommits.some(item => item.hash === commit.hash)
               );
 
-              // 按时间倒序排序
-              sourceOnlyCommits.sort((a, b) => new Date(b.date) - new Date(a.date));
+              // 目标分支到源分支的命令（只包含目标分支独有的提交）
+              const targetOnlyCommits = commits.filter(commit =>
+                commit.status === 'target' && !ignoredCommits.some(item => item.hash === commit.hash)
+              );
 
-              // 更新基础命令 - 逐个提交
-              let basicCommands = '';
-              basicCommands += `# 切换到 ${targetBranch} 分支\n`;
-              basicCommands += `git checkout ${targetBranch}\n\n`;
-              basicCommands += '# Cherry-pick 提交（逐个提交）\n';
-              sourceOnlyCommits.forEach(commit => {
-                basicCommands += `git cherry-pick ${commit.hash}  # ${commit.message}\n`;
+              // 源分支到目标分支的命令
+              updateDirectionalCommands(sourceOnlyCommits, sourceBranch, targetBranch, 'source-to-target');
+
+              // 目标分支到源分支的命令
+              updateDirectionalCommands(targetOnlyCommits, targetBranch, sourceBranch, 'target-to-source');
+            }
+
+            // 生成特定方向的cherry-pick命令
+            function updateDirectionalCommands(directionCommits, fromBranch, toBranch, direction) {
+              // 按时间倒序排序
+              directionCommits.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+              // 更新命令
+              let commands = '';
+              let commandsArray = [];
+
+              // 添加切换分支命令
+              commandsArray.push(`# 切换到 ${toBranch} 分支`);
+              commandsArray.push(`git checkout ${toBranch}`);
+              commandsArray.push('');  // 空行
+              commandsArray.push(`# Cherry-pick 从 ${fromBranch} 分支的提交`);
+
+              // 添加每个提交的命令
+              directionCommits.forEach(commit => {
+                commandsArray.push(`git cherry-pick ${commit.hash}  # ${commit.message}`);
               });
 
-              // 更新优化命令 - 使用commit message进行深度相似性分组
-              let optimizedCommands = '';
-              optimizedCommands += `# 切换到 ${targetBranch} 分支\n`;
-              optimizedCommands += `git checkout ${targetBranch}\n\n`;
+              // 将命令数组转换为字符串用于"复制全部"功能
+              commands = commandsArray.join('\n');
 
-              if (sourceOnlyCommits.length > 0) {
-                // 寻找相关的提交组（按消息分组）
-                optimizedCommands += '# Cherry-pick 提交（优化合并）\n';
+              // 更新HTML显示，添加单行复制按钮
+              const commandsContainer = document.getElementById(`${direction}-commands-container`);
+              commandsContainer.innerHTML = '';
 
-                // 按照旧到新的顺序排序
-                const sortedCommits = [...sourceOnlyCommits].sort((a, b) =>
-                  new Date(a.date || a.dateIso) - new Date(b.date || b.dateIso)
-                );
+              commandsArray.forEach(cmd => {
+                const cmdLine = document.createElement('div');
+                cmdLine.className = 'command-line';
 
-                // 创建消息映射，将相似消息的提交分组
-                const messageGroups = {};
-                const messageKeys = [];
+                const cmdText = document.createElement('pre');
+                cmdText.textContent = cmd;
+                cmdLine.appendChild(cmdText);
 
-                // 通过消息内容相似性来分组（加强相似性判断）
-                sortedCommits.forEach(commit => {
-                  // 提取消息前缀，例如 "fix: ", "feat: " 等
-                  let msgPrefix = commit.message.split(':')[0];
+                // 只为非空行且不是注释的行添加复制按钮
+                if (cmd && !cmd.startsWith('#')) {
+                  const copyBtn = document.createElement('button');
+                  copyBtn.className = 'copy-line-button';
+                  copyBtn.innerHTML = '复制';
+                  copyBtn.onclick = function() {
+                    copyToClipboard(cmd, this);
+                  };
+                  cmdLine.appendChild(copyBtn);
+                }
 
-                  // 如果没有冒号分隔的前缀，尝试提取主题
-                  if (!msgPrefix || msgPrefix === commit.message) {
-                    // 使用前几个单词作为主题
-                    const words = commit.message.split(' ').slice(0, 3).join(' ');
-                    msgPrefix = words.length > 15 ? words.substring(0, 15) : words;
-                  }
+                commandsContainer.appendChild(cmdLine);
+              });
 
-                  // 对于常见前缀，额外添加更多上下文
-                  if (['fix', 'feat', 'chore', 'docs', 'style', 'refactor', 'test', 'perf'].includes(msgPrefix)) {
-                    // 如果是常见类型，添加冒号后的内容作为上下文
-                    const contextMatch = commit.message.match(/^[^:]+:\s*([^(]+)/);
-                    if (contextMatch && contextMatch[1]) {
-                      const context = contextMatch[1].trim();
-                      msgPrefix = `${msgPrefix}: ${context.substring(0, 20)}`;
-                    }
-                  }
+              // 保存到元素用于"复制全部"功能
+              document.getElementById(`${direction}-commands`).textContent = commands;
+            }
 
-                  // 添加到对应分组
-                  if (!messageGroups[msgPrefix]) {
-                    messageGroups[msgPrefix] = [];
-                    messageKeys.push(msgPrefix);
-                  }
-                  messageGroups[msgPrefix].push(commit);
-                });
-
-                // 为每个分组生成命令
-                messageKeys.forEach(key => {
-                  const group = messageGroups[key];
-
-                  // 单个提交直接cherry-pick
-                  if (group.length === 1) {
-                    const commit = group[0];
-                    optimizedCommands += `git cherry-pick ${commit.hash}  # ${commit.message}\n`;
-                    return;
-                  }
-
-                  // 检查这组提交是否在时间上连续
-                  const isConsecutive = group.every((commit, index) => {
-                    if (index === 0) return true;
-
-                    const currentCommitIndex = sortedCommits.findIndex(c => c.hash === commit.hash);
-                    const prevCommitIndex = sortedCommits.findIndex(c => c.hash === group[index - 1].hash);
-
-                    return currentCommitIndex - prevCommitIndex === 1;
-                  });
-
-                  if (isConsecutive && group.length > 1) {
-                    // 连续多个提交使用范围语法
-                    const oldestCommit = group[0];
-                    const newestCommit = group[group.length - 1];
-                    optimizedCommands += `git cherry-pick ${oldestCommit.hash}^..${newestCommit.hash}  # 包含 ${group.length} 个提交 (${key}...)\n`;
-                  } else {
-                    // 不连续，单独处理每个提交
-                    group.forEach(commit => {
-                      optimizedCommands += `git cherry-pick ${commit.hash}  # ${commit.message}\n`;
-                    });
-                  }
-                });
-              }
-
-              document.getElementById('basic-commands').textContent = basicCommands;
-              document.getElementById('optimized-commands').textContent = optimizedCommands;
-      }
+            // ... existing code ...
 
       function getCommitIndicator(commit) {
         if (commit.status === 'both') return '🔴🔵';
         return commit.status === 'source' ? '🔴' : '🔵';
+      }
+
+      function copyCommandBlock(type) {
+        const textContent = document.getElementById(`${type}-commands`).textContent;
+        copyToClipboard(textContent, document.querySelector(`.copy-${type}-button`));
       }
 
       function copyToClipboard(text, element) {
@@ -2439,17 +2470,13 @@
               updateURLParams();
       }
 
-      function switchCommandTab(type) {
-        document.querySelectorAll('.command-tab').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.command-content').forEach(content => content.classList.remove('active'));
-
-        document.querySelector(`[data-command="${type}"]`).classList.add('active');
-        document.getElementById(`${type}-content`).classList.add('active');
-      }
-
-      function copyCommandBlock(type) {
-        const content = document.getElementById(`${type}-commands`).textContent;
-        copyToClipboard(content, document.querySelector(`.copy-${type}-button`));
+      function switchCommandTab(tab) {
+        document.querySelectorAll('.command-tab').forEach(item => {
+          item.classList.toggle('active', item.getAttribute('data-command') === tab);
+        });
+        document.querySelectorAll('.command-content').forEach(item => {
+          item.classList.toggle('active', item.id === `${tab}-content`);
+        });
       }
 
       // 保存忽略的提交到服务器
