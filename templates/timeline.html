@@ -112,14 +112,14 @@
         position: relative;
       }
       .commit-container.source .commit {
-        border-left: 4px solid #28a745; /* 改为绿色 */
+        border-left: 4px solid #28a745; /* green */
         border-top-left-radius: 0;
-        background-color: rgba(40, 167, 69, 0.05); /* 淡绿色背景 */
+        background-color: rgba(40, 167, 69, 0.05); /* light green background */
       }
       .commit-container.target .commit {
-        border-right: 4px solid #ff9800; /* 改为橙色 */
+        border-right: 4px solid #ff9800; /* orange */
         border-top-right-radius: 0;
-        background-color: rgba(255, 152, 0, 0.05); /* 淡橙色背景 */
+        background-color: rgba(255, 152, 0, 0.05); /* light orange background */
       }
       .commit-badge {
         position: absolute;
@@ -134,11 +134,11 @@
       }
       .commit-container.source .commit-badge {
         left: 10px;
-        background-color: #28a745; /* 改为绿色 */
+        background-color: #28a745; /* green */
       }
       .commit-container.target .commit-badge {
         right: 10px;
-        background-color: #ff9800; /* 改为橙色 */
+        background-color: #ff9800; /* orange */
       }
       .commit-container.both .commit-badge {
         left: 50%;
@@ -147,7 +147,7 @@
         padding: 3px 15px;
       }
       .commit-container.both .commit-badge.message-matched {
-        background-color: #1890ff !important;
+        background-color: #0ea5e9 !important; /* sky blue */
       }
       .commit-time {
         color: #666;
@@ -235,7 +235,7 @@
         color: white;
       }
       .remark-button {
-        background: #0ea5e9 !important; /* 使用天蓝色 */
+        background: #0ea5e9 !important; /* sky blue */
         color: white;
       }
       .ignore-button:hover,
@@ -249,12 +249,15 @@
         opacity: 0.5;
         background: #f8f9fa;
       }
-      /* .ignored::after {
-        content: '(已忽略)';
+      .commit-ignored::after {
+        content: "(Ignored)";
+      }
+      .ignored::after {
+        content: "(Ignored)";
         color: #dc3545;
         margin-left: 8px;
         font-size: 12px;
-      } */
+      }
       .filter-section {
         margin-bottom: 20px;
         padding: 15px;
@@ -563,13 +566,13 @@
         gap: 8px;
       }
 
-      /* .ignore-reason {
+      .ignore-reason {
         border-left: 3px solid #dc3545;
       }
 
       .commit-remark {
         border-left: 3px solid #17a2b8;
-      } */
+      }
 
       .ignore-reason-title,
       .commit-remark-title {
@@ -681,33 +684,9 @@
       /* 添加返回顶部按钮样式 */
       .back-to-top {
         position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 50px;
-        height: 50px;
-        background: #0366d6;
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-        font-size: 24px;
-        z-index: 999;
-      }
-
-      .back-to-top.show {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      .back-to-top:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
       }
 
       /* 添加时间轴图例样式 */
@@ -1215,6 +1194,55 @@
         white-space: pre-wrap;
         overflow-x: auto;
       }
+      /* Back to top button styles */
+      .back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
+      /* Timeline legend styles */
+      .legend-source {
+        background-color: #28a745; /* green */
+      }
+      .legend-target {
+        background-color: #ff9800; /* orange */
+      }
+      /* Enhanced commit hash display for dual branch hashes */
+      .dual-hash {
+        display: flex;
+        justify-content: space-between;
+      }
+      /* Branch comparison styles */
+      .branch-comparison {
+        background-color: rgba(255, 152, 0, 0.1); /* light orange background */
+      }
+      .branch-name {
+        color: #ff9800; /* orange text */
+      }
+      /* View commit changes button styles */
+      .view-changes-btn {
+        /* styles */
+      }
+      /* Diff viewer styles */
+      .diff-viewer {
+        /* styles */
+      }
+      /* Common commit button layout */
+      .common-commit-btn {
+        /* styles */
+      }
+      .target-branch-info {
+        right: 10px; /* align right */
+        left: auto; /* clear left */
+      }
+      .gradient-background {
+        background: linear-gradient(
+          to right,
+          #28a745,
+          #ff9800
+        ); /* green to orange */
+      }
     </style>
   </head>
   <body data-layout="flat">
@@ -1505,7 +1533,7 @@
           const data = await response.json();
           return data.ignoredCommits || [];
         } catch (error) {
-          console.error('加载忽略的提交失败:', error);
+          console.error('Failed to load ignored commits:', error);
           return [];
         }
       }
@@ -1522,7 +1550,7 @@
           });
           return response.ok;
         } catch (error) {
-          console.error('保存忽略的提交失败:', error);
+          console.error('Failed to save ignored commits:', error);
           return false;
         }
       }
@@ -1534,7 +1562,7 @@
           const data = await response.json();
           return data.commitRemarks || {};
         } catch (error) {
-          console.error('加载提交备注失败:', error);
+          console.error('Failed to load commit remarks:', error);
           return {};
         }
       }
@@ -1551,7 +1579,7 @@
           });
           return response.ok;
         } catch (error) {
-          console.error('保存提交备注失败:', error);
+          console.error('Failed to save commit remarks:', error);
           return false;
         }
       }
@@ -1589,9 +1617,9 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
           ">
-            <h2 style="color: #dc3545; margin-bottom: 10px;">⚠️ 错误</h2>
-            <p style="color: #666; margin-bottom: 15px;">缺少必要的分支信息，无法进行比较。</p>
-            <p style="color: #666;">请确保同时指定源分支和目标分支。</p>
+            <h2 style="color: #dc3545; margin-bottom: 10px;">⚠️ Error</h2>
+            <p style="color: #666; margin-bottom: 15px;">Missing required branch information for comparison.</p>
+            <p style="color: #666;">Please ensure both source and target branches are specified.</p>
           </div>
         `;
         // 阻止后续代码执行
@@ -1628,11 +1656,11 @@
 
       // 忽略原因选项
       const IGNORE_REASONS = [
-        '已手动合并',
-        '不需要合并',
-        '存在冲突',
-        '待进一步确认',
-        '其他原因'
+        'Manually Merged',
+        'Merge Not Required',
+        'Conflicts Exist',
+        'Needs Further Review',
+        'Other Reasons'
       ];
 
       let currentIgnoreHash = null;
@@ -1641,45 +1669,45 @@
 
       // 页面加载时获取最新的已忽略提交和备注
       async function loadIgnoredCommits() {
-        console.log('正在加载已忽略提交和备注数据...');
+        console.log('Loading ignored commits and remarks data...');
         try {
-          // 单独处理每个请求，避免一个失败影响另一个
+          // Handle each request separately to avoid one failure affecting the other
           try {
             const ignoreResponse = await fetch('http://localhost:3000/ignored-commits');
             if (ignoreResponse.ok) {
               const ignoreData = await ignoreResponse.json();
               if (Array.isArray(ignoreData.ignoredCommits)) {
                 ignoredCommits = ignoreData.ignoredCommits;
-                console.log('已忽略提交加载成功, 数量:', ignoredCommits.length);
+                console.log('Successfully loaded ignored commits, count:', ignoredCommits.length);
               }
             } else {
-              console.error('加载已忽略提交失败:', ignoreResponse.status);
+              console.error('Failed to load ignored commits:', ignoreResponse.status);
             }
           } catch (ignoreError) {
-            console.error('获取已忽略提交出错:', ignoreError);
+            console.error('Error getting ignored commits:', ignoreError);
           }
 
-          // 加载备注数据
+          // Load remarks data
           try {
-            console.log('开始加载备注数据...');
+            console.log('Starting to load remarks data...');
             const remarkResponse = await fetch('http://localhost:3000/commit-remarks');
             if (remarkResponse.ok) {
               const remarkData = await remarkResponse.json();
-              console.log('收到备注数据响应:', remarkData);
+              console.log('Received remarks data response:', remarkData);
 
               if (remarkData.commitRemarks) {
                 if (Array.isArray(remarkData.commitRemarks)) {
                   commitRemarks = remarkData.commitRemarks;
-                  console.log('备注数据加载成功(数组格式), 数量:', commitRemarks.length);
+                  console.log('Successfully loaded remarks data (array format), count:', commitRemarks.length);
 
                   if (commitRemarks.length > 0) {
-                    console.log('备注内容示例:');
+                    console.log('Remarks examples:');
                     commitRemarks.slice(0, 3).forEach((remark) => {
-                      console.log(`- 哈希: ${remark.hash}, 内容: ${remark.content}`);
+                      console.log(`- Hash: ${remark.hash}, Content: ${remark.content}`);
                     });
                   }
                 } else {
-                  console.warn('服务器返回的备注不是数组格式, 正在转换...');
+                  console.warn('Server returned non-array format remarks, converting...');
                   const tempArray = [];
                   for (const hash in remarkData.commitRemarks) {
                     tempArray.push({
@@ -1689,16 +1717,16 @@
                     });
                   }
                   commitRemarks = tempArray;
-                  console.log('对象格式备注转换为数组成功, 数量:', commitRemarks.length);
+                  console.log('Successfully converted object format remarks to array, count:', commitRemarks.length);
                 }
               } else {
-                console.warn('服务器返回的数据中没有commitRemarks字段');
+                console.warn('No commitRemarks field in server response');
               }
             } else {
-              console.error('加载备注数据失败:', remarkResponse.status);
+              console.error('Failed to load remarks data:', remarkResponse.status);
             }
           } catch (remarkError) {
-            console.error('获取备注出错:', remarkError);
+            console.error('Error getting remarks:', remarkError);
           }
 
           // 重新渲染提交列表
@@ -1760,7 +1788,7 @@
                     radioInput.checked = true;
 
                     // 处理自定义原因输入框显示逻辑
-                    if (reason === '其他原因') {
+                    if (reason === 'Other Reasons') {
                       document.getElementById('customReasonInput').classList.add('show');
                     } else {
                       document.getElementById('customReasonInput').classList.remove('show');
@@ -1775,7 +1803,7 @@
                 });
 
                 // 特殊处理自定义原因选项
-                if (reason === '其他原因') {
+                if (reason === 'Other Reasons') {
                   radioInput.addEventListener('change', function() {
                     document.getElementById('customReasonInput').classList.add('show');
                     // 更新选中样式
@@ -2168,10 +2196,10 @@
             async function confirmIgnore() {
               const selectedReason = document.querySelector('input[name="ignoreReason"]:checked').value;
               const customReason = document.getElementById('customReasonText').value.trim();
-              const finalReason = selectedReason === '其他原因' ? customReason : selectedReason;
+              const finalReason = selectedReason === 'Other Reasons' ? customReason : selectedReason;
 
-              if (selectedReason === '其他原因' && !customReason) {
-                alert('请输入自定义的忽略原因');
+              if (selectedReason === 'Other Reasons' && !customReason) {
+                alert('Please enter a custom ignore reason');
                 return;
               }
 
