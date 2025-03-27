@@ -9,7 +9,7 @@ const autocomplete = require("inquirer-autocomplete-prompt");
 const { getAllBranches, getAllAuthors, getAllCommits } = require("./lib/git");
 const { loadIgnoredCommits, saveIgnoredCommits } = require("./lib/ignore");
 const { loadRemarks, saveRemarks } = require("./lib/remark");
-const { generateMarkdown, generateTimelineHTML } = require("./lib/report");
+const { generateTimelineHTML } = require("./lib/report");
 const { generateDiffReport } = require("./lib/report");
 const { execSync } = require("child_process");
 const { ensureDataDir, getDataFilePath } = require("./lib/config");
@@ -494,11 +494,6 @@ async function main() {
       commits,
     };
 
-    // 生成并保存 Markdown 报告
-    const markdown = await generateMarkdown(comparison);
-    const markdownPath = getDataFilePath("branch-diff.md");
-    await fs.writeFile(markdownPath, markdown);
-
     // 获取备注信息
     const commitRemarks = await loadRemarks();
 
@@ -516,7 +511,6 @@ async function main() {
     await fs.writeFile(htmlPath, html);
 
     console.log(chalk.green("\n报告生成完成:"));
-    console.log(chalk.green(`- Markdown 报告: ${markdownPath}`));
     console.log(chalk.green(`- HTML 时间轴: ${htmlPath}`));
 
     // 尝试打开浏览器
