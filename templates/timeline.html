@@ -1215,6 +1215,28 @@
         white-space: pre-wrap;
         overflow-x: auto;
       }
+
+      /* Cherry-pick 时间样式 */
+      .cherry-pick-time {
+        margin-top: 8px;
+        padding: 5px 10px;
+        background-color: #fff7e6;
+        border-left: 3px solid #f0ad4e;
+        border-radius: 3px;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .cherry-pick-label {
+        font-weight: bold;
+        color: #e07600;
+      }
+
+      .cherry-pick-timestamp {
+        color: #333;
+      }
     </style>
   </head>
   <body data-layout="flat">
@@ -2651,6 +2673,14 @@
 
                 // 为消息匹配的提交显示两个分支的哈希值并添加按钮
                 if (isMatchedByMessage && commit.targetHash) {
+                  // 添加cherry-pick时间显示（如果有）
+                  const cherryPickTimeHtml = commit.cherryPickTime ? `
+                    <div class="cherry-pick-time">
+                      <span class="cherry-pick-label">🍒 Cherry-pick 时间:</span>
+                      <span class="cherry-pick-timestamp">${new Date(commit.cherryPickTime).toLocaleString('zh-CN')}</span>
+                    </div>
+                  ` : '';
+
                   hashContent = `
                     <div class="commit-hash-pair">
                       <div class="commit-hash-branch">
@@ -2661,6 +2691,7 @@
                         <span class="branch-label">${targetBranch}:</span>
                         ${getHashWithViewChangesButton(commit.targetHash)}
                       </div>
+                      ${cherryPickTimeHtml}
                       <button class="compare-in-vscode" onclick="compareCommitsInVSCode('${commit.hash}', '${commit.targetHash}')">
                         ${vscodeIconSvg} 在VS Code中比较两个提交
                       </button>

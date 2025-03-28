@@ -164,6 +164,7 @@ async function getCommits(sourceBranch, targetBranch, timeRange, author) {
           sourceCommit.status = "both";
           sourceCommit.branches = [sourceBranch, targetBranch];
           sourceCommit.matchedByMessage = true; // 标记是通过消息匹配的
+          sourceCommit.cherryPickTime = commit.date; // 使用目标分支提交的时间作为cherry-pick时间
 
           // 添加目标分支的哈希信息，用于展示
           sourceCommit.targetHash = commit.hash;
