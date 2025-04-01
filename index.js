@@ -113,18 +113,40 @@ async function getCommits(sourceBranch, targetBranch, timeRange, author) {
   const targetCommits = getAllCommits(targetBranch, null, author, timeRange);
   console.log(`获取到 ${targetBranch} 分支的提交数量: ${targetCommits.length}`);
 
+  // 获取cherry-pick时间映射
+  const cherryPickTimes = new Map();
+  try {
+    // 使用git reflog show targetBranch获取目标分支的操作历史
+    const reflogOutput = execSync(
+      `git reflog show ${targetBranch} --date=iso --pretty=format:"%h|%gd|%ad|%gs" --grep="cherry-pick"`,
+      { encoding: "utf-8" }
+    );
+
+    if (reflogOutput) {
+      reflogOutput.split("\n").forEach((line) => {
+        if (!line) return;
+        const [shortHash, ref, date, message] = line.split("|");
+
+        // 尝试从消息中提取被cherry-pick的提交hash
+        const cherryPickMatch = message.match(/cherry-pick: ([a-f0-9]+)/);
+        if (cherryPickMatch) {
+          const originalHash = cherryPickMatch[1];
+          const pickDate = new Date(date);
+          cherryPickTimes.set(originalHash, pickDate.toISOString());
+        }
+      });
+    }
+  } catch (error) {
+    console.error("获取cherry-pick时间失败:", error);
+  }
+
   // 合并所有提交信息
   const commitsMap = new Map();
-
-  // 消息到哈希的映射 (用于检测内容相同但哈希不同的提交)
   const messageMap = new Map();
 
   // 首先处理源分支提交
   sourceCommits.forEach((commit) => {
-    // 标准化提交消息用于比较 - 移除所有空白和特殊字符
     const normalizedMessage = commit.message.trim();
-
-    // 设置到主Map
     commitsMap.set(commit.hash, {
       ...commit,
       status: "source",
@@ -132,7 +154,6 @@ async function getCommits(sourceBranch, targetBranch, timeRange, author) {
       normalizedMessage,
     });
 
-    // 保存消息到哈希的映射
     if (!messageMap.has(normalizedMessage)) {
       messageMap.set(normalizedMessage, [commit.hash]);
     } else {
@@ -144,39 +165,33 @@ async function getCommits(sourceBranch, targetBranch, timeRange, author) {
   targetCommits.forEach((commit) => {
     const normalizedMessage = commit.message.trim();
 
-    // 检查是否有完全相同的哈希
     if (commitsMap.has(commit.hash)) {
       const existingCommit = commitsMap.get(commit.hash);
       existingCommit.status = "both";
       existingCommit.branches = [sourceBranch, targetBranch];
-      return; // 跳过后续步骤，直接处理下一个提交
+      return;
     }
 
-    // 检查是否有相同的消息
     if (messageMap.has(normalizedMessage)) {
-      // 有相同消息的提交
       const sourceHashes = messageMap.get(normalizedMessage);
-
-      // 遍历相同消息的源分支提交，将它们标记为共同提交
       sourceHashes.forEach((sourceHash) => {
         const sourceCommit = commitsMap.get(sourceHash);
         if (sourceCommit && sourceCommit.status === "source") {
           sourceCommit.status = "both";
           sourceCommit.branches = [sourceBranch, targetBranch];
-          sourceCommit.matchedByMessage = true; // 标记是通过消息匹配的
-          sourceCommit.cherryPickTime = commit.date; // 使用目标分支提交的时间作为cherry-pick时间
+          sourceCommit.matchedByMessage = true;
 
-          // 添加目标分支的哈希信息，用于展示
+          if (cherryPickTimes.has(sourceHash)) {
+            sourceCommit.cherryPickTime = cherryPickTimes.get(sourceHash);
+          } else {
+            sourceCommit.cherryPickTime = commit.date;
+          }
           sourceCommit.targetHash = commit.hash;
         }
       });
-
-      // 不再将此提交添加到列表中，因为它已经被匹配为共同提交
-      // 避免重复显示相同内容的提交
       return;
     }
 
-    // 如果没有匹配到相同消息，添加为目标分支独有的提交
     commitsMap.set(commit.hash, {
       ...commit,
       status: "target",
