@@ -134,6 +134,83 @@ Contributions are welcome! Please feel free to submit issues and pull requests.
 
 MIT
 
+## 发布与本地测试（Deploy）
+
+> 使用 yarn（遵循项目约定）。
+
+### 本地开发与运行
+
+```bash
+# 安装依赖
+yarn
+
+# 在本仓库直接运行（进入你要比较的 Git 仓库再执行）
+node index.js
+
+# 或使用脚本
+yarn start
+```
+
+### 本地全局联调（yarn link）
+
+在本项目根目录执行：
+
+```bash
+yarn link
+```
+
+在需要使用的 Git 仓库（或测试项目）执行：
+
+```bash
+yarn link branch-commit-compare
+
+# 然后直接运行 CLI
+branch-commit-compare
+```
+
+取消联调：
+
+```bash
+# 在使用方项目
+yarn unlink branch-commit-compare
+
+# 回到本项目
+yarn unlink
+```
+
+### 版本管理
+
+发布前更新版本号（根据改动选择 patch/minor/major）：
+
+```bash
+yarn version --patch    # 或 --minor / --major
+```
+
+### 发布到 npm
+
+首次发布或切换设备需要登录 npm：
+
+```bash
+yarn login  # 若开启 2FA，发布时会要求验证码
+```
+
+发布：
+
+```bash
+yarn publish --access public
+```
+
+发布验证：
+
+```bash
+# 通过 npx 验证最新版本
+npx branch-commit-compare
+
+# 或全局安装验证
+yarn global add branch-commit-compare
+branch-commit-compare
+```
+
 ---
 
 <a id="zh"></a>

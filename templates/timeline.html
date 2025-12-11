@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{title}}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script>
     <style>
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -357,6 +363,7 @@
         cursor: pointer;
         font-size: 12px;
         margin-left: 10px;
+        word-break: keep-all;
       }
       .copy-button:hover {
         background: #0256b9;
@@ -452,7 +459,7 @@
         width: 90%;
         max-width: 500px;
         max-height: 90vh;
-        overflow-y: auto;
+        overflow: auto;
       }
 
       .modal h3 {
@@ -1060,6 +1067,7 @@
       /* 差异查看器样式 */
       .diff-viewer {
         width: 100%;
+        max-width: 100%;
         max-height: 80vh;
         overflow: auto;
         background-color: #f8f9fa;
@@ -1067,6 +1075,20 @@
         font-family: monospace;
         line-height: 1.5;
         margin-top: 15px;
+      }
+
+      /* 隐藏 Diff2Html 生成的行号区域 */
+      .d2h-code-linenumber,
+      .d2h-code-side-linenumber,
+      .d2h-linenumber,
+      .d2h-gutter {
+        display: none !important;
+      }
+
+      /* 兼容性：移除行号后压缩空白列间距 */
+      .d2h-file-side-diff .d2h-code-side-line,
+      .d2h-file-diff .d2h-code-line {
+        grid-template-columns: auto !important;
       }
 
       .diff-file {
@@ -1093,6 +1115,9 @@
       .diff-line {
         padding: 0 5px;
         white-space: pre;
+        display: flex;
+        align-items: flex-start;
+        overflow-x: auto;
       }
 
       .diff-line-addition {
@@ -1111,12 +1136,7 @@
       }
 
       .diff-line-num {
-        display: inline-block;
-        width: 40px;
-        color: #999;
-        text-align: right;
-        padding-right: 10px;
-        user-select: none;
+        display: none;
       }
 
       .diff-empty-msg {
@@ -1183,6 +1203,7 @@
         margin-left: 10px;
         font-size: 12px;
         color: #666;
+        word-break: keep-all;
       }
 
       .copy-line-button {
@@ -1195,6 +1216,7 @@
         cursor: pointer;
         margin-left: 8px;
         transition: all 0.2s ease;
+        word-break: keep-all;
       }
 
       .copy-line-button:hover {
@@ -1667,13 +1689,13 @@
         try {
           // 单独处理每个请求，避免一个失败影响另一个
           try {
-            const ignoreResponse = await fetch('http://localhost:3000/ignored-commits');
+            const ignoreResponse = await fetch(`${API_BASE}/ignored-commits`);
             if (ignoreResponse.ok) {
               const ignoreData = await ignoreResponse.json();
               if (Array.isArray(ignoreData.ignoredCommits)) {
                 ignoredCommits = ignoreData.ignoredCommits;
                 console.log('已忽略提交加载成功, 数量:', ignoredCommits.length);
-              }
+              };
             } else {
               console.error('加载已忽略提交失败:', ignoreResponse.status);
             }
@@ -1684,7 +1706,7 @@
           // 加载备注数据
           try {
             console.log('开始加载备注数据...');
-            const remarkResponse = await fetch('http://localhost:3000/commit-remarks');
+            const remarkResponse = await fetch(`${API_BASE}/commit-remarks`);
             if (remarkResponse.ok) {
               const remarkData = await remarkResponse.json();
               console.log('收到备注数据响应:', remarkData);
@@ -1895,7 +1917,7 @@
                 while (attempts < maxAttempts && !success) {
                   attempts++;
                   try {
-          const response = await fetch('http://localhost:3000/commit-remarks', {
+          const response = await fetch(`${API_BASE}/commit-remarks`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify(postData),
@@ -1969,7 +1991,7 @@
                 while (attempts < maxAttempts && !success) {
                   attempts++;
                   try {
-                    const response = await fetch('http://localhost:3000/commit-remarks', {
+                    const response = await fetch(`${API_BASE}/commit-remarks`, {
                       cache: 'no-store', // 强制不使用缓存
                       headers: {
                         'X-Requested-With': 'fetch',
@@ -2504,7 +2526,7 @@
       // 保存忽略的提交到服务器
       async function saveIgnoredCommits() {
         try {
-          const response = await fetch('http://localhost:3000/ignore-commit', {
+          const response = await fetch(`${API_BASE}/ignore-commit`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ignoredCommits })
@@ -3566,7 +3588,7 @@
               diffContainer.style.flex = '1';
               diffContainer.style.overflow = 'auto'; // 这个容器可以滚动
               diffContainer.style.minHeight = '0'; // 确保flex布局正常工作
-              diffContainer.style.maxHeight = 'calc(90vh - 150px)'; // 设置最大高度，减去header和padding的高度
+              diffContainer.style.maxHeight = 'calc(90vh - 100px)'; // 设置最大高度，减去header和padding的高度
               diffContainer.style.paddingRight = '5px'; // 给滚动条留出空间
 
               // 添加差异查看器
@@ -3600,9 +3622,8 @@
               modal.appendChild(content);
               document.body.appendChild(modal);
 
-              // 获取Git差异数据 - 使用与保存备注相同的服务通信方式
-              // 直接使用已启动的3000端口服务
-              fetch(`http://localhost:3000/git/show?hash=${encodeURIComponent(commitHash)}`, {
+              // 获取Git差异数据 - 使用注入的动态端口
+              fetch(`${API_BASE}/git/show?hash=${encodeURIComponent(commitHash)}`, {
                 method: 'GET',
                 headers: {
                   'Accept': 'application/json',
@@ -3643,10 +3664,9 @@
               });
             }
 
-            // 渲染差异数据到差异查看器 - GitHub风格
-            function renderDiffData(data, diffViewer) {
+            // 使用 Diff2Html 渲染差异数据
+            const renderDiffData = (data, diffViewer) => {
               console.log('渲染差异数据:', data);
-
               if (!data || !data.diff || data.diff.trim() === '') {
                 diffViewer.innerHTML = `
                   <div style="padding: 20px; text-align: center; color: #586069; background-color: #f6f8fa; border-radius: 6px;">
@@ -3656,30 +3676,25 @@
                 return;
               }
 
-              // 解析Git差异数据
               const diffText = data.diff;
-
-              // 分割为文件块
-              const fileBlocks = parseDiffToFileBlocks(diffText);
-
-              // 构建GitHub风格的差异视图HTML
-              let html = '';
-
-              // 检查是否有文件变更
-              if (fileBlocks.length === 0) {
-                html = `
-                  <div style="padding: 20px; text-align: center; color: #586069; background-color: #f6f8fa; border-radius: 6px;">
-                    此提交没有文件变更
+              diffViewer.innerHTML = '';
+              try {
+                const ui = new Diff2HtmlUI(diffViewer, diffText, {
+                  drawFileList: true,
+                  matching: 'lines',
+                  outputFormat: 'side-by-side',
+                  highlight: true,
+                });
+                ui.draw();
+                ui.highlightCode();
+              } catch (e) {
+                console.error('Diff2Html 渲染失败:', e);
+                diffViewer.innerHTML = `
+                  <div style="padding: 20px; text-align: center; color: #cb2431; background-color: #ffeef0; border-radius: 6px;">
+                    无法渲染差异视图：${e.message}
                   </div>
                 `;
-              } else {
-                // 为每个文件块创建差异视图
-                fileBlocks.forEach(fileBlock => {
-                  html += createGitHubStyleDiffHTML(fileBlock);
-                });
               }
-
-              diffViewer.innerHTML = html;
             }
 
             // 将Git差异文本解析为文件块
