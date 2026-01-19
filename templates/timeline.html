@@ -1874,71 +1874,43 @@
           // 确保commitRemarks是数组
           if (!Array.isArray(commitRemarks)) {
             console.error('ERROR: commitRemarks不是数组!', typeof commitRemarks, commitRemarks);
-                  // 重置为空数组
-                  commitRemarks = [];
-                  console.warn('已将commitRemarks重置为空数组');
-                }
+            commitRemarks = [];
+            console.warn('已将commitRemarks重置为空数组');
+          }
 
-                // 验证并清理备注数据
-                const validRemarks = commitRemarks.filter(remark =>
-                  remark &&
-                  remark.hash &&
-                  typeof remark.hash === 'string' &&
-                  remark.hash.trim().length > 0
-                );
+          // 验证并清理备注数据
+          const validRemarks = commitRemarks.filter(remark =>
+            remark &&
+            remark.hash &&
+            typeof remark.hash === 'string' &&
+            remark.hash.trim().length > 0
+          );
 
-                if (validRemarks.length !== commitRemarks.length) {
-                  console.warn(`过滤了 ${commitRemarks.length - validRemarks.length} 条无效备注`);
-                  commitRemarks = validRemarks;
-                }
+          if (validRemarks.length !== commitRemarks.length) {
+            console.warn(`过滤了 ${commitRemarks.length - validRemarks.length} 条无效备注`);
+            commitRemarks = validRemarks;
+          }
 
-                // 打印备注内容
           if (commitRemarks.length === 0) {
             console.log('没有备注需要保存');
-          } else {
-                  console.log('备注详情:');
-            for (const remark of commitRemarks) {
-                    console.log(`- 哈希: ${remark.hash}, 内容: ${remark.content || '(无内容)'}`);
-            }
           }
 
           console.log('发送POST请求到/commit-remarks...');
           const postData = { commitRemarks: commitRemarks };
-                console.log('POST数据格式检查:',
-                  '是数组:', Array.isArray(commitRemarks),
-                  '长度:', commitRemarks.length);
 
-                // 添加重试逻辑
-                let attempts = 0;
-                const maxAttempts = 3;
-                let success = false;
-                let lastError = null;
-
-                while (attempts < maxAttempts && !success) {
-                  attempts++;
-                  try {
           const response = await fetch(`${API_BASE}/commit-remarks`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify(postData),
-                      cache: 'no-cache' // 禁用缓存
+            body: JSON.stringify(postData),
+            cache: 'no-cache'
           });
 
           if (!response.ok) {
             const errorText = await response.text();
-                      console.error(`尝试 ${attempts}/${maxAttempts} 失败:`, response.status, errorText);
-                      lastError = new Error(`服务器返回错误: ${response.status} ${response.statusText}`);
-
-                      if (attempts < maxAttempts) {
-                        // 延迟一点再重试
-                        await new Promise(resolve => setTimeout(resolve, 500 * attempts));
-                        continue;
-                      } else {
-                        throw lastError;
-                      }
+            console.error('保存备注失败:', response.status, errorText);
+            throw new Error(`服务器返回错误: ${response.status} ${response.statusText}`);
           }
 
-          // 读取响应
           const data = await response.json();
           console.log('服务器保存备注成功, 响应:', data);
 
@@ -1946,34 +1918,10 @@
             console.log(`服务器确认保存了 ${data.count} 条备注`);
           }
 
-                    success = true;
-
-          // 重新获取最新备注
-          console.log('正在重新加载最新备注...');
-          await loadLatestRemarks();
-
           return data;
-                  } catch (attemptError) {
-                    console.error(`尝试 ${attempts}/${maxAttempts} 出错:`, attemptError);
-                    lastError = attemptError;
-
-                    // 延迟一点再重试
-                    if (attempts < maxAttempts) {
-                      await new Promise(resolve => setTimeout(resolve, 500 * attempts));
-                    }
-                  }
-                }
-
-                if (!success && lastError) {
-                  console.error('保存备注失败，已达到最大重试次数');
-                  alert('保存备注失败，请检查控制台日志');
-                  throw lastError;
-                }
-
-                return null;
         } catch (error) {
           console.error('保存备注失败:', error);
-                alert('保存备注失败: ' + error.message);
+          alert('保存备注失败: ' + error.message);
           throw error;
         }
       }
@@ -1983,97 +1931,40 @@
         try {
           console.log('开始加载最新备注...');
 
-                // 添加重试逻辑
-                let attempts = 0;
-                const maxAttempts = 3;
-                let success = false;
-
-                while (attempts < maxAttempts && !success) {
-                  attempts++;
-                  try {
-                    const response = await fetch(`${API_BASE}/commit-remarks`, {
-                      cache: 'no-store', // 强制不使用缓存
-                      headers: {
-                        'X-Requested-With': 'fetch',
-                        'Cache-Control': 'no-cache, no-store',
-                        'Pragma': 'no-cache'
-                      }
-                    });
+          const response = await fetch(`${API_BASE}/commit-remarks`, {
+            cache: 'no-store',
+            headers: {
+              'Cache-Control': 'no-cache, no-store',
+              'Pragma': 'no-cache'
+            }
+          });
 
           if (!response.ok) {
-                      console.error(`加载备注尝试 ${attempts}/${maxAttempts} 失败:`, response.status);
-                      if (attempts < maxAttempts) {
-                        await new Promise(resolve => setTimeout(resolve, 500 * attempts));
-                        continue;
-                      }
-                      throw new Error(`无法获取备注: ${response.status} ${response.statusText}`);
-                    }
+            throw new Error(`无法获取备注: ${response.status} ${response.statusText}`);
+          }
 
-                    // 解析响应数据
           const data = await response.json();
-                    console.log('获取备注响应:', data);
+          console.log('获取备注响应:', data);
 
-                    // 处理备注数据
           if (data.commitRemarks) {
-            // 确保commitRemarks是数组
             if (Array.isArray(data.commitRemarks)) {
               commitRemarks = data.commitRemarks;
               console.log('刷新备注数据成功, 数组长度:', commitRemarks.length);
-                        if (commitRemarks.length > 0) {
-                          console.log('备注内容示例:');
-                          for (let i = 0; i < Math.min(3, commitRemarks.length); i++) {
-                            const remark = commitRemarks[i];
-                            console.log(`- 哈希: ${remark.hash}, 内容: ${remark.content || '(无内容)'}`);
-                          }
-              }
             } else {
               console.error('服务器返回的备注不是数组格式!', data.commitRemarks);
-
-                        if (typeof data.commitRemarks === 'object' && data.commitRemarks !== null) {
-                const tempArray = [];
-                for (const hash in data.commitRemarks) {
-                            if (Object.prototype.hasOwnProperty.call(data.commitRemarks, hash)) {
-                  tempArray.push({
-                    hash: hash,
-                                content: data.commitRemarks[hash] || '',
-                    timestamp: new Date().toISOString()
-                  });
-                            }
-                }
-                commitRemarks = tempArray;
-                console.log('已转换对象格式为数组, 长度:', commitRemarks.length);
-                        } else {
-                          console.warn('服务器返回了无法处理的备注格式，使用空数组');
-                          commitRemarks = [];
-              }
+              commitRemarks = [];
             }
           } else {
             console.warn('服务器返回的数据中没有commitRemarks字段');
-                      commitRemarks = [];
-                    }
+            commitRemarks = [];
+          }
 
-                    // 更新UI
-                    updateAllRemarkUI();
-
-                    success = true;
-                    return true;
-                  } catch (attemptError) {
-                    console.error(`加载备注尝试 ${attempts}/${maxAttempts} 出错:`, attemptError);
-                    if (attempts >= maxAttempts) {
-                      throw attemptError;
-                    }
-                    await new Promise(resolve => setTimeout(resolve, 500 * attempts));
-                  }
-                }
-
-                if (!success) {
-                  console.error('加载备注失败，已达到最大重试次数');
-                  return false;
-                }
+          // 更新UI
+          updateAllRemarkUI();
 
           return true;
         } catch (error) {
-                console.error('加载备注失败:', error);
+          console.error('加载备注失败:', error);
           return false;
         }
       }
