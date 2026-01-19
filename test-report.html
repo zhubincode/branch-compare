@@ -1,0 +1,5095 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>分支对比: main vs feature/test</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script>
+    <style>
+      /**
+ * Neumorphism Design Tokens
+ * Cool Grey Monochromatic Palette with RGBA Shadows
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap");
+
+:root {
+  /* ========== Colors - Cool Grey Monochromatic ========== */
+
+  /* Base "Cool Clay" Surface */
+  --color-bg: #e0e5ec;
+
+  /* Text Colors - WCAG Compliant */
+  --color-fg: #3d4852; /* Primary text - 7.5:1 contrast (AAA) */
+  --color-muted: #6b7280; /* Secondary text - 4.6:1 contrast (AA) */
+
+  /* Accent Colors */
+  --color-accent: #6c63ff; /* Soft violet for CTAs */
+  --color-accent-light: #8b84ff; /* Lighter violet for hover */
+  --color-accent-secondary: #38b2ac; /* Teal for success */
+
+  /* Semantic Colors */
+  --color-success: #28a745;
+  --color-warning: #ff9800;
+  --color-danger: #dc3545;
+  --color-info: #1890ff;
+
+  /* ========== Shadows - RGBA for Premium Smoothness ========== */
+
+  /* Shadow Colors */
+  --shadow-light: rgba(255, 255, 255, 0.5);
+  --shadow-light-strong: rgba(255, 255, 255, 0.6);
+  --shadow-dark: rgba(163, 177, 198, 0.6);
+  --shadow-dark-strong: rgba(163, 177, 198, 0.7);
+
+  /* Extruded (Raised) - Default State */
+  --shadow-extruded: 9px 9px 16px var(--shadow-dark),
+    -9px -9px 16px var(--shadow-light);
+
+  /* Extruded Hover - Lifted State */
+  --shadow-extruded-hover: 12px 12px 20px var(--shadow-dark-strong),
+    -12px -12px 20px var(--shadow-light-strong);
+
+  /* Extruded Small - For Smaller Elements */
+  --shadow-extruded-small: 5px 5px 10px var(--shadow-dark),
+    -5px -5px 10px var(--shadow-light);
+
+  /* Inset (Pressed) - Standard Pressed State */
+  --shadow-inset: inset 6px 6px 10px var(--shadow-dark),
+    inset -6px -6px 10px var(--shadow-light);
+
+  /* Inset Deep - For Inputs and Deep Wells */
+  --shadow-inset-deep: inset 10px 10px 20px var(--shadow-dark-strong),
+    inset -10px -10px 20px var(--shadow-light-strong);
+
+  /* Inset Small - For Subtle Tracks */
+  --shadow-inset-small: inset 3px 3px 6px var(--shadow-dark),
+    inset -3px -3px 6px var(--shadow-light);
+
+  /* ========== Border Radius - Soft & Rounded ========== */
+
+  --radius-container: 32px; /* Cards and major containers */
+  --radius-base: 16px; /* Buttons and medium elements */
+  --radius-small: 12px; /* Inner elements */
+  --radius-full: 9999px; /* Pills and circles */
+
+  /* ========== Typography ========== */
+
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-mono: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
+
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Font Sizes - 平衡的尺寸 */
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 0.9375rem; /* 15px */
+  --font-size-lg: 1.0625rem; /* 17px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-4xl: 2.25rem; /* 36px */
+  --font-size-5xl: 2.75rem; /* 44px */
+  --font-size-7xl: 3.5rem; /* 56px */
+
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* ========== Spacing ========== */
+
+  --spacing-1: 0.25rem; /* 4px */
+  --spacing-2: 0.5rem; /* 8px */
+  --spacing-3: 0.75rem; /* 12px */
+  --spacing-4: 1rem; /* 16px */
+  --spacing-5: 1.25rem; /* 20px */
+  --spacing-6: 1.5rem; /* 24px */
+  --spacing-8: 2rem; /* 32px */
+  --spacing-10: 2.5rem; /* 40px */
+  --spacing-12: 3rem; /* 48px */
+  --spacing-16: 4rem; /* 64px */
+  --spacing-20: 5rem; /* 80px */
+  --spacing-32: 8rem; /* 128px */
+
+  /* ========== Transitions ========== */
+
+  --transition-fast: 150ms ease-out;
+  --transition-base: 300ms ease-out;
+  --transition-slow: 500ms ease-out;
+
+  /* ========== Z-Index ========== */
+
+  --z-base: 1;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 30;
+  --z-modal-backdrop: 40;
+  --z-modal: 50;
+  --z-tooltip: 60;
+
+  /* ========== Breakpoints (for reference) ========== */
+
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
+
+/**
+ * Base Styles - Global Resets and Typography
+ * Neumorphism Design System
+ */
+
+/* ========== Global Reset ========== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--color-fg);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: var(--spacing-2);
+  min-height: 100vh;
+}
+
+/* ========== Typography ========== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-fg);
+  margin-bottom: var(--spacing-3);
+}
+
+h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-extrabold);
+}
+
+h2 {
+  font-size: var(--font-size-3xl);
+}
+
+h3 {
+  font-size: var(--font-size-2xl);
+}
+
+p {
+  margin-bottom: var(--spacing-4);
+}
+
+/* ========== Links ========== */
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent-light);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-small);
+}
+
+/* ========== Buttons Reset ========== */
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ========== Inputs Reset ========== */
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+/* ========== Accessibility ========== */
+
+/* Focus visible for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Skip to content link */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-accent);
+  color: white;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-base);
+  z-index: var(--z-tooltip);
+}
+
+.skip-to-content:focus {
+  top: var(--spacing-2);
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ========== Scrollbar Styling ========== */
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow-inset-small);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted);
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow-extruded-small);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-fg);
+}
+
+/* ========== Selection ========== */
+
+::selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+::-moz-selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+/**
+ * Layout Styles 布局样式
+ * Neumorphism Design System - Layout Components
+ */
+
+/* ========== Container 容器 ========== */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--color-bg);
+  border-radius: var(--radius-container);
+  box-shadow: var(--shadow-extruded);
+  padding: var(--spacing-3);
+}
+
+/* ========== Header 头部 ========== */
+
+.header {
+  margin-bottom: var(--spacing-3);
+  padding-bottom: var(--spacing-2);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+  border-bottom: 1px solid rgba(163, 177, 198, 0.15);
+}
+
+.header h1 {
+  margin: 0 0 var(--spacing-2) 0;
+  color: var(--color-fg);
+  font-family: var(--font-display);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: -0.02em;
+}
+
+.meta-info {
+  color: var(--color-muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+
+.meta-info > div {
+  margin-bottom: var(--spacing-2);
+}
+
+/* ========== Legend 图例 ========== */
+
+.timeline-legend {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-4);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-bg);
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-extruded-small);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-fg);
+  transition: all var(--transition-base);
+  min-height: 36px;
+}
+
+.legend-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.5),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: var(--spacing-2);
+  display: inline-block;
+  box-shadow: inset 2px 2px 4px rgba(163, 177, 198, 0.3),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.5);
+}
+
+.legend-dot.source {
+  background-color: var(--color-success);
+}
+
+.legend-dot.target {
+  background-color: var(--color-warning);
+}
+
+.legend-dot.both {
+  background-color: var(--color-info);
+}
+
+/* ========== Theme Switcher 主题切换器 ========== */
+
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  background: var(--color-bg);
+  border-radius: var(--radius-full);
+  padding: var(--spacing-1);
+  box-shadow: var(--shadow-inset);
+  gap: var(--spacing-1);
+}
+
+.theme-button {
+  border: none;
+  background: transparent;
+  color: var(--color-muted);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  transition: all var(--transition-base);
+  min-height: 36px;
+  white-space: nowrap;
+}
+
+.theme-button:hover:not(.active) {
+  color: var(--color-fg);
+}
+
+.theme-button.active {
+  background: var(--color-accent);
+  color: white;
+  box-shadow: var(--shadow-extruded-small);
+}
+
+.theme-button .layout-icon {
+  font-size: var(--font-size-base);
+}
+
+/* ========== Timeline 时间线 ========== */
+
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-2) 0;
+  width: 100%;
+}
+
+.commit-row {
+  display: flex;
+  margin-bottom: var(--spacing-2);
+  position: relative;
+  width: 100%;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== Commit Container 提交容器 ========== */
+
+.commit-container {
+  max-width: 75%;
+  width: 75%;
+  position: relative;
+}
+
+.commit-container.source {
+  align-self: flex-start;
+  margin-right: auto;
+}
+
+.commit-container.target {
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+.commit-container.both {
+  align-self: center;
+  max-width: 90%;
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* ========== Flat Layout 平铺布局 ========== */
+
+body[data-layout="flat"] .timeline .commit-row {
+  justify-content: center;
+}
+
+body[data-layout="flat"] .timeline .commit-container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  align-self: center;
+}
+
+body[data-layout="flat"] .timeline .commit-container.both {
+  max-width: 100%;
+}
+
+/* ========== Filter Section 筛选区域 ========== */
+
+.filter-section {
+  margin-bottom: var(--spacing-3);
+  padding: var(--spacing-3);
+  background: var(--color-bg);
+  border-radius: var(--radius-container);
+  box-shadow: var(--shadow-inset);
+}
+
+.filter-buttons {
+  display: flex;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-5);
+  flex-wrap: wrap;
+}
+
+.sub-filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+  margin: var(--spacing-4) 0 0 0;
+  padding: var(--spacing-4);
+  background: rgba(163, 177, 198, 0.05);
+  border-radius: var(--radius-base);
+  transition: all var(--transition-base);
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.sub-filter-section.hidden {
+  max-height: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+}
+
+/* ========== Search Section 搜索区域 ========== */
+
+.search-section {
+  margin-top: var(--spacing-5);
+  padding: var(--spacing-4);
+  background: rgba(163, 177, 198, 0.05);
+  border-radius: var(--radius-base);
+}
+
+.search-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-4);
+  gap: var(--spacing-3);
+  flex-wrap: nowrap;
+}
+
+.search-input {
+  flex: 0 0 300px;
+  max-width: 300px;
+}
+
+.clear-search {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  color: var(--color-muted);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: var(--shadow-extruded-small);
+  transition: all var(--transition-base);
+}
+
+.clear-search:hover {
+  color: var(--color-danger);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-extruded-hover);
+}
+
+.clear-search:active {
+  transform: scale(0.95);
+  box-shadow: var(--shadow-inset-small);
+}
+
+.search-options {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--spacing-4);
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* ========== Command Section 命令区域 ========== */
+
+.command-section {
+  margin-top: var(--spacing-3);
+  background: var(--color-bg);
+  padding: var(--spacing-3);
+  border-radius: var(--radius-container);
+  box-shadow: var(--shadow-inset);
+}
+
+.command-section h3 {
+  margin: 0 0 var(--spacing-2) 0;
+  color: var(--color-fg);
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+  flex-wrap: nowrap;
+}
+
+.command-section h3 > span:first-child {
+  white-space: nowrap;
+}
+
+.copy-button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.command-tabs {
+  display: flex;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-3);
+  background: var(--color-bg);
+  padding: var(--spacing-1);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-inset);
+}
+
+.command-content {
+  display: none;
+}
+
+.command-content.active {
+  display: block;
+}
+
+.command-line {
+  display: flex;
+  align-items: center;
+  margin: var(--spacing-2) 0;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3) var(--spacing-4);
+  background: linear-gradient(
+    135deg,
+    rgba(40, 44, 52, 0.98) 0%,
+    rgba(33, 37, 43, 0.98) 100%
+  );
+  border-radius: var(--radius-base);
+  border-left: 3px solid var(--color-accent);
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3),
+    inset -1px -1px 2px rgba(255, 255, 255, 0.05), 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition-fast);
+}
+
+.command-line:hover {
+  border-left-color: var(--color-accent-light);
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3),
+    inset -1px -1px 2px rgba(255, 255, 255, 0.05),
+    0 4px 12px rgba(108, 99, 255, 0.15);
+}
+
+.command-line pre {
+  margin: 0;
+  flex-grow: 1;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  white-space: pre-wrap;
+  overflow-x: auto;
+  color: #abb2bf;
+  line-height: 1.6;
+  font-weight: var(--font-weight-medium);
+}
+
+.command-line pre code {
+  color: #61afef;
+  text-shadow: 0 0 8px rgba(97, 175, 239, 0.3);
+}
+
+#source-to-target-commands-container,
+#target-to-source-commands-container {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: var(--spacing-3);
+  background: rgba(163, 177, 198, 0.03);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-inset-small);
+}
+
+/* ========== Responsive Design 响应式设计 ========== */
+
+@media (max-width: 1024px) {
+  .container {
+    padding: var(--spacing-6);
+  }
+
+  .commit-container {
+    max-width: 85%;
+  }
+
+  body[data-layout="flat"] .timeline .commit-container {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: var(--spacing-3);
+  }
+
+  .container {
+    padding: var(--spacing-5);
+    border-radius: var(--radius-base);
+  }
+
+  .header {
+    flex-direction: column;
+    gap: var(--spacing-5);
+    padding-bottom: var(--spacing-5);
+  }
+
+  .header h1 {
+    font-size: var(--font-size-2xl);
+  }
+
+  .timeline-legend {
+    gap: var(--spacing-3);
+    justify-content: flex-start;
+  }
+
+  .legend-item {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+
+  .theme-switcher {
+    width: 100%;
+  }
+
+  .theme-button {
+    flex: 1;
+    justify-content: center;
+    padding: var(--spacing-3) var(--spacing-4);
+  }
+
+  .timeline {
+    padding: var(--spacing-4) 0;
+  }
+
+  .commit-container,
+  .commit-container.source,
+  .commit-container.target,
+  .commit-container.both {
+    max-width: 100%;
+  }
+
+  body[data-layout="flat"] .timeline .commit-container {
+    max-width: 100%;
+  }
+
+  .filter-section {
+    padding: var(--spacing-5);
+  }
+
+  .filter-buttons {
+    gap: var(--spacing-2);
+  }
+
+  .search-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-3);
+  }
+
+  .search-options {
+    gap: var(--spacing-3);
+  }
+
+  .command-section {
+    padding: var(--spacing-5);
+    margin-top: var(--spacing-6);
+  }
+
+  .command-section h3 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-3);
+  }
+
+  .command-tabs {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--spacing-4);
+  }
+
+  .header h1 {
+    font-size: var(--font-size-xl);
+  }
+
+  .filter-section,
+  .command-section {
+    padding: var(--spacing-4);
+  }
+
+  .legend-item {
+    padding: var(--spacing-1) var(--spacing-2);
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/**
+ * Utility Classes 工具类
+ * Neumorphism Design System - Utility Classes
+ */
+
+/* ========== Display 显示 ========== */
+
+.hidden {
+  display: none !important;
+}
+
+.block {
+  display: block !important;
+}
+
+.inline-block {
+  display: inline-block !important;
+}
+
+.flex {
+  display: flex !important;
+}
+
+.inline-flex {
+  display: inline-flex !important;
+}
+
+/* ========== Visibility 可见性 ========== */
+
+.invisible {
+  visibility: hidden !important;
+}
+
+.visible {
+  visibility: visible !important;
+}
+
+/* ========== Flex Direction 弹性方向 ========== */
+
+.flex-row {
+  flex-direction: row !important;
+}
+
+.flex-col {
+  flex-direction: column !important;
+}
+
+/* ========== Flex Wrap 弹性换行 ========== */
+
+.flex-wrap {
+  flex-wrap: wrap !important;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap !important;
+}
+
+/* ========== Justify Content 主轴对齐 ========== */
+
+.justify-start {
+  justify-content: flex-start !important;
+}
+
+.justify-center {
+  justify-content: center !important;
+}
+
+.justify-end {
+  justify-content: flex-end !important;
+}
+
+.justify-between {
+  justify-content: space-between !important;
+}
+
+/* ========== Align Items 交叉轴对齐 ========== */
+
+.items-start {
+  align-items: flex-start !important;
+}
+
+.items-center {
+  align-items: center !important;
+}
+
+.items-end {
+  align-items: flex-end !important;
+}
+
+/* ========== Text Alignment 文本对齐 ========== */
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+/* ========== Text Transform 文本转换 ========== */
+
+.uppercase {
+  text-transform: uppercase !important;
+}
+
+.lowercase {
+  text-transform: lowercase !important;
+}
+
+.capitalize {
+  text-transform: capitalize !important;
+}
+
+/* ========== Font Weight 字体粗细 ========== */
+
+.font-normal {
+  font-weight: var(--font-weight-normal) !important;
+}
+
+.font-medium {
+  font-weight: var(--font-weight-medium) !important;
+}
+
+.font-semibold {
+  font-weight: var(--font-weight-semibold) !important;
+}
+
+.font-bold {
+  font-weight: var(--font-weight-bold) !important;
+}
+
+.font-extrabold {
+  font-weight: var(--font-weight-extrabold) !important;
+}
+
+/* ========== Font Size 字体大小 ========== */
+
+.text-xs {
+  font-size: var(--font-size-xs) !important;
+}
+
+.text-sm {
+  font-size: var(--font-size-sm) !important;
+}
+
+.text-base {
+  font-size: var(--font-size-base) !important;
+}
+
+.text-lg {
+  font-size: var(--font-size-lg) !important;
+}
+
+.text-xl {
+  font-size: var(--font-size-xl) !important;
+}
+
+/* ========== Color 颜色 ========== */
+
+.text-muted {
+  color: var(--color-muted) !important;
+}
+
+.text-fg {
+  color: var(--color-fg) !important;
+}
+
+.text-success {
+  color: var(--color-success) !important;
+}
+
+.text-warning {
+  color: var(--color-warning) !important;
+}
+
+.text-danger {
+  color: var(--color-danger) !important;
+}
+
+.text-info {
+  color: var(--color-info) !important;
+}
+
+/* ========== Margin 外边距 ========== */
+
+.m-0 {
+  margin: 0 !important;
+}
+.m-1 {
+  margin: var(--spacing-1) !important;
+}
+.m-2 {
+  margin: var(--spacing-2) !important;
+}
+.m-3 {
+  margin: var(--spacing-3) !important;
+}
+.m-4 {
+  margin: var(--spacing-4) !important;
+}
+.m-5 {
+  margin: var(--spacing-5) !important;
+}
+.m-6 {
+  margin: var(--spacing-6) !important;
+}
+.m-8 {
+  margin: var(--spacing-8) !important;
+}
+
+.mt-0 {
+  margin-top: 0 !important;
+}
+.mt-2 {
+  margin-top: var(--spacing-2) !important;
+}
+.mt-3 {
+  margin-top: var(--spacing-3) !important;
+}
+.mt-4 {
+  margin-top: var(--spacing-4) !important;
+}
+.mt-6 {
+  margin-top: var(--spacing-6) !important;
+}
+.mt-8 {
+  margin-top: var(--spacing-8) !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+.mb-2 {
+  margin-bottom: var(--spacing-2) !important;
+}
+.mb-3 {
+  margin-bottom: var(--spacing-3) !important;
+}
+.mb-4 {
+  margin-bottom: var(--spacing-4) !important;
+}
+.mb-6 {
+  margin-bottom: var(--spacing-6) !important;
+}
+.mb-8 {
+  margin-bottom: var(--spacing-8) !important;
+}
+
+.ml-0 {
+  margin-left: 0 !important;
+}
+.ml-2 {
+  margin-left: var(--spacing-2) !important;
+}
+.ml-3 {
+  margin-left: var(--spacing-3) !important;
+}
+.ml-4 {
+  margin-left: var(--spacing-4) !important;
+}
+.ml-auto {
+  margin-left: auto !important;
+}
+
+.mr-0 {
+  margin-right: 0 !important;
+}
+.mr-2 {
+  margin-right: var(--spacing-2) !important;
+}
+.mr-3 {
+  margin-right: var(--spacing-3) !important;
+}
+.mr-4 {
+  margin-right: var(--spacing-4) !important;
+}
+.mr-auto {
+  margin-right: auto !important;
+}
+
+/* ========== Padding 内边距 ========== */
+
+.p-0 {
+  padding: 0 !important;
+}
+.p-2 {
+  padding: var(--spacing-2) !important;
+}
+.p-3 {
+  padding: var(--spacing-3) !important;
+}
+.p-4 {
+  padding: var(--spacing-4) !important;
+}
+.p-5 {
+  padding: var(--spacing-5) !important;
+}
+.p-6 {
+  padding: var(--spacing-6) !important;
+}
+.p-8 {
+  padding: var(--spacing-8) !important;
+}
+
+.pt-2 {
+  padding-top: var(--spacing-2) !important;
+}
+.pt-3 {
+  padding-top: var(--spacing-3) !important;
+}
+.pt-4 {
+  padding-top: var(--spacing-4) !important;
+}
+.pt-6 {
+  padding-top: var(--spacing-6) !important;
+}
+
+.pb-2 {
+  padding-bottom: var(--spacing-2) !important;
+}
+.pb-3 {
+  padding-bottom: var(--spacing-3) !important;
+}
+.pb-4 {
+  padding-bottom: var(--spacing-4) !important;
+}
+.pb-6 {
+  padding-bottom: var(--spacing-6) !important;
+}
+
+.pl-2 {
+  padding-left: var(--spacing-2) !important;
+}
+.pl-3 {
+  padding-left: var(--spacing-3) !important;
+}
+.pl-4 {
+  padding-left: var(--spacing-4) !important;
+}
+.pl-6 {
+  padding-left: var(--spacing-6) !important;
+}
+
+.pr-2 {
+  padding-right: var(--spacing-2) !important;
+}
+.pr-3 {
+  padding-right: var(--spacing-3) !important;
+}
+.pr-4 {
+  padding-right: var(--spacing-4) !important;
+}
+.pr-6 {
+  padding-right: var(--spacing-6) !important;
+}
+
+/* ========== Gap 间距 ========== */
+
+.gap-1 {
+  gap: var(--spacing-1) !important;
+}
+.gap-2 {
+  gap: var(--spacing-2) !important;
+}
+.gap-3 {
+  gap: var(--spacing-3) !important;
+}
+.gap-4 {
+  gap: var(--spacing-4) !important;
+}
+.gap-5 {
+  gap: var(--spacing-5) !important;
+}
+.gap-6 {
+  gap: var(--spacing-6) !important;
+}
+
+/* ========== Width 宽度 ========== */
+
+.w-full {
+  width: 100% !important;
+}
+
+.w-auto {
+  width: auto !important;
+}
+
+/* ========== Height 高度 ========== */
+
+.h-full {
+  height: 100% !important;
+}
+
+.h-auto {
+  height: auto !important;
+}
+
+/* ========== Cursor 光标 ========== */
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+}
+
+.cursor-default {
+  cursor: default !important;
+}
+
+/* ========== Opacity 透明度 ========== */
+
+.opacity-0 {
+  opacity: 0 !important;
+}
+.opacity-50 {
+  opacity: 0.5 !important;
+}
+.opacity-75 {
+  opacity: 0.75 !important;
+}
+.opacity-100 {
+  opacity: 1 !important;
+}
+
+/* ========== Overflow 溢出 ========== */
+
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+.overflow-auto {
+  overflow: auto !important;
+}
+
+.overflow-scroll {
+  overflow: scroll !important;
+}
+
+/* ========== Position 定位 ========== */
+
+.relative {
+  position: relative !important;
+}
+
+.absolute {
+  position: absolute !important;
+}
+
+.fixed {
+  position: fixed !important;
+}
+
+.sticky {
+  position: sticky !important;
+}
+
+/* ========== Z-Index 层级 ========== */
+
+.z-10 {
+  z-index: 10 !important;
+}
+
+.z-20 {
+  z-index: 20 !important;
+}
+
+.z-50 {
+  z-index: 50 !important;
+}
+
+.z-100 {
+  z-index: 100 !important;
+}
+
+/* ========== Border Radius 圆角 ========== */
+
+.rounded-none {
+  border-radius: 0 !important;
+}
+
+.rounded-sm {
+  border-radius: var(--radius-small) !important;
+}
+
+.rounded {
+  border-radius: var(--radius-base) !important;
+}
+
+.rounded-lg {
+  border-radius: var(--radius-large) !important;
+}
+
+.rounded-full {
+  border-radius: var(--radius-full) !important;
+}
+
+/* ========== Transitions 过渡 ========== */
+
+.transition-all {
+  transition: all var(--transition-base) !important;
+}
+
+.transition-fast {
+  transition: all var(--transition-fast) !important;
+}
+
+.transition-none {
+  transition: none !important;
+}
+
+/* ========== Transform 变换 ========== */
+
+.scale-95 {
+  transform: scale(0.95) !important;
+}
+
+.scale-100 {
+  transform: scale(1) !important;
+}
+
+.scale-105 {
+  transform: scale(1.05) !important;
+}
+
+/* ========== Pointer Events 指针事件 ========== */
+
+.pointer-events-none {
+  pointer-events: none !important;
+}
+
+.pointer-events-auto {
+  pointer-events: auto !important;
+}
+
+/* ========== User Select 用户选择 ========== */
+
+.select-none {
+  user-select: none !important;
+}
+
+.select-text {
+  user-select: text !important;
+}
+
+.select-all {
+  user-select: all !important;
+}
+
+/* ========== Highlight 高亮 ========== */
+
+.highlight {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 223, 0, 0.3),
+    rgba(255, 235, 59, 0.3)
+  );
+  border-radius: var(--radius-small);
+  padding: 2px 4px;
+  box-shadow: inset 1px 1px 2px rgba(255, 235, 59, 0.4),
+    inset -1px -1px 2px rgba(255, 255, 255, 0.2);
+}
+
+/* ========== Scrollbar Styling 滚动条样式 ========== */
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(163, 177, 198, 0.1);
+  border-radius: var(--radius-full);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(163, 177, 198, 0.3);
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(163, 177, 198, 0.5);
+}
+
+/**
+ * Component Styles - Neumorphism Design System
+ * All UI components with proper shadow physics
+ */
+
+/* ========== Buttons ========== */
+
+.btn,
+.filter-button,
+.command-tab,
+.copy-button,
+.copy-line-button,
+.modal-button,
+.remark-modal-button,
+.theme-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-fg);
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-extruded-small);
+  transition: all var(--transition-base);
+  min-height: 36px;
+  min-width: 36px;
+}
+
+.btn:hover,
+.filter-button:hover,
+.copy-button:hover,
+.copy-line-button:hover,
+.modal-button:hover,
+.remark-modal-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-extruded-hover);
+}
+
+.btn:active,
+.filter-button:active,
+.copy-button:active,
+.modal-button:active,
+.remark-modal-button:active {
+  transform: translateY(0.5px);
+  box-shadow: var(--shadow-inset-small);
+}
+
+/* Primary Button (Accent) */
+.btn-primary,
+.filter-button.active,
+.command-tab.active,
+.theme-button.active,
+.modal-button.confirm,
+.remark-save {
+  background: var(--color-accent);
+  color: white;
+  box-shadow: 5px 5px 10px rgba(108, 99, 255, 0.3),
+    -5px -5px 10px rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary:hover,
+.filter-button.active:hover,
+.modal-button.confirm:hover,
+.remark-save:hover {
+  background: var(--color-accent-light);
+  box-shadow: 7px 7px 14px rgba(108, 99, 255, 0.4),
+    -7px -7px 14px rgba(255, 255, 255, 0.15);
+}
+
+/* Success Button */
+.btn-success {
+  background: var(--color-success);
+  color: white;
+}
+
+/* Danger Button */
+.btn-danger,
+.remark-delete {
+  background: var(--color-danger);
+  color: white;
+}
+
+/* Info Button */
+.btn-info {
+  background: var(--color-info);
+  color: white;
+}
+
+/* Small Buttons */
+.btn-small,
+.ignore-button,
+.remark-button,
+.vscode-button,
+.view-changes-btn,
+.compare-in-vscode,
+.copy-line-button {
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  min-height: 26px;
+  border-radius: var(--radius-small);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ignore-button {
+  background: var(--color-danger);
+  color: white;
+  opacity: 0.9;
+}
+
+.remark-button {
+  background: var(--color-info);
+  color: white;
+  opacity: 0.9;
+}
+
+.ignore-button:hover,
+.remark-button:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.vscode-button,
+.compare-in-vscode {
+  background: #0066b8;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-1);
+  flex-shrink: 0;
+}
+
+.vscode-button svg,
+.compare-in-vscode svg {
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  min-height: 12px;
+  fill: currentColor;
+  display: block;
+  flex-shrink: 0;
+}
+
+.view-changes-btn {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  box-shadow: var(--shadow-extruded-small);
+}
+
+/* Command Tab */
+.command-tab {
+  background: transparent;
+  box-shadow: none;
+  color: var(--color-muted);
+  border-radius: var(--radius-base);
+  padding: var(--spacing-2) var(--spacing-4);
+  min-height: 36px;
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-base);
+}
+
+.command-tab:hover:not(.active) {
+  color: var(--color-fg);
+  background: rgba(163, 177, 198, 0.1);
+}
+
+.command-tab.active {
+  background: var(--color-accent);
+  color: white;
+  font-weight: var(--font-weight-bold);
+  box-shadow: var(--shadow-extruded-small);
+}
+
+/* Theme/Layout Switcher */
+.theme-switcher {
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-bg);
+  border-radius: var(--radius-full);
+  padding: var(--spacing-1);
+  box-shadow: var(--shadow-inset-small);
+  gap: var(--spacing-1);
+}
+
+.theme-button {
+  border-radius: var(--radius-full);
+  padding: var(--spacing-2) var(--spacing-4);
+  min-height: 36px;
+  gap: var(--spacing-2);
+  box-shadow: none;
+  background: transparent;
+  color: var(--color-muted);
+}
+
+.theme-button.active {
+  background: var(--color-accent);
+  color: white;
+  box-shadow: var(--shadow-extruded-small);
+}
+
+.theme-button:hover:not(.active) {
+  color: var(--color-fg);
+}
+
+/* ========== Cards ========== */
+
+.card,
+.container {
+  background: var(--color-bg);
+  border-radius: var(--radius-container);
+  padding: var(--spacing-8);
+  box-shadow: var(--shadow-extruded);
+  transition: all var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-extruded-hover);
+}
+
+/* ========== Commit Cards ========== */
+
+.commit {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-base);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-extruded);
+  position: relative;
+  transition: all var(--transition-base);
+  margin-bottom: var(--spacing-2);
+}
+
+.commit-container.source .commit {
+  border-left: 4px solid var(--color-success);
+  border-top-left-radius: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(40, 167, 69, 0.02) 0%,
+    var(--color-bg) 100%
+  );
+}
+
+.commit-container.target .commit {
+  border-right: 4px solid var(--color-warning);
+  border-top-right-radius: 0;
+  background: linear-gradient(
+    225deg,
+    rgba(255, 152, 0, 0.02) 0%,
+    var(--color-bg) 100%
+  );
+}
+
+.commit-container.both .commit {
+  border-top: 4px solid var(--color-success);
+  border-left: none;
+  border-right: none;
+  border-radius: var(--radius-base);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(40, 167, 69, 0.02) 0%,
+    var(--color-bg) 100%
+  );
+}
+
+.commit-container.both .commit.matched-by-message {
+  background: linear-gradient(
+    180deg,
+    rgba(24, 144, 255, 0.02) 0%,
+    var(--color-bg) 100%
+  );
+  border-top-color: var(--color-info);
+}
+
+.commit.ignored {
+  opacity: 0.5;
+  box-shadow: var(--shadow-inset-small);
+}
+
+/* Commit Badge */
+.commit-badge {
+  position: absolute;
+  top: -10px;
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-extrabold);
+  color: white;
+  box-shadow: var(--shadow-extruded-small);
+  z-index: var(--z-base);
+  letter-spacing: 0.02em;
+}
+
+.commit-container.source .commit-badge {
+  left: var(--spacing-3);
+  background: var(--color-success);
+}
+
+.commit-container.target .commit-badge {
+  right: var(--spacing-3);
+  background: var(--color-warning);
+}
+
+.commit-container.both .commit-badge {
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-success);
+}
+
+.commit-container.both .commit-badge.message-matched {
+  background: var(--color-info);
+}
+
+/* Commit Content */
+.commit-time {
+  color: var(--color-muted);
+  font-size: var(--font-size-xs);
+  margin-bottom: var(--spacing-1);
+  margin-top: var(--spacing-2);
+  font-weight: var(--font-weight-normal);
+}
+
+.commit-message {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-fg);
+  margin-bottom: var(--spacing-2);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.commit-message:hover {
+  color: var(--color-accent);
+}
+
+.commit-details {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--font-size-xs);
+  color: var(--color-muted);
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
+  align-items: center;
+}
+
+.commit-author {
+  margin-right: var(--spacing-1);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-fg);
+}
+
+.commit-hash {
+  font-family: var(--font-mono);
+  cursor: pointer;
+  background: var(--color-bg);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow-inset-small);
+  transition: all var(--transition-fast);
+  font-size: var(--font-size-xs);
+}
+
+.commit-hash:hover {
+  box-shadow: var(--shadow-inset);
+  transform: translateY(1px);
+}
+
+.commit-hash-pair {
+  background: var(--color-bg);
+  padding: var(--spacing-3);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-inset-small);
+  margin-top: var(--spacing-2);
+}
+
+.commit-hash-branch {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-1);
+  margin-bottom: var(--spacing-1);
+}
+
+.commit-hash-branch:last-child {
+  background: rgba(255, 152, 0, 0.05);
+  border-radius: var(--radius-small);
+}
+
+.branch-label {
+  min-width: 80px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-fg);
+  font-size: var(--font-size-xs);
+}
+
+/* ========== Inputs ========== */
+
+.input,
+.search-input,
+.remark-textarea {
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-4);
+  border: none;
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-fg);
+  box-shadow: var(--shadow-inset);
+  transition: all var(--transition-base);
+}
+
+.input:focus,
+.search-input:focus,
+.remark-textarea:focus {
+  box-shadow: var(--shadow-inset-deep);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.input::placeholder,
+.search-input::placeholder,
+.remark-textarea::placeholder {
+  color: var(--color-muted);
+  opacity: 0.6;
+}
+
+.remark-textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: var(--line-height-relaxed);
+}
+
+/* ========== Checkboxes ========== */
+
+.filter-checkbox,
+.search-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  color: var(--color-muted);
+  gap: var(--spacing-2);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filter-checkbox input[type="checkbox"],
+.search-checkbox input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  flex-shrink: 0;
+  border-radius: var(--radius-small);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-inset-small);
+  position: relative;
+  transition: all var(--transition-base);
+}
+
+.filter-checkbox input[type="checkbox"]:hover,
+.search-checkbox input[type="checkbox"]:hover {
+  box-shadow: var(--shadow-inset);
+}
+
+.filter-checkbox input[type="checkbox"]:checked,
+.search-checkbox input[type="checkbox"]:checked {
+  background: var(--color-accent);
+  box-shadow: var(--shadow-extruded-small);
+}
+
+.filter-checkbox input[type="checkbox"]:checked::after,
+.search-checkbox input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+}
+
+.filter-checkbox span,
+.search-checkbox span {
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* ========== Modals ========== */
+
+.modal,
+.remark-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: var(--z-modal-backdrop);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.show,
+.remark-modal.show {
+  display: flex;
+}
+
+.modal-content,
+.remark-modal-content {
+  position: relative;
+  background: var(--color-bg);
+  padding: var(--spacing-5);
+  border-radius: var(--radius-container);
+  box-shadow: 20px 20px 60px rgba(163, 177, 198, 0.6),
+    -20px -20px 60px rgba(255, 255, 255, 0.8),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow: auto;
+  z-index: var(--z-modal);
+}
+
+.modal h3,
+.remark-modal-content h3 {
+  margin-top: 0;
+  margin-bottom: var(--spacing-6);
+  color: var(--color-fg);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-display);
+}
+
+/* Reason List */
+.reason-list {
+  margin: var(--spacing-4) 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.reason-option {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--radius-base);
+  margin-bottom: var(--spacing-3);
+  cursor: pointer;
+  background: var(--color-bg);
+  box-shadow: var(--shadow-extruded-small);
+  transition: all var(--transition-base);
+}
+
+.reason-option:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-extruded-hover);
+}
+
+.reason-option.selected {
+  box-shadow: var(--shadow-inset-small);
+  background: rgba(108, 99, 255, 0.05);
+}
+
+.reason-option input[type="radio"] {
+  margin-right: var(--spacing-3);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.reason-option label {
+  flex: 1;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+}
+
+.custom-reason {
+  display: none;
+  margin-top: var(--spacing-4);
+}
+
+.custom-reason.show {
+  display: block;
+}
+
+/* Modal Buttons */
+.modal-buttons,
+.remark-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-6);
+}
+
+.remark-delete {
+  margin-right: auto;
+}
+
+/* ========== Info Displays ========== */
+
+.ignore-reason,
+.commit-remark {
+  font-size: var(--font-size-xs);
+  color: var(--color-muted);
+  margin: var(--spacing-3) 0 0 0;
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--color-bg);
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow-inset-small);
+  line-height: var(--line-height-relaxed);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-2);
+}
+
+.ignore-reason-title,
+.commit-remark-title {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-fg);
+  white-space: nowrap;
+}
+
+.cherry-pick-time {
+  margin-top: var(--spacing-3);
+  padding: var(--spacing-2) var(--spacing-4);
+  background: rgba(255, 152, 0, 0.05);
+  border-left: 3px solid var(--color-warning);
+  border-radius: var(--radius-small);
+  font-size: var(--font-size-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.cherry-pick-label {
+  font-weight: var(--font-weight-bold);
+  color: #e07600;
+}
+
+/* ========== Loading & Toast ========== */
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: var(--z-modal);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-base);
+}
+
+.loading-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--color-accent);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.success-toast {
+  position: fixed;
+  top: var(--spacing-6);
+  right: var(--spacing-6);
+  background: var(--color-success);
+  color: white;
+  padding: var(--spacing-4) var(--spacing-6);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-extruded-hover);
+  z-index: var(--z-tooltip);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all var(--transition-base);
+}
+
+.success-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========== Back to Top ========== */
+
+.back-to-top {
+  position: fixed;
+  bottom: var(--spacing-8);
+  right: var(--spacing-8);
+  width: 56px;
+  height: 56px;
+  background: var(--color-accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-extruded);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-base);
+  font-size: var(--font-size-2xl);
+  z-index: var(--z-fixed);
+  border: none;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-extruded-hover);
+}
+
+/* ========== Legend ========== */
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-bg);
+  padding: var(--spacing-2) var(--spacing-5);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-extruded-small);
+  font-size: var(--font-size-sm);
+  transition: transform var(--transition-fast);
+  gap: var(--spacing-2);
+}
+
+.legend-item:hover {
+  transform: translateY(-1px);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: var(--shadow-extruded-small);
+}
+
+.legend-dot.source {
+  background: var(--color-success);
+}
+
+.legend-dot.target {
+  background: var(--color-warning);
+}
+
+.legend-dot.both {
+  background: var(--color-info);
+}
+
+/* ========== Branch Indicator (Flat Layout) ========== */
+
+.timeline.flat-layout .branch-indicator {
+  position: absolute;
+  top: var(--spacing-4);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: var(--shadow-extruded-small);
+}
+
+.timeline.flat-layout .commit-container.source .branch-indicator {
+  right: var(--spacing-4);
+  background: var(--color-success);
+}
+
+.timeline.flat-layout .commit-container.target .branch-indicator {
+  left: var(--spacing-4);
+  background: var(--color-warning);
+}
+
+.timeline.flat-layout .commit-container.both .branch-indicator {
+  background: linear-gradient(
+    135deg,
+    var(--color-success) 50%,
+    var(--color-warning) 50%
+  );
+}
+
+/* ========== Responsive ========== */
+
+@media (max-width: 768px) {
+  .btn,
+  .filter-button,
+  .modal-button,
+  .remark-modal-button {
+    min-height: 48px;
+    padding: var(--spacing-3) var(--spacing-5);
+  }
+
+  .modal-content,
+  .remark-modal-content {
+    width: 95%;
+    padding: var(--spacing-6);
+  }
+
+  .back-to-top {
+    bottom: var(--spacing-6);
+    right: var(--spacing-6);
+    width: 48px;
+    height: 48px;
+  }
+}
+
+
+    </style>
+  </head>
+  <body data-layout="flat">
+    <!-- 添加忽略原因选择弹窗 -->
+    <div id="ignoreModal" class="modal">
+      <div class="modal-content">
+        <h3>选择忽略原因</h3>
+        <div class="reason-list" id="reasonList">
+          <!-- 原因选项将通过 JavaScript 动态添加 -->
+        </div>
+        <div id="customReasonInput" class="custom-reason">
+          <input
+            type="text"
+            placeholder="请输入忽略原因"
+            id="customReasonText"
+          />
+        </div>
+        <div class="modal-buttons">
+          <button class="modal-button cancel">取消</button>
+          <button class="modal-button confirm">确认</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 添加备注弹窗 -->
+    <div id="remarkModal" class="remark-modal">
+      <div class="remark-modal-content">
+        <h3>编辑备注</h3>
+        <textarea
+          id="remarkText"
+          class="remark-textarea"
+          placeholder="请输入备注内容..."
+        ></textarea>
+        <div class="remark-modal-buttons">
+          <button
+            class="remark-modal-button remark-delete"
+            id="deleteRemarkBtn"
+          >
+            删除备注
+          </button>
+          <button class="remark-modal-button remark-cancel">取消</button>
+          <button class="remark-modal-button remark-save">保存</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 添加loading覆盖层 -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <!-- 添加返回顶部按钮 -->
+    <div id="backToTop" class="back-to-top">↑</div>
+
+    <div class="container">
+      <div class="header">
+        <div>
+          <h1>分支提交对比</h1>
+          <div class="meta-info">
+            <div>生成时间: 2026/01/19 14:52</div>
+            <div id="authorInfo" style="display: none">提交者: "全部"</div>
+            <div id="timeRangeInfo" style="display: none">
+              时间范围: "全部时间"
+            </div>
+          </div>
+        </div>
+        <div class="timeline-legend">
+          <div class="legend-item">
+            <span class="legend-dot source"></span> "main" (基准分支)
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot target"></span> "feature/test"
+          </div>
+          <div class="legend-item">
+            <span
+              class="legend-dot both"
+              style="background-color: #1890ff"
+            ></span>
+            消息相同的共同提交
+          </div>
+        </div>
+
+        <div class="theme-switcher">
+          <button id="chatLayoutBtn" class="theme-button">
+            <span>聊天布局</span>
+            <span class="layout-icon">💬</span>
+          </button>
+          <button id="flatLayoutBtn" class="theme-button active">
+            <span>列表布局</span>
+            <span class="layout-icon">📑</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-buttons">
+          <button class="filter-button active" data-filter="all">
+            全部提交
+          </button>
+          <button class="filter-button" data-filter="source">
+            仅"main"分支
+          </button>
+          <button class="filter-button" data-filter="target">
+            仅"feature/test"分支
+          </button>
+          <button class="filter-button" data-filter="common">共同提交</button>
+          <button class="filter-button" data-filter="ignored">
+            已忽略提交
+          </button>
+        </div>
+
+        <div class="sub-filter-section" id="subFilterSection">
+          <label class="filter-checkbox">
+            <input type="checkbox" id="hideIgnoredCommits" checked />
+            <span>隐藏已忽略提交</span>
+          </label>
+          <label class="filter-checkbox">
+            <input type="checkbox" id="hideCommonCommits" />
+            <span>隐藏共同提交</span>
+          </label>
+        </div>
+
+        <div class="search-section">
+          <div class="search-container">
+            <input
+              type="text"
+              class="search-input"
+              id="searchInput"
+              placeholder="搜索提交信息、作者或哈希..."
+            />
+            <button class="clear-search" id="clearSearch">✕</button>
+            <div class="search-options">
+              <label class="search-checkbox">
+                <input type="checkbox" id="searchMessage" checked />
+                <span>提交信息</span>
+              </label>
+              <label class="search-checkbox">
+                <input type="checkbox" id="searchAuthor" checked />
+                <span>作者</span>
+              </label>
+              <label class="search-checkbox">
+                <input type="checkbox" id="searchHash" />
+                <span>哈希</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline" id="timeline"></div>
+
+      <div class="command-section">
+        <div class="command-tabs">
+          <button class="command-tab active" data-command="source-to-target">
+            "main" → "feature/test"
+          </button>
+          <button class="command-tab" data-command="target-to-source">
+            "feature/test" → "main"
+          </button>
+        </div>
+
+        <div id="source-to-target-content" class="command-content active">
+          <h3>
+            Cherry-pick 指令 ("main" → "feature/test")
+            <button class="copy-button copy-source-to-target-button">
+              复制全部
+            </button>
+          </h3>
+          <div id="source-to-target-commands-container"></div>
+          <pre
+            style="display: none"
+          ><code id="source-to-target-commands"></code></pre>
+        </div>
+
+        <div id="target-to-source-content" class="command-content">
+          <h3>
+            Cherry-pick 指令 ("feature/test" → "main")
+            <button class="copy-button copy-target-to-source-button">
+              复制全部
+            </button>
+          </h3>
+          <div id="target-to-source-commands-container"></div>
+          <pre
+            style="display: none"
+          ><code id="target-to-source-commands"></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 全局配置和数据注入
+      const PORT = '3002';
+      const API_BASE = `http://localhost:${PORT}`;
+
+      // 从模板注入的数据
+      const commits = [{"hash":"abc123","message":"测试提交1","authorName":"张三","date":"2026-01-19T06:52:45.748Z","status":"source","formattedDate":"2026/01/19 14:52"},{"hash":"def456","message":"测试提交2","authorName":"李四","date":"2026-01-19T06:52:45.748Z","status":"target","formattedDate":"2026/01/19 14:52"},{"hash":"ghi789","message":"共同提交","authorName":"王五","date":"2026-01-19T06:52:45.748Z","status":"both","formattedDate":"2026/01/19 14:52"}];
+      const sourceBranch = "main";
+      const targetBranch = "feature/test";
+      let ignoredCommits = [{"hash":"725cb134eb9c9d2d684e95ffc9a562e87e30cd9c","reason":"不需要合并","timestamp":"2025-03-25T01:29:31.535Z"},{"hash":"56f28a86fccf14a734057b872114ea79848fa056","reason":"已手动合并","timestamp":"2025-03-25T02:03:03.419Z"},{"hash":"daa41558451d47086bbb5c6170c04cb0bb100c4a","reason":"已手动合并","timestamp":"2025-03-25T02:03:06.742Z"},{"hash":"02492fa6ccf008a4c4bbddcc0945627dd0d08ccc","reason":"已手动合并","timestamp":"2025-03-25T02:03:09.142Z"},{"hash":"ee5d6563d413d3f07761a8a7aaf032de624c76df","reason":"已手动合并","timestamp":"2025-03-25T02:03:12.171Z"},{"hash":"eb32405edf9c30b962e9958f4025818d9f6f851a","reason":"已手动合并","timestamp":"2025-03-25T02:03:14.435Z"},{"hash":"a89419be84d47d9d25e26b7492d84d01aeac4191","reason":"已手动合并","timestamp":"2025-03-25T02:03:17.023Z"},{"hash":"762de0a627a243f47c7e2f660094e732860b9d68","reason":"不需要合并","timestamp":"2025-03-25T02:03:55.058Z"},{"hash":"dba3eb1f8e15831093f64af3264a1114fc75cbfb","reason":"不需要合并","timestamp":"2025-03-25T02:18:47.553Z"},{"hash":"4138ca05afe8e787fe2b88a060df368d3def3771","reason":"auto-test 已有，历史原因导致缺失，这是一个补充修改，所以无需 cherry-pick 回auto-test分支","timestamp":"2025-03-25T02:26:25.492Z"}] || [];
+      let commitRemarks = [] || [];
+      const author = "全部";
+      const timeRange = "全部时间";
+
+      // 忽略原因选项
+      const IGNORE_REASONS = [
+        '已手动合并',
+        '不需要合并',
+        '存在冲突',
+        '待进一步确认',
+        '其他原因'
+      ];
+    </script>
+
+    <script>
+      /**
+ * Utility Functions 工具函数
+ * 通用的辅助函数
+ */
+
+/**
+ * 复制命令块
+ * @param {string} direction - 方向标识 ('source-to-target' 或 'target-to-source')
+ */
+function copyCommandBlock(direction) {
+  const commandsElement = document.getElementById(`${direction}-commands`);
+  if (commandsElement) {
+    const text = commandsElement.textContent;
+    const button = document.querySelector(`.copy-${direction}-button`);
+    copyToClipboard(text, button);
+  }
+}
+
+/**
+ * 复制文本到剪贴板
+ * @param {string} text - 要复制的文本
+ * @param {HTMLElement} element - 触发复制的元素（用于显示提示）
+ */
+function copyToClipboard(text, element) {
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      // 创建Neumorphism风格的toast提示
+      const toast = document.createElement("div");
+      toast.className = "copy-toast";
+      toast.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink: 0;">
+          <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2"/>
+          <path d="M6 10L9 13L14 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>已复制到剪贴板</span>
+      `;
+
+      // 设置样式
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: var(--color-bg);
+        color: var(--color-success);
+        padding: var(--spacing-4) var(--spacing-5);
+        border-radius: var(--radius-base);
+        box-shadow: 
+          8px 8px 16px rgba(163, 177, 198, 0.5),
+          -8px -8px 16px rgba(255, 255, 255, 0.8),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-medium);
+        font-family: var(--font-body);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-3);
+        opacity: 0;
+        transform: translateY(20px) scale(0.9);
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
+      `;
+
+      document.body.appendChild(toast);
+
+      // 触发动画
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          toast.style.opacity = "1";
+          toast.style.transform = "translateY(0) scale(1)";
+        });
+      });
+
+      // 2秒后淡出并移除
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(-20px) scale(0.9)";
+        setTimeout(() => {
+          if (toast.parentNode) {
+            document.body.removeChild(toast);
+          }
+        }, 300);
+      }, 2000);
+    })
+    .catch((err) => {
+      console.error("复制失败:", err);
+
+      // 显示错误提示
+      const errorToast = document.createElement("div");
+      errorToast.className = "copy-toast error";
+      errorToast.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink: 0;">
+          <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2"/>
+          <path d="M10 6V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="10" cy="14" r="1" fill="currentColor"/>
+        </svg>
+        <span>复制失败</span>
+      `;
+
+      errorToast.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: var(--color-bg);
+        color: var(--color-danger);
+        padding: var(--spacing-4) var(--spacing-5);
+        border-radius: var(--radius-base);
+        box-shadow: 
+          8px 8px 16px rgba(163, 177, 198, 0.5),
+          -8px -8px 16px rgba(255, 255, 255, 0.8),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-medium);
+        font-family: var(--font-body);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-3);
+        opacity: 0;
+        transform: translateY(20px) scale(0.9);
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
+      `;
+
+      document.body.appendChild(errorToast);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          errorToast.style.opacity = "1";
+          errorToast.style.transform = "translateY(0) scale(1)";
+        });
+      });
+
+      setTimeout(() => {
+        errorToast.style.opacity = "0";
+        errorToast.style.transform = "translateY(-20px) scale(0.9)";
+        setTimeout(() => {
+          if (errorToast.parentNode) {
+            document.body.removeChild(errorToast);
+          }
+        }, 300);
+      }, 2000);
+    });
+}
+
+/**
+ * HTML转义，防止XSS攻击
+ * @param {string} str - 要转义的字符串
+ * @returns {string} 转义后的字符串
+ */
+function escapeHtml(str) {
+  if (!str) return "";
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+/**
+ * 格式化日期
+ * @param {string|Date} date - 日期对象或字符串
+ * @returns {string} 格式化后的日期字符串
+ */
+function formatDate(date) {
+  const d = new Date(date);
+  return d.toLocaleString("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+/**
+ * 从diff --git行提取文件路径
+ * @param {string} diffGitLine - diff --git行
+ * @returns {string} 文件路径
+ */
+function extractFilePath(diffGitLine) {
+  try {
+    const parts = diffGitLine.split(" ");
+    if (parts.length >= 4) {
+      let path = parts[3];
+      if (path.startsWith("b/")) {
+        path = path.substring(2);
+      }
+      return path;
+    }
+  } catch (e) {
+    console.error("提取文件路径失败:", e);
+  }
+  return "unknown-file";
+}
+
+/**
+ * 将Git差异文本解析为文件块
+ * @param {string} diffText - Git diff文本
+ * @returns {Array} 文件块数组
+ */
+function parseDiffToFileBlocks(diffText) {
+  const lines = diffText.split("\n");
+  const fileBlocks = [];
+  let currentFile = null;
+  let inFileHeader = false;
+  let currentHunk = null;
+  let currentHunkContent = [];
+
+  lines.forEach((line) => {
+    if (line.startsWith("diff --git ")) {
+      if (currentFile) {
+        if (currentHunk) {
+          currentFile.hunks.push({
+            header: currentHunk,
+            content: currentHunkContent,
+          });
+        }
+        fileBlocks.push(currentFile);
+      }
+
+      currentFile = {
+        header: line,
+        path: extractFilePath(line),
+        hunks: [],
+      };
+      inFileHeader = true;
+      currentHunk = null;
+      currentHunkContent = [];
+    } else if (
+      inFileHeader &&
+      (line.startsWith("--- ") || line.startsWith("+++ "))
+    ) {
+      if (currentFile) {
+        currentFile.header += "\n" + line;
+      }
+    } else if (line.startsWith("@@ ")) {
+      inFileHeader = false;
+      if (currentHunk && currentFile) {
+        currentFile.hunks.push({
+          header: currentHunk,
+          content: currentHunkContent,
+        });
+      }
+      currentHunk = line;
+      currentHunkContent = [];
+    } else if (currentFile) {
+      if (inFileHeader) {
+        currentFile.header += "\n" + line;
+      } else if (currentHunk) {
+        currentHunkContent.push(line);
+      }
+    }
+  });
+
+  if (currentFile && currentHunk) {
+    currentFile.hunks.push({
+      header: currentHunk,
+      content: currentHunkContent,
+    });
+    fileBlocks.push(currentFile);
+  }
+
+  return fileBlocks;
+}
+
+/**
+ * 创建GitHub风格的差异HTML
+ * @param {Object} fileBlock - 文件块对象
+ * @returns {string} HTML字符串
+ */
+function createGitHubStyleDiffHTML(fileBlock) {
+  const filePath = fileBlock.path;
+
+  let html = `
+    <div style="margin-bottom: 16px;">
+      <div style="background-color: #f6f8fa; border: 1px solid #e1e4e8; border-bottom: none; border-top-left-radius: 6px; border-top-right-radius: 6px; padding: 8px 16px; font-weight: 600;">
+        ${escapeHtml(filePath)}
+      </div>
+  `;
+
+  fileBlock.hunks.forEach((hunk, index) => {
+    const isLast = index === fileBlock.hunks.length - 1;
+    html += `
+      <div style="background-color: #f8fafd; color: #586069; padding: 4px 10px; border: 1px solid #e1e4e8; border-bottom: none; font-size: 12px;">
+        ${escapeHtml(hunk.header)}
+      </div>
+      <div style="border: 1px solid #e1e4e8; border-bottom-left-radius: ${
+        isLast ? "6px" : "0"
+      }; border-bottom-right-radius: ${
+      isLast ? "6px" : "0"
+    }; overflow: hidden;">
+        <table style="border-collapse: collapse; width: 100%; tab-size: 4;">
+          <tbody>
+    `;
+
+    hunk.content.forEach((line) => {
+      let lineClass = "";
+      let lineStyle = "";
+      let prefix = "";
+
+      if (line.startsWith("+")) {
+        lineClass = "addition";
+        lineStyle = "background-color: #e6ffed;";
+        prefix = "+";
+      } else if (line.startsWith("-")) {
+        lineClass = "deletion";
+        lineStyle = "background-color: #ffeef0;";
+        prefix = "-";
+      } else {
+        lineClass = "context";
+        lineStyle = "";
+        prefix = " ";
+      }
+
+      const lineContent = line.substring(1);
+
+      html += `
+        <tr class="${lineClass}" style="${lineStyle}">
+          <td style="width: 1%; padding: 0 10px; text-align: right; color: #bbb; border-right: 1px solid #e1e4e8; user-select: none;">${prefix}</td>
+          <td style="padding: 0 10px; white-space: pre-wrap; word-break: break-all;">${escapeHtml(
+            lineContent
+          )}</td>
+        </tr>
+      `;
+    });
+
+    html += `
+          </tbody>
+        </table>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+  return html;
+}
+
+/**
+ * 防抖函数
+ * @param {Function} func - 要防抖的函数
+ * @param {number} wait - 等待时间（毫秒）
+ * @returns {Function} 防抖后的函数
+ */
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+/**
+ * 节流函数
+ * @param {Function} func - 要节流的函数
+ * @param {number} limit - 时间限制（毫秒）
+ * @returns {Function} 节流后的函数
+ */
+function throttle(func, limit) {
+  let inThrottle;
+  return function (...args) {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
+}
+
+/**
+ * API Communication Module API通信模块
+ * 处理所有与后端的数据交互
+ */
+
+// API_BASE 由HTML模板的数据注入脚本定义
+
+/**
+ * 加载已忽略的提交列表
+ * @returns {Promise<Array>} 忽略的提交数组
+ */
+async function loadIgnoredCommits() {
+  try {
+    const response = await fetch(`${API_BASE}/ignored-commits`, {
+      cache: "no-store",
+      headers: {
+        "Cache-Control": "no-cache, no-store",
+        Pragma: "no-cache",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return Array.isArray(data.ignoredCommits) ? data.ignoredCommits : [];
+  } catch (error) {
+    console.error("加载忽略的提交失败:", error);
+    return [];
+  }
+}
+
+/**
+ * 保存已忽略的提交列表
+ * @param {Array} commits - 忽略的提交数组
+ * @returns {Promise<boolean>} 是否保存成功
+ */
+async function saveIgnoredCommits(commits) {
+  try {
+    const response = await fetch(`${API_BASE}/ignore-commit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ignoredCommits: commits }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return true;
+  } catch (error) {
+    console.error("保存忽略的提交失败:", error);
+    throw error;
+  }
+}
+
+/**
+ * 加载提交备注
+ * @returns {Promise<Array>} 备注数组
+ */
+async function loadCommitRemarks() {
+  try {
+    const response = await fetch(`${API_BASE}/commit-remarks`, {
+      cache: "no-store",
+      headers: {
+        "Cache-Control": "no-cache, no-store",
+        Pragma: "no-cache",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // 处理数据格式转换（向后兼容）
+    if (data.commitRemarks) {
+      if (Array.isArray(data.commitRemarks)) {
+        return data.commitRemarks;
+      } else if (typeof data.commitRemarks === "object") {
+        // 转换旧格式（对象）为新格式（数组）
+        const remarksArray = [];
+        for (const hash in data.commitRemarks) {
+          remarksArray.push({
+            hash: hash,
+            content: data.commitRemarks[hash],
+            timestamp: new Date().toISOString(),
+          });
+        }
+        console.log("已将对象格式备注转换为数组格式");
+        return remarksArray;
+      }
+    }
+
+    return [];
+  } catch (error) {
+    console.error("加载提交备注失败:", error);
+    return [];
+  }
+}
+
+/**
+ * 保存提交备注
+ * @param {Array} remarks - 备注数组
+ * @returns {Promise<Object>} 保存结果
+ */
+async function saveCommitRemarks(remarks) {
+  try {
+    // 验证数据格式
+    if (!Array.isArray(remarks)) {
+      console.error("备注数据必须是数组格式");
+      remarks = [];
+    }
+
+    // 过滤无效数据
+    const validRemarks = remarks.filter(
+      (remark) =>
+        remark &&
+        remark.hash &&
+        typeof remark.hash === "string" &&
+        remark.hash.trim().length > 0
+    );
+
+    if (validRemarks.length !== remarks.length) {
+      console.warn(`过滤了 ${remarks.length - validRemarks.length} 条无效备注`);
+    }
+
+    const response = await fetch(`${API_BASE}/commit-remarks`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ commitRemarks: validRemarks }),
+      cache: "no-cache",
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`服务器返回错误: ${response.status} ${errorText}`);
+    }
+
+    const data = await response.json();
+    console.log("备注保存成功:", data);
+    return data;
+  } catch (error) {
+    console.error("保存备注失败:", error);
+    throw error;
+  }
+}
+
+/**
+ * 获取Git提交的diff内容
+ * @param {string} commitHash - 提交哈希值
+ * @returns {Promise<Object>} diff数据
+ */
+async function fetchGitDiff(commitHash) {
+  try {
+    const response = await fetch(
+      `${API_BASE}/git/show?hash=${encodeURIComponent(commitHash)}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `服务器返回错误: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const responseObj = await response.json();
+
+    if (!responseObj.success) {
+      throw new Error(responseObj.message || "服务器返回错误");
+    }
+
+    return responseObj.data;
+  } catch (error) {
+    console.error("获取Git diff失败:", error);
+    throw error;
+  }
+}
+
+/**
+ * 通用的fetch重试包装器
+ * @param {Function} fetchFunc - fetch函数
+ * @param {number} retries - 重试次数
+ * @returns {Promise} fetch结果
+ */
+async function fetchWithRetry(fetchFunc, retries = 1) {
+  try {
+    return await fetchFunc();
+  } catch (error) {
+    if (retries > 0) {
+      console.log(`请求失败，${retries}次重试后重新尝试...`);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      return fetchWithRetry(fetchFunc, retries - 1);
+    }
+    throw error;
+  }
+}
+
+/**
+ * State Management Module 状态管理模块
+ * 管理应用的全局状态
+ */
+
+// 全局状态对象
+const appState = {
+  commits: [],
+  ignoredCommits: [],
+  commitRemarks: [],
+  filterState: {
+    mainFilter: "all",
+    hideIgnored: true,
+    hideCommon: false,
+    searchText: "",
+    searchMessage: true,
+    searchAuthor: true,
+    searchHash: false,
+  },
+  layout: "flat",
+  sourceBranch: "",
+  targetBranch: "",
+};
+
+/**
+ * 更新筛选状态
+ * @param {Object} updates - 要更新的状态字段
+ */
+function updateFilterState(updates) {
+  appState.filterState = {
+    ...appState.filterState,
+    ...updates,
+  };
+}
+
+/**
+ * 获取当前筛选状态
+ * @returns {Object} 筛选状态对象
+ */
+function getFilterState() {
+  return { ...appState.filterState };
+}
+
+/**
+ * 保存筛选状态到URL
+ */
+function saveFilterStateToURL() {
+  const url = new URL(window.location.href);
+  url.searchParams.set("filter", appState.filterState.mainFilter);
+  url.searchParams.set(
+    "hideIgnored",
+    appState.filterState.hideIgnored ? "1" : "0"
+  );
+  url.searchParams.set(
+    "hideCommon",
+    appState.filterState.hideCommon ? "1" : "0"
+  );
+  window.history.replaceState({}, "", url.toString());
+}
+
+/**
+ * 从URL加载筛选状态
+ * @returns {Object} 从URL解析的筛选状态
+ */
+function loadFilterStateFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return {
+    mainFilter: urlParams.get("filter") || "all",
+    hideIgnored: urlParams.get("hideIgnored") === "1",
+    hideCommon: urlParams.get("hideCommon") === "1",
+  };
+}
+
+/**
+ * 保存当前筛选状态（用于操作前保存）
+ */
+function saveCurrentFilterState() {
+  const hideIgnoredEl = document.getElementById("hideIgnoredCommits");
+  const hideCommonEl = document.getElementById("hideCommonCommits");
+  const searchInputEl = document.getElementById("searchInput");
+  const searchMessageEl = document.getElementById("searchMessage");
+  const searchAuthorEl = document.getElementById("searchAuthor");
+  const searchHashEl = document.getElementById("searchHash");
+
+  if (
+    !hideIgnoredEl ||
+    !hideCommonEl ||
+    !searchInputEl ||
+    !searchMessageEl ||
+    !searchAuthorEl ||
+    !searchHashEl
+  ) {
+    console.warn("部分筛选DOM元素未找到，跳过状态保存");
+    return;
+  }
+
+  appState.filterState = {
+    mainFilter: document.body.getAttribute("data-current-filter") || "all",
+    hideIgnored: hideIgnoredEl.checked,
+    hideCommon: hideCommonEl.checked,
+    searchText: searchInputEl.value.trim(),
+    searchMessage: searchMessageEl.checked,
+    searchAuthor: searchAuthorEl.checked,
+    searchHash: searchHashEl.checked,
+  };
+
+  console.log("已保存筛选状态:", appState.filterState);
+}
+
+/**
+ * 恢复筛选状态（用于操作后恢复）
+ */
+function restoreFilterState() {
+  console.log("正在恢复筛选状态:", appState.filterState);
+
+  if (!appState.filterState) {
+    console.warn("没有筛选状态可恢复");
+    return;
+  }
+
+  // 设置主筛选按钮状态
+  document.querySelectorAll(".filter-button").forEach((btn) => {
+    btn.classList.toggle(
+      "active",
+      btn.getAttribute("data-filter") === appState.filterState.mainFilter
+    );
+  });
+
+  document.body.setAttribute(
+    "data-current-filter",
+    appState.filterState.mainFilter
+  );
+
+  // 获取DOM元素
+  const hideIgnoredEl = document.getElementById("hideIgnoredCommits");
+  const hideCommonEl = document.getElementById("hideCommonCommits");
+  const searchInputEl = document.getElementById("searchInput");
+  const searchMessageEl = document.getElementById("searchMessage");
+  const searchAuthorEl = document.getElementById("searchAuthor");
+  const searchHashEl = document.getElementById("searchHash");
+  const clearButton = document.getElementById("clearSearch");
+  const subFilterSection = document.getElementById("subFilterSection");
+
+  if (
+    !hideIgnoredEl ||
+    !hideCommonEl ||
+    !searchInputEl ||
+    !searchMessageEl ||
+    !searchAuthorEl ||
+    !searchHashEl ||
+    !clearButton ||
+    !subFilterSection
+  ) {
+    console.warn("部分筛选DOM元素未找到，跳过状态恢复");
+    return;
+  }
+
+  // 恢复复选框状态
+  hideIgnoredEl.checked = appState.filterState.hideIgnored;
+  hideCommonEl.checked = appState.filterState.hideCommon;
+
+  // 恢复搜索状态
+  searchInputEl.value = appState.filterState.searchText;
+  searchMessageEl.checked = appState.filterState.searchMessage;
+  searchAuthorEl.checked = appState.filterState.searchAuthor;
+  searchHashEl.checked = appState.filterState.searchHash;
+
+  // 显示/隐藏清除按钮
+  if (appState.filterState.searchText) {
+    clearButton.classList.add("visible");
+  } else {
+    clearButton.classList.remove("visible");
+  }
+
+  // 设置子筛选器可见性
+  if (appState.filterState.mainFilter === "all") {
+    subFilterSection.classList.remove("hidden");
+  } else {
+    subFilterSection.classList.add("hidden");
+  }
+
+  // 应用筛选
+  if (appState.filterState.searchText) {
+    searchCommits(false);
+  } else {
+    applyFilters(appState.filterState.mainFilter);
+  }
+}
+
+/**
+ * 初始化筛选状态（从URL）
+ */
+function initializeFilterState() {
+  const urlParams = loadFilterStateFromURL();
+
+  appState.filterState = {
+    ...appState.filterState,
+    mainFilter: urlParams.mainFilter,
+    hideIgnored: urlParams.hideIgnored,
+    hideCommon: urlParams.hideCommon,
+  };
+
+  document.body.setAttribute(
+    "data-current-filter",
+    appState.filterState.mainFilter
+  );
+
+  // 更新UI
+  document.querySelectorAll(".filter-button").forEach((btn) => {
+    btn.classList.toggle(
+      "active",
+      btn.getAttribute("data-filter") === appState.filterState.mainFilter
+    );
+  });
+
+  const hideIgnoredEl = document.getElementById("hideIgnoredCommits");
+  const hideCommonEl = document.getElementById("hideCommonCommits");
+  if (hideIgnoredEl) hideIgnoredEl.checked = appState.filterState.hideIgnored;
+  if (hideCommonEl) hideCommonEl.checked = appState.filterState.hideCommon;
+
+  const subFilterSection = document.getElementById("subFilterSection");
+  if (subFilterSection) {
+    if (appState.filterState.mainFilter === "all") {
+      subFilterSection.classList.remove("hidden");
+    } else {
+      subFilterSection.classList.add("hidden");
+    }
+  }
+
+  console.log("已从URL初始化筛选状态:", appState.filterState);
+}
+
+/**
+ * 设置布局模式
+ * @param {string} layout - 布局模式 ('chat' 或 'flat')
+ */
+function setLayout(layout) {
+  appState.layout = layout;
+  localStorage.setItem("preferredLayout", layout);
+}
+
+/**
+ * 获取布局模式
+ * @returns {string} 当前布局模式
+ */
+function getLayout() {
+  return appState.layout;
+}
+
+/**
+ * 从localStorage加载布局偏好
+ * @returns {string} 保存的布局模式
+ */
+function loadLayoutPreference() {
+  return localStorage.getItem("preferredLayout") || "flat";
+}
+
+/**
+ * Render Module 渲染模块
+ * 负责UI的渲染和更新
+ */
+
+/**
+ * 渲染提交列表
+ * @param {boolean} shouldRestoreState - 是否恢复筛选状态
+ */
+function renderCommits(shouldRestoreState = true) {
+  if (shouldRestoreState) {
+    saveCurrentFilterState();
+  }
+
+  const timeline = document.getElementById("timeline");
+  timeline.innerHTML = "";
+
+  const currentLayout = document.body.getAttribute("data-layout") || "flat";
+
+  // 按时间排序（从新到旧）
+  const sortedCommits = [...appState.commits].sort(
+    (a, b) => new Date(b.date || b.dateIso) - new Date(a.date || a.dateIso)
+  );
+
+  sortedCommits.forEach((commit) => {
+    const commitRow = renderCommitCard(commit, currentLayout);
+    timeline.appendChild(commitRow);
+  });
+
+  updateCherryPickCommands();
+
+  if (shouldRestoreState) {
+    restoreFilterState();
+  }
+}
+
+/**
+ * 渲染单个提交卡片
+ * @param {Object} commit - 提交对象
+ * @param {string} layout - 布局模式
+ * @returns {HTMLElement} 提交行元素
+ */
+function renderCommitCard(commit, layout) {
+  const isIgnored = appState.ignoredCommits.some(
+    (item) => item.hash === commit.hash
+  );
+  const ignoredCommit = appState.ignoredCommits.find(
+    (item) => item.hash === commit.hash
+  );
+  const hasRemarkForCommit = hasRemark(commit.hash);
+  const remarkContent = getRemarkContent(commit.hash);
+  const isMatchedByMessage = commit.matchedByMessage === true;
+
+  const commitRow = document.createElement("div");
+  commitRow.className = "commit-row";
+
+  const commitContainer = document.createElement("div");
+
+  if (commit.status === "both") {
+    commitContainer.className = "commit-container both";
+  } else if (commit.status === "source") {
+    commitContainer.className = "commit-container source";
+  } else {
+    commitContainer.className = "commit-container target";
+  }
+
+  let badgeText;
+  let badgeClass = "";
+
+  if (commit.status === "both") {
+    badgeText = isMatchedByMessage ? "已同步(commit 消息匹配)" : "共同提交";
+    if (isMatchedByMessage) {
+      badgeClass = "message-matched";
+    }
+  } else if (commit.status === "source") {
+    badgeText = appState.sourceBranch;
+  } else {
+    badgeText = appState.targetBranch;
+  }
+
+  let commitClasses = `commit${isIgnored ? " ignored" : ""}`;
+  if (isMatchedByMessage) {
+    commitClasses += " matched-by-message";
+  }
+
+  let hashContent = "";
+  const vscodeIconSvg = `<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M21.29 4.1L17.47.28a1 1 0 0 0-.71-.28h-.09a1 1 0 0 0-.67.3l-10.48 9.5-4.23-3.2a.67.67 0 0 0-.89.01l-.8.72a.67.67 0 0 0 0 .99l3.45 3.12L.6 14.56a.67.67 0 0 0 0 .99l.8.72a.67.67 0 0 0 .89.01l4.23-3.2 10.48 9.5a1 1 0 0 0 .67.3h.09a1 1 0 0 0 .71-.28l3.82-3.82a1 1 0 0 0 .3-.71V4.81a1 1 0 0 0-.3-.71zM17 18.5l-9-6.75L17 5v13.5z"/></svg>`;
+
+  function getHashWithButtons(hash) {
+    const shortHash = hash.substring(0, 7);
+    return `
+      <span class="commit-hash" title="${hash}">${shortHash}</span>
+      <button class="vscode-button" title="在VS Code中查看">
+        ${vscodeIconSvg}
+      </button>
+      <button class="view-changes-btn">
+        查看变更
+      </button>
+    `;
+  }
+
+  if (isMatchedByMessage && commit.targetHash) {
+    const cherryPickTimeHtml = commit.cherryPickTime
+      ? `
+      <div class="cherry-pick-time">
+        <span class="cherry-pick-label">🍒 Cherry-pick 时间:</span>
+        <span class="cherry-pick-timestamp">${formatDate(
+          commit.cherryPickTime
+        )}</span>
+      </div>
+    `
+      : "";
+
+    hashContent = `
+      <div class="commit-hash-pair">
+        <div class="commit-hash-branch">
+          <span class="branch-label">${appState.sourceBranch}:</span>
+          ${getHashWithButtons(commit.hash)}
+        </div>
+        <div class="commit-hash-branch">
+          <span class="branch-label">${appState.targetBranch}:</span>
+          ${getHashWithButtons(commit.targetHash)}
+        </div>
+        ${cherryPickTimeHtml}
+        <button class="compare-in-vscode">
+          ${vscodeIconSvg} 在VS Code中比较两个提交
+        </button>
+      </div>
+    `;
+  } else {
+    hashContent = getHashWithButtons(commit.hash);
+  }
+
+  const branchIndicator =
+    layout === "flat"
+      ? `<div class="branch-indicator ${badgeClass}"></div>`
+      : "";
+
+  commitContainer.innerHTML = `
+    <div class="${commitClasses}" data-hash="${commit.hash}" data-status="${
+    commit.status
+  }">
+      ${branchIndicator}
+      <span class="commit-badge ${badgeClass}">${badgeText}</span>
+      <div class="commit-time">${commit.formattedDate}</div>
+      <div class="commit-info">
+        <div class="commit-message">${escapeHtml(commit.message)}</div>
+        <div class="commit-details">
+          <span class="commit-author">作者: ${escapeHtml(
+            commit.authorName
+          )}</span>
+          ${hashContent}
+          <button class="ignore-button">
+            ${isIgnored ? "取消忽略" : "忽略"}
+          </button>
+          <button class="remark-button">
+            ${hasRemarkForCommit ? "编辑备注" : "添加备注"}
+          </button>
+        </div>
+        ${
+          isIgnored && ignoredCommit
+            ? `
+          <div class="ignore-reason">
+            <span class="ignore-reason-title">🚫 忽略原因</span>
+            <span class="ignore-reason-content">${escapeHtml(
+              ignoredCommit.reason
+            )}</span>
+          </div>`
+            : ""
+        }
+        ${
+          remarkContent
+            ? `
+          <div class="commit-remark">
+            <span class="commit-remark-title">📝 备注</span>
+            <span class="commit-remark-content">${escapeHtml(
+              remarkContent
+            )}</span>
+          </div>`
+            : ""
+        }
+      </div>
+    </div>
+  `;
+
+  commitRow.appendChild(commitContainer);
+  return commitRow;
+}
+
+/**
+ * 更新cherry-pick命令
+ */
+function updateCherryPickCommands() {
+  const sourceOnlyCommits = appState.commits.filter(
+    (commit) =>
+      commit.status === "source" &&
+      !appState.ignoredCommits.some((item) => item.hash === commit.hash)
+  );
+
+  const targetOnlyCommits = appState.commits.filter(
+    (commit) =>
+      commit.status === "target" &&
+      !appState.ignoredCommits.some((item) => item.hash === commit.hash)
+  );
+
+  updateDirectionalCommands(
+    sourceOnlyCommits,
+    appState.sourceBranch,
+    appState.targetBranch,
+    "source-to-target"
+  );
+  updateDirectionalCommands(
+    targetOnlyCommits,
+    appState.targetBranch,
+    appState.sourceBranch,
+    "target-to-source"
+  );
+}
+
+/**
+ * 生成特定方向的cherry-pick命令
+ * @param {Array} directionCommits - 提交列表
+ * @param {string} fromBranch - 源分支
+ * @param {string} toBranch - 目标分支
+ * @param {string} direction - 方向标识
+ */
+function updateDirectionalCommands(
+  directionCommits,
+  fromBranch,
+  toBranch,
+  direction
+) {
+  directionCommits.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  let commandsArray = [];
+  commandsArray.push(`# 切换到 ${toBranch} 分支`);
+  commandsArray.push(`git checkout ${toBranch}`);
+  commandsArray.push("");
+  commandsArray.push(`# Cherry-pick 从 ${fromBranch} 分支的提交`);
+
+  directionCommits.forEach((commit) => {
+    commandsArray.push(`git cherry-pick ${commit.hash}  # ${commit.message}`);
+  });
+
+  const commands = commandsArray.join("\n");
+
+  const commandsContainer = document.getElementById(
+    `${direction}-commands-container`
+  );
+  commandsContainer.innerHTML = "";
+
+  commandsArray.forEach((cmd) => {
+    // 跳过空行，不渲染
+    if (!cmd || cmd.trim() === "") {
+      return;
+    }
+
+    const cmdLine = document.createElement("div");
+    cmdLine.className = "command-line";
+
+    const cmdText = document.createElement("pre");
+    cmdText.textContent = cmd;
+    cmdLine.appendChild(cmdText);
+
+    if (cmd && !cmd.startsWith("#")) {
+      const copyBtn = document.createElement("button");
+      copyBtn.className = "copy-line-button";
+      copyBtn.textContent = "复制";
+      copyBtn.onclick = function () {
+        copyToClipboard(cmd, this);
+      };
+      cmdLine.appendChild(copyBtn);
+    }
+
+    commandsContainer.appendChild(cmdLine);
+  });
+
+  document.getElementById(`${direction}-commands`).textContent = commands;
+}
+
+/**
+ * 更新备注UI
+ * @param {string} hash - 提交哈希
+ */
+function updateRemarkUI(hash) {
+  const remarkElement = document.querySelector(
+    `.remark-content[data-hash="${hash}"]`
+  );
+  if (!remarkElement) return;
+
+  const remark = getCommitRemark(hash);
+
+  if (remark && remark.content) {
+    remarkElement.value = remark.content;
+    remarkElement.classList.add("has-content");
+  } else {
+    remarkElement.value = "";
+    remarkElement.classList.remove("has-content");
+  }
+}
+
+/**
+ * 更新所有备注UI
+ */
+function updateAllRemarkUI() {
+  document.querySelectorAll(".commit").forEach((commitEl) => {
+    const hash = commitEl.getAttribute("data-hash");
+    if (hash) {
+      updateRemarkUI(hash);
+    }
+  });
+}
+
+/**
+ * 获取备注内容
+ * @param {string} hash - 提交哈希
+ * @returns {string} 备注内容
+ */
+function getRemarkContent(hash) {
+  const remark = appState.commitRemarks.find((r) => r.hash === hash);
+  return remark ? remark.content : "";
+}
+
+/**
+ * 判断是否有备注
+ * @param {string} hash - 提交哈希
+ * @returns {boolean} 是否有备注
+ */
+function hasRemark(hash) {
+  return appState.commitRemarks.some((r) => r.hash === hash);
+}
+
+/**
+ * 获取提交的备注对象
+ * @param {string} hash - 提交哈希
+ * @returns {Object|undefined} 备注对象
+ */
+function getCommitRemark(hash) {
+  return appState.commitRemarks.find((r) => r.hash === hash);
+}
+
+/**
+ * Filter Module 筛选模块
+ * 处理提交的筛选和搜索功能
+ */
+
+/**
+ * 筛选提交
+ * @param {string} type - 筛选类型 ('all', 'source', 'target', 'common', 'ignored')
+ */
+function filterCommits(type) {
+  const buttons = document.querySelectorAll(".filter-button");
+  buttons.forEach((btn) => btn.classList.remove("active"));
+  document.querySelector(`[data-filter="${type}"]`).classList.add("active");
+
+  document.body.setAttribute("data-current-filter", type);
+  updateFilterState({ mainFilter: type });
+
+  const subFilterSection = document.getElementById("subFilterSection");
+  if (type === "all") {
+    subFilterSection.classList.remove("hidden");
+  } else {
+    subFilterSection.classList.add("hidden");
+  }
+
+  applyFilters(type);
+  saveFilterStateToURL();
+}
+
+/**
+ * 应用筛选
+ * @param {string} type - 筛选类型
+ */
+function applyFilters(type) {
+  const commitRows = document.querySelectorAll(".commit-row");
+  const hideIgnored = document.getElementById("hideIgnoredCommits").checked;
+  const hideCommon = document.getElementById("hideCommonCommits").checked;
+
+  commitRows.forEach((row) => {
+    const commitElement = row.querySelector(".commit");
+    if (!commitElement) return;
+
+    const status = commitElement.getAttribute("data-status");
+    const hash = commitElement.getAttribute("data-hash");
+    const isIgnored = appState.ignoredCommits.some(
+      (item) => item.hash === hash
+    );
+    const isCommon = status === "both";
+
+    let shouldShow = false;
+
+    switch (type) {
+      case "all":
+        shouldShow = true;
+        break;
+      case "source":
+        shouldShow = status === "source";
+        break;
+      case "target":
+        shouldShow = status === "target";
+        break;
+      case "common":
+        shouldShow = status === "both";
+        break;
+      case "ignored":
+        shouldShow = isIgnored;
+        break;
+    }
+
+    if (shouldShow) {
+      if (hideIgnored && isIgnored && type !== "ignored") {
+        shouldShow = false;
+      }
+      if (hideCommon && isCommon && type !== "common") {
+        shouldShow = false;
+      }
+    }
+
+    row.style.display = shouldShow ? "" : "none";
+  });
+}
+
+/**
+ * 应用子筛选器
+ */
+function applySubFilters() {
+  const currentFilter =
+    document.body.getAttribute("data-current-filter") || "all";
+  applyFilters(currentFilter);
+  saveFilterStateToURL();
+}
+
+/**
+ * 搜索提交
+ * @param {boolean} saveState - 是否保存状态
+ */
+function searchCommits(saveState = true) {
+  const searchText = document
+    .getElementById("searchInput")
+    .value.trim()
+    .toLowerCase();
+  const searchMessage = document.getElementById("searchMessage").checked;
+  const searchAuthor = document.getElementById("searchAuthor").checked;
+  const searchHash = document.getElementById("searchHash").checked;
+  const clearButton = document.getElementById("clearSearch");
+
+  if (saveState) {
+    updateFilterState({
+      searchText,
+      searchMessage,
+      searchAuthor,
+      searchHash,
+    });
+  }
+
+  if (searchText) {
+    clearButton.classList.add("visible");
+  } else {
+    clearButton.classList.remove("visible");
+  }
+
+  if (!searchText) {
+    const currentFilter =
+      document.body.getAttribute("data-current-filter") || "all";
+    applyFilters(currentFilter);
+    return;
+  }
+
+  const commitRows = document.querySelectorAll(".commit-row");
+
+  // 清除现有高亮
+  commitRows.forEach((row) => {
+    const commitElement = row.querySelector(".commit");
+    if (!commitElement) return;
+
+    const messageElement = commitElement.querySelector(".commit-message");
+    const authorElement = commitElement.querySelector(".commit-author");
+    const hashElements = commitElement.querySelectorAll(".commit-hash");
+
+    if (messageElement) {
+      messageElement.innerHTML = messageElement.innerHTML.replace(
+        /<span class="highlight">([^<]+)<\/span>/g,
+        "$1"
+      );
+    }
+    if (authorElement) {
+      authorElement.innerHTML = authorElement.innerHTML.replace(
+        /<span class="highlight">([^<]+)<\/span>/g,
+        "$1"
+      );
+    }
+    hashElements.forEach((el) => {
+      el.innerHTML = el.innerHTML.replace(
+        /<span class="highlight">([^<]+)<\/span>/g,
+        "$1"
+      );
+    });
+  });
+
+  // 搜索并高亮
+  commitRows.forEach((row) => {
+    const commitElement = row.querySelector(".commit");
+    if (!commitElement) return;
+
+    let matches = false;
+
+    if (searchMessage) {
+      const messageElement = commitElement.querySelector(".commit-message");
+      if (
+        messageElement &&
+        messageElement.textContent.toLowerCase().includes(searchText)
+      ) {
+        matches = true;
+        highlightText(messageElement, searchText);
+      }
+    }
+
+    if (searchAuthor && !matches) {
+      const authorElement = commitElement.querySelector(".commit-author");
+      if (
+        authorElement &&
+        authorElement.textContent.toLowerCase().includes(searchText)
+      ) {
+        matches = true;
+        highlightText(authorElement, searchText);
+      }
+    }
+
+    if (searchHash && !matches) {
+      const hashElements = commitElement.querySelectorAll(".commit-hash");
+      hashElements.forEach((hashElement) => {
+        if (hashElement.textContent.toLowerCase().includes(searchText)) {
+          matches = true;
+          highlightText(hashElement, searchText);
+        }
+      });
+    }
+
+    row.style.display = matches ? "" : "none";
+  });
+}
+
+/**
+ * 高亮文本
+ * @param {HTMLElement} element - 要高亮的元素
+ * @param {string} searchText - 搜索文本
+ */
+function highlightText(element, searchText) {
+  if (!element.innerHTML.includes('<span class="highlight">')) {
+    const innerHTML = element.innerHTML;
+    const index = innerHTML.toLowerCase().indexOf(searchText.toLowerCase());
+    if (index >= 0) {
+      const highlighted =
+        innerHTML.substring(0, index) +
+        '<span class="highlight">' +
+        innerHTML.substring(index, index + searchText.length) +
+        "</span>" +
+        innerHTML.substring(index + searchText.length);
+      element.innerHTML = highlighted;
+    }
+  }
+}
+
+/**
+ * 清除搜索
+ */
+function clearSearch() {
+  document.getElementById("searchInput").value = "";
+
+  // 清除高亮
+  document.querySelectorAll(".highlight").forEach((el) => {
+    const parent = el.parentNode;
+    parent.textContent = parent.textContent;
+  });
+
+  searchCommits();
+  document.getElementById("clearSearch").classList.remove("visible");
+}
+
+/**
+ * Modal Module 模态框模块
+ * 处理所有模态框相关的功能
+ */
+
+// IGNORE_REASONS 由HTML模板的数据注入脚本定义
+
+let currentIgnoreHash = null;
+let currentIgnoreElement = null;
+let currentCommitHash = null;
+let currentCommitElement = null;
+
+/**
+ * 显示忽略原因模态框
+ * @param {string} hash - 提交哈希
+ * @param {HTMLElement} element - 触发元素
+ */
+function showIgnoreModal(hash, element) {
+  currentIgnoreHash = hash;
+  currentIgnoreElement = element;
+
+  const reasonListElement = document.getElementById("reasonList");
+  reasonListElement.innerHTML = "";
+
+  IGNORE_REASONS.forEach((reason, index) => {
+    const optionElement = document.createElement("div");
+    optionElement.className = "reason-option";
+
+    const radioInput = document.createElement("input");
+    radioInput.type = "radio";
+    radioInput.id = `reason-${index}`;
+    radioInput.name = "ignoreReason";
+    radioInput.value = reason;
+    if (index === 0) {
+      radioInput.checked = true;
+      optionElement.classList.add("selected");
+    }
+
+    const label = document.createElement("label");
+    label.htmlFor = `reason-${index}`;
+    label.textContent = reason;
+
+    optionElement.appendChild(radioInput);
+    optionElement.appendChild(label);
+
+    optionElement.addEventListener("click", function (e) {
+      if (e.target !== radioInput) {
+        radioInput.checked = true;
+
+        if (reason === "其他原因") {
+          document.getElementById("customReasonInput").classList.add("show");
+        } else {
+          document.getElementById("customReasonInput").classList.remove("show");
+        }
+
+        document.querySelectorAll(".reason-option").forEach((opt) => {
+          opt.classList.remove("selected");
+        });
+        this.classList.add("selected");
+      }
+    });
+
+    if (reason === "其他原因") {
+      radioInput.addEventListener("change", function () {
+        document.getElementById("customReasonInput").classList.add("show");
+        document.querySelectorAll(".reason-option").forEach((opt) => {
+          opt.classList.remove("selected");
+        });
+        optionElement.classList.add("selected");
+      });
+    } else {
+      radioInput.addEventListener("change", function () {
+        document.getElementById("customReasonInput").classList.remove("show");
+        document.querySelectorAll(".reason-option").forEach((opt) => {
+          opt.classList.remove("selected");
+        });
+        optionElement.classList.add("selected");
+      });
+    }
+
+    reasonListElement.appendChild(optionElement);
+  });
+
+  document.getElementById("customReasonText").value = "";
+  document.getElementById("customReasonInput").classList.remove("show");
+  const modal = document.getElementById("ignoreModal");
+  modal.style.display = "flex";
+  modal.classList.add("show");
+}
+
+/**
+ * 关闭忽略原因模态框
+ */
+function closeIgnoreModal() {
+  const modal = document.getElementById("ignoreModal");
+  modal.style.display = "none";
+  modal.classList.remove("show");
+  currentIgnoreHash = null;
+  currentIgnoreElement = null;
+}
+
+/**
+ * 确认忽略
+ */
+async function confirmIgnore() {
+  const selectedReason = document.querySelector(
+    'input[name="ignoreReason"]:checked'
+  ).value;
+  const customReason = document.getElementById("customReasonText").value.trim();
+  const finalReason =
+    selectedReason === "其他原因" ? customReason : selectedReason;
+
+  if (selectedReason === "其他原因" && !customReason) {
+    alert("请输入自定义的忽略原因");
+    return;
+  }
+
+  showLoading();
+  saveCurrentFilterState();
+
+  try {
+    const commitElement = currentIgnoreElement.closest(".commit");
+
+    const index = appState.ignoredCommits.findIndex(
+      (item) => item.hash === currentIgnoreHash
+    );
+    if (index === -1) {
+      appState.ignoredCommits.push({
+        hash: currentIgnoreHash,
+        reason: finalReason,
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    await saveIgnoredCommits(appState.ignoredCommits);
+
+    // 重新加载数据
+    appState.ignoredCommits = await loadIgnoredCommits();
+
+    renderCommits();
+    closeIgnoreModal();
+    showSuccessMessage("忽略提交成功");
+  } catch (error) {
+    console.error("保存忽略提交失败:", error);
+    alert("保存忽略提交失败: " + error.message);
+  } finally {
+    hideLoading();
+  }
+}
+
+/**
+ * 切换忽略状态
+ * @param {string} hash - 提交哈希
+ * @param {HTMLElement} element - 触发元素
+ */
+function toggleIgnoreCommit(hash, element) {
+  const index = appState.ignoredCommits.findIndex((item) => item.hash === hash);
+
+  if (index === -1) {
+    showIgnoreModal(hash, element);
+  } else {
+    showLoading();
+    saveCurrentFilterState();
+
+    appState.ignoredCommits.splice(index, 1);
+
+    saveIgnoredCommits(appState.ignoredCommits)
+      .then(() => {
+        return loadIgnoredCommits();
+      })
+      .then((commits) => {
+        appState.ignoredCommits = commits;
+        renderCommits();
+        showSuccessMessage("取消忽略成功");
+      })
+      .catch((error) => {
+        console.error("保存忽略提交失败:", error);
+        alert("保存忽略提交失败: " + error.message);
+      })
+      .finally(() => {
+        hideLoading();
+      });
+  }
+}
+
+/**
+ * 显示备注模态框
+ * @param {string} hash - 提交哈希
+ * @param {HTMLElement} element - 触发元素
+ */
+function showRemarkModal(hash, element) {
+  currentCommitHash = hash;
+  currentCommitElement = element;
+
+  const remarkText = document.getElementById("remarkText");
+  remarkText.value = getRemarkContent(hash);
+
+  const deleteButton = document.getElementById("deleteRemarkBtn");
+  if (hasRemark(hash)) {
+    deleteButton.style.display = "block";
+  } else {
+    deleteButton.style.display = "none";
+  }
+
+  const modal = document.getElementById("remarkModal");
+  modal.style.display = "flex";
+  modal.classList.add("show");
+}
+
+/**
+ * 关闭备注模态框
+ */
+function closeRemarkModal() {
+  const modal = document.getElementById("remarkModal");
+  modal.style.display = "none";
+  modal.classList.remove("show");
+  currentCommitHash = null;
+  currentCommitElement = null;
+}
+
+/**
+ * 确认备注
+ */
+async function confirmRemark() {
+  const remarkText = document.getElementById("remarkText").value.trim();
+  console.log("开始保存备注，哈希值:", currentCommitHash, "内容:", remarkText);
+
+  try {
+    showLoading();
+    saveCurrentFilterState();
+
+    const existingIndex = appState.commitRemarks.findIndex(
+      (r) => r.hash === currentCommitHash
+    );
+
+    if (remarkText) {
+      if (existingIndex >= 0) {
+        appState.commitRemarks[existingIndex].content = remarkText;
+        appState.commitRemarks[existingIndex].timestamp =
+          new Date().toISOString();
+        console.log("已更新现有备注");
+      } else {
+        appState.commitRemarks.push({
+          hash: currentCommitHash,
+          content: remarkText,
+          timestamp: new Date().toISOString(),
+        });
+        console.log("已添加新备注");
+      }
+    } else if (existingIndex >= 0) {
+      appState.commitRemarks.splice(existingIndex, 1);
+      console.log("已删除备注");
+    }
+
+    await saveCommitRemarks(appState.commitRemarks);
+    console.log("服务器保存备注完成");
+
+    closeRemarkModal();
+    renderCommits();
+    showSuccessMessage("备注已保存");
+  } catch (error) {
+    console.error("保存备注操作失败:", error);
+    alert("保存备注失败: " + error.message);
+  } finally {
+    hideLoading();
+  }
+}
+
+/**
+ * 删除备注
+ */
+async function deleteRemark() {
+  if (!currentCommitHash) return;
+
+  try {
+    showLoading();
+    saveCurrentFilterState();
+
+    const existingIndex = appState.commitRemarks.findIndex(
+      (r) => r.hash === currentCommitHash
+    );
+
+    if (existingIndex >= 0) {
+      appState.commitRemarks.splice(existingIndex, 1);
+      console.log("已删除备注");
+
+      await saveCommitRemarks(appState.commitRemarks);
+
+      closeRemarkModal();
+      renderCommits();
+      showSuccessMessage("备注已删除");
+    }
+  } catch (error) {
+    console.error("删除备注失败:", error);
+    alert("删除备注失败: " + error.message);
+  } finally {
+    hideLoading();
+  }
+}
+
+/**
+ * 显示加载动画
+ */
+function showLoading() {
+  document.getElementById("loadingOverlay").classList.add("show");
+}
+
+/**
+ * 隐藏加载动画
+ */
+function hideLoading() {
+  document.getElementById("loadingOverlay").classList.remove("show");
+}
+
+/**
+ * 显示成功消息
+ * @param {string} message - 消息内容
+ */
+function showSuccessMessage(message) {
+  const successToast = document.createElement("div");
+  successToast.className = "success-toast";
+  successToast.textContent = message;
+  document.body.appendChild(successToast);
+
+  setTimeout(() => {
+    successToast.classList.add("show");
+  }, 100);
+
+  setTimeout(() => {
+    successToast.classList.remove("show");
+    setTimeout(() => successToast.remove(), 500);
+  }, 2000);
+}
+
+/**
+ * 在VS Code中查看提交
+ * @param {string} commitHash - 提交哈希
+ */
+function openInVSCode(commitHash) {
+  const modal = document.createElement("div");
+  modal.style.cssText =
+    "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999";
+
+  const content = document.createElement("div");
+  content.style.cssText =
+    "background:var(--color-bg);padding:var(--spacing-6);border-radius:var(--radius-container);max-width:500px;width:90%;box-shadow:var(--shadow-extruded-hover)";
+
+  const title = document.createElement("h3");
+  title.textContent = "查看提交的Git命令";
+  title.style.marginTop = "0";
+  title.style.marginBottom = "var(--spacing-4)";
+
+  content.appendChild(title);
+
+  const commands = [
+    { name: "查看提交详情", command: `git show ${commitHash}` },
+    {
+      name: "查看提交更改的文件",
+      command: `git show --name-only ${commitHash}`,
+    },
+    {
+      name: "查看提交的完整差异",
+      command: `git show --color-words ${commitHash}`,
+    },
+  ];
+
+  commands.forEach((cmd) => {
+    const section = document.createElement("div");
+    section.style.marginBottom = "var(--spacing-4)";
+
+    const label = document.createElement("div");
+    label.textContent = cmd.name;
+    label.style.fontWeight = "var(--font-weight-semibold)";
+    label.style.marginBottom = "var(--spacing-2)";
+
+    const commandArea = document.createElement("div");
+    commandArea.style.display = "flex";
+    commandArea.style.gap = "var(--spacing-2)";
+
+    const cmdText = document.createElement("code");
+    cmdText.textContent = cmd.command;
+    cmdText.style.cssText =
+      "padding:var(--spacing-2);background:rgba(163,177,198,0.1);border-radius:var(--radius-small);font-family:var(--font-mono);flex:1;overflow-x:auto";
+
+    const copyBtn = document.createElement("button");
+    copyBtn.textContent = "复制";
+    copyBtn.className = "btn btn-small";
+    copyBtn.onclick = () => {
+      copyToClipboard(cmd.command, copyBtn);
+    };
+
+    commandArea.appendChild(cmdText);
+    commandArea.appendChild(copyBtn);
+
+    section.appendChild(label);
+    section.appendChild(commandArea);
+    content.appendChild(section);
+  });
+
+  const closeButton = document.createElement("button");
+  closeButton.textContent = "关闭";
+  closeButton.className = "btn";
+  closeButton.style.width = "100%";
+  closeButton.style.marginTop = "var(--spacing-4)";
+  closeButton.onclick = () => document.body.removeChild(modal);
+
+  content.appendChild(closeButton);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      document.body.removeChild(modal);
+    }
+  });
+
+  modal.appendChild(content);
+  document.body.appendChild(modal);
+}
+
+/**
+ * 在VS Code中比较两个提交
+ * @param {string} sourceHash - 源提交哈希
+ * @param {string} targetHash - 目标提交哈希
+ */
+function compareCommitsInVSCode(sourceHash, targetHash) {
+  const modal = document.createElement("div");
+  modal.style.cssText =
+    "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999";
+
+  const content = document.createElement("div");
+  content.style.cssText =
+    "background:var(--color-bg);padding:var(--spacing-6);border-radius:var(--radius-container);max-width:500px;width:90%;box-shadow:var(--shadow-extruded-hover)";
+
+  const title = document.createElement("h3");
+  title.textContent = "比较两个提交的Git命令";
+  title.style.marginTop = "0";
+  title.style.marginBottom = "var(--spacing-4)";
+
+  content.appendChild(title);
+
+  const commands = [
+    {
+      name: "显示两个提交之间的差异",
+      command: `git diff ${sourceHash} ${targetHash}`,
+    },
+    {
+      name: "查看更改的文件列表",
+      command: `git diff --name-only ${sourceHash} ${targetHash}`,
+    },
+    {
+      name: "查看汇总统计信息",
+      command: `git diff --stat ${sourceHash} ${targetHash}`,
+    },
+  ];
+
+  commands.forEach((cmd) => {
+    const section = document.createElement("div");
+    section.style.marginBottom = "var(--spacing-4)";
+
+    const label = document.createElement("div");
+    label.textContent = cmd.name;
+    label.style.fontWeight = "var(--font-weight-semibold)";
+    label.style.marginBottom = "var(--spacing-2)";
+
+    const commandArea = document.createElement("div");
+    commandArea.style.display = "flex";
+    commandArea.style.gap = "var(--spacing-2)";
+
+    const cmdText = document.createElement("code");
+    cmdText.textContent = cmd.command;
+    cmdText.style.cssText =
+      "padding:var(--spacing-2);background:rgba(163,177,198,0.1);border-radius:var(--radius-small);font-family:var(--font-mono);flex:1;overflow-x:auto;white-space:nowrap";
+
+    const copyBtn = document.createElement("button");
+    copyBtn.textContent = "复制";
+    copyBtn.className = "btn btn-small";
+    copyBtn.onclick = () => {
+      copyToClipboard(cmd.command, copyBtn);
+    };
+
+    commandArea.appendChild(cmdText);
+    commandArea.appendChild(copyBtn);
+
+    section.appendChild(label);
+    section.appendChild(commandArea);
+    content.appendChild(section);
+  });
+
+  const closeButton = document.createElement("button");
+  closeButton.textContent = "关闭";
+  closeButton.className = "btn";
+  closeButton.style.width = "100%";
+  closeButton.style.marginTop = "var(--spacing-4)";
+  closeButton.onclick = () => document.body.removeChild(modal);
+
+  content.appendChild(closeButton);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      document.body.removeChild(modal);
+    }
+  });
+
+  modal.appendChild(content);
+  document.body.appendChild(modal);
+}
+
+/**
+ * 查看提交变更
+ * @param {string} commitHash - 提交哈希
+ * @param {string} commitMessage - 提交消息
+ */
+function viewCommitChanges(commitHash, commitMessage) {
+  console.log("查看提交变更:", commitHash, commitMessage);
+
+  const originalBodyStyle = document.body.style.cssText;
+  document.body.style.overflow = "hidden";
+  document.body.style.paddingRight = "15px";
+
+  const modal = document.createElement("div");
+  modal.style.cssText =
+    "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999";
+
+  const content = document.createElement("div");
+  content.style.cssText =
+    "background:#ffffff;padding:var(--spacing-5);border-radius:var(--radius-container);max-width:90%;width:90%;max-height:90vh;display:flex;flex-direction:column;box-shadow:var(--shadow-extruded-hover)";
+
+  const header = document.createElement("div");
+  header.style.cssText =
+    "display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--spacing-3);border-bottom:1px solid rgba(163,177,198,0.2);padding-bottom:var(--spacing-3)";
+
+  const titleArea = document.createElement("div");
+  const title = document.createElement("h3");
+  title.textContent = "提交详情";
+  title.style.margin = "0 0 var(--spacing-2) 0";
+
+  const subtitle = document.createElement("p");
+  subtitle.innerHTML = `<code style="font-family:var(--font-mono);background:rgba(163,177,198,0.15);padding:2px var(--spacing-2);border-radius:var(--radius-small)">${commitHash}</code> - ${escapeHtml(
+    commitMessage
+  )}`;
+  subtitle.style.margin = "0";
+  subtitle.style.color = "var(--color-muted)";
+  subtitle.style.fontSize = "var(--font-size-sm)";
+
+  titleArea.appendChild(title);
+  titleArea.appendChild(subtitle);
+
+  const closeIcon = document.createElement("button");
+  closeIcon.innerHTML = "✕";
+  closeIcon.className = "modal-close-button";
+  closeIcon.style.cssText = `
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: var(--color-bg);
+    color: var(--color-muted);
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-extruded-small);
+    transition: all var(--transition-base);
+    flex-shrink: 0;
+  `;
+
+  closeIcon.addEventListener("mouseenter", () => {
+    closeIcon.style.color = "var(--color-danger)";
+    closeIcon.style.transform = "scale(1.05)";
+  });
+
+  closeIcon.addEventListener("mouseleave", () => {
+    closeIcon.style.color = "var(--color-muted)";
+    closeIcon.style.transform = "scale(1)";
+  });
+
+  const closeModal = () => {
+    document.body.removeChild(modal);
+    document.body.style.cssText = originalBodyStyle;
+    document.removeEventListener("keydown", handleKeyDown);
+  };
+
+  closeIcon.addEventListener("click", closeModal);
+
+  header.appendChild(titleArea);
+  header.appendChild(closeIcon);
+  content.appendChild(header);
+
+  const diffContainer = document.createElement("div");
+  diffContainer.style.cssText =
+    "flex:1;overflow:auto;min-height:0;max-height:calc(90vh - 100px);padding-right:var(--spacing-2)";
+
+  const diffViewer = document.createElement("div");
+  diffViewer.className = "diff-viewer";
+  diffViewer.innerHTML =
+    '<div style="padding:var(--spacing-5);text-align:center;color:var(--color-muted)">正在加载变更数据...</div>';
+
+  diffContainer.appendChild(diffViewer);
+  content.appendChild(diffContainer);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Escape") {
+      closeModal();
+    }
+  };
+
+  document.addEventListener("keydown", handleKeyDown);
+
+  modal.appendChild(content);
+  document.body.appendChild(modal);
+
+  // 获取diff数据
+  fetchGitDiff(commitHash)
+    .then((data) => {
+      console.log("获取到diff数据:", data);
+      renderDiffData(data, diffViewer);
+    })
+    .catch((error) => {
+      console.error("获取提交变更数据失败:", error);
+      diffViewer.innerHTML = `
+        <div style="padding:var(--spacing-5);text-align:center;color:var(--color-danger);background-color:rgba(220,53,69,0.1);border-radius:var(--radius-base)">
+          <p style="margin:0 0 var(--spacing-2) 0;font-weight:var(--font-weight-semibold)">获取提交变更数据失败</p>
+          <p style="margin:0;font-size:var(--font-size-sm)">${escapeHtml(
+            error.message
+          )}</p>
+        </div>
+      `;
+    });
+}
+
+/**
+ * 使用Diff2Html渲染差异数据
+ * @param {Object} data - diff数据
+ * @param {HTMLElement} diffViewer - 差异查看器元素
+ */
+function renderDiffData(data, diffViewer) {
+  console.log("渲染差异数据:", data);
+  if (!data || !data.diff || data.diff.trim() === "") {
+    diffViewer.innerHTML = `
+      <div style="padding:var(--spacing-5);text-align:center;color:var(--color-muted);background-color:rgba(163,177,198,0.1);border-radius:var(--radius-base)">
+        此提交没有文件变更或数据格式不正确
+      </div>
+    `;
+    return;
+  }
+
+  const diffText = data.diff;
+  diffViewer.innerHTML = "";
+
+  try {
+    const ui = new Diff2HtmlUI(diffViewer, diffText, {
+      drawFileList: true,
+      matching: "lines",
+      outputFormat: "side-by-side",
+      highlight: true,
+    });
+    ui.draw();
+    ui.highlightCode();
+
+    // 只隐藏行号，不添加任何其他样式
+    const style = document.createElement("style");
+    style.textContent = `
+      /* 隐藏所有行号 */
+      .d2h-code-line-prefix,
+      .d2h-code-linenumber,
+      .d2h-code-side-linenumber,
+      .d2h-line-num1,
+      .d2h-line-num2,
+      .line-num1,
+      .line-num2 {
+        display: none !important;
+      }
+    `;
+    diffViewer.appendChild(style);
+  } catch (e) {
+    console.error("Diff2Html 渲染失败:", e);
+    diffViewer.innerHTML = `
+      <div style="padding:var(--spacing-5);text-align:center;color:var(--color-danger);background-color:rgba(220,53,69,0.1);border-radius:var(--radius-base)">
+        无法渲染差异视图：${escapeHtml(e.message)}
+      </div>
+    `;
+  }
+}
+
+// 主入口文件 - 初始化应用和事件绑定
+
+/**
+ * 初始化应用
+ */
+async function initApp() {
+  console.log("初始化应用...");
+
+  // 初始化appState中的数据（从HTML模板注入的全局变量）
+  appState.commits = commits || [];
+  appState.sourceBranch = sourceBranch || "";
+  appState.targetBranch = targetBranch || "";
+  appState.ignoredCommits = ignoredCommits || [];
+  appState.commitRemarks = commitRemarks || [];
+
+  console.log("已加载提交数据:", appState.commits.length, "条");
+  console.log("已加载忽略提交:", appState.ignoredCommits.length, "条");
+  console.log("已加载备注:", appState.commitRemarks.length, "条");
+
+  // 从服务器加载最新的已忽略提交和备注数据
+  try {
+    const [loadedIgnored, loadedRemarks] = await Promise.all([
+      loadIgnoredCommits(),
+      loadCommitRemarks(),
+    ]);
+
+    appState.ignoredCommits = loadedIgnored;
+    appState.commitRemarks = loadedRemarks;
+
+    console.log("从服务器更新忽略提交:", appState.ignoredCommits.length, "条");
+    console.log("从服务器更新备注:", appState.commitRemarks.length, "条");
+  } catch (error) {
+    console.error("加载服务器数据失败:", error);
+  }
+
+  // 渲染提交列表
+  renderCommits(false);
+
+  // 初始化布局
+  initializeLayout();
+
+  // 初始化筛选状态
+  initializeFilterState();
+
+  // 设置初始子筛选器可见性
+  const initialFilter =
+    document.body.getAttribute("data-current-filter") || "all";
+  const subFilterSection = document.getElementById("subFilterSection");
+  if (initialFilter !== "all") {
+    subFilterSection.classList.add("hidden");
+  }
+
+  console.log("应用初始化完成");
+}
+
+/**
+ * 绑定全局事件（使用事件委托）
+ */
+function bindEvents() {
+  // 全局点击事件委托
+  document.addEventListener("click", handleGlobalClick);
+
+  // 全局输入事件委托
+  document.addEventListener("input", handleGlobalInput);
+
+  // 全局change事件委托
+  document.addEventListener("change", handleGlobalChange);
+
+  // 滚动事件
+  window.addEventListener("scroll", handleScroll);
+
+  // 浏览器前进后退事件
+  window.addEventListener("popstate", handlePopState);
+}
+
+/**
+ * 处理全局点击事件
+ */
+function handleGlobalClick(event) {
+  const target = event.target;
+
+  // 处理筛选按钮点击
+  if (target.classList.contains("filter-button")) {
+    const filterType = target.getAttribute("data-filter");
+    if (filterType) {
+      filterCommits(filterType);
+    }
+    return;
+  }
+
+  // 处理忽略按钮点击
+  if (target.classList.contains("ignore-button")) {
+    const commitElement = target.closest(".commit");
+    const hash = commitElement.getAttribute("data-hash");
+    toggleIgnoreCommit(hash, target);
+    return;
+  }
+
+  // 处理备注按钮点击
+  if (target.classList.contains("remark-button")) {
+    const commitElement = target.closest(".commit");
+    const hash = commitElement.getAttribute("data-hash");
+    showRemarkModal(hash, target);
+    return;
+  }
+
+  // 处理提交消息复制
+  if (target.classList.contains("commit-message")) {
+    copyToClipboard(target.textContent, target);
+    return;
+  }
+
+  // 处理提交哈希复制
+  if (target.classList.contains("commit-hash")) {
+    const fullHash = target.getAttribute("title") || target.textContent;
+    copyToClipboard(fullHash, target);
+    return;
+  }
+
+  // 处理VS Code按钮点击
+  if (
+    target.classList.contains("vscode-button") ||
+    target.closest(".vscode-button")
+  ) {
+    const button = target.classList.contains("vscode-button")
+      ? target
+      : target.closest(".vscode-button");
+    const commitElement = button.closest(".commit");
+    if (commitElement) {
+      const hash = commitElement.getAttribute("data-hash");
+      openInVSCode(hash);
+    }
+    event.stopPropagation();
+    return;
+  }
+
+  // 处理查看变更按钮点击
+  if (target.classList.contains("view-changes-btn")) {
+    const commitElement = target.closest(".commit");
+    if (commitElement) {
+      const hash = commitElement.getAttribute("data-hash");
+      const status = commitElement.getAttribute("data-status");
+      viewCommitChanges(hash, status);
+    }
+    event.stopPropagation();
+    return;
+  }
+
+  // 处理比较提交按钮点击
+  if (
+    target.classList.contains("compare-in-vscode") ||
+    target.closest(".compare-in-vscode")
+  ) {
+    const button = target.classList.contains("compare-in-vscode")
+      ? target
+      : target.closest(".compare-in-vscode");
+    const commitElement = button.closest(".commit");
+    if (commitElement) {
+      const hash = commitElement.getAttribute("data-hash");
+      // 从commit-hash-pair中找到两个hash
+      const hashPair = button.closest(".commit-hash-pair");
+      if (hashPair) {
+        const hashBranches = hashPair.querySelectorAll(".commit-hash");
+        if (hashBranches.length >= 2) {
+          const hash1 = hashBranches[0].getAttribute("title");
+          const hash2 = hashBranches[1].getAttribute("title");
+          compareCommitsInVSCode(hash1, hash2);
+        }
+      }
+    }
+    event.stopPropagation();
+    return;
+  }
+
+  // 处理命令标签切换
+  if (target.classList.contains("command-tab")) {
+    const tab = target.getAttribute("data-command");
+    switchCommandTab(tab);
+    return;
+  }
+
+  // 处理复制按钮点击
+  if (target.classList.contains("copy-button")) {
+    // 检查是哪个复制按钮
+    if (target.classList.contains("copy-source-to-target-button")) {
+      copyCommandBlock("source-to-target");
+    } else if (target.classList.contains("copy-target-to-source-button")) {
+      copyCommandBlock("target-to-source");
+    }
+    return;
+  }
+
+  // 处理单行复制按钮点击
+  if (target.classList.contains("copy-line-button")) {
+    const cmdText = target.previousElementSibling.textContent;
+    copyToClipboard(cmdText, target);
+    return;
+  }
+
+  // 处理清除搜索按钮点击
+  if (target.id === "clearSearch") {
+    clearSearch();
+    return;
+  }
+
+  // 处理返回顶部按钮点击
+  if (target.id === "backToTop") {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    return;
+  }
+
+  // 处理布局切换按钮
+  if (target.id === "chatLayoutBtn" || target.closest("#chatLayoutBtn")) {
+    switchLayout("chat");
+    return;
+  }
+
+  if (target.id === "flatLayoutBtn" || target.closest("#flatLayoutBtn")) {
+    switchLayout("flat");
+    return;
+  }
+
+  // 处理模态框关闭
+  if (target.id === "ignoreModal" || target.classList.contains("modal")) {
+    if (target === event.target) {
+      closeIgnoreModal();
+    }
+    return;
+  }
+
+  if (
+    target.id === "remarkModal" ||
+    target.classList.contains("remark-modal")
+  ) {
+    if (target === event.target) {
+      closeRemarkModal();
+    }
+    return;
+  }
+
+  // 处理模态框按钮
+  if (target.classList.contains("modal-button")) {
+    if (target.classList.contains("confirm")) {
+      confirmIgnore();
+    } else if (target.classList.contains("cancel")) {
+      closeIgnoreModal();
+    }
+    return;
+  }
+
+  if (target.classList.contains("remark-modal-button")) {
+    if (target.classList.contains("remark-save")) {
+      confirmRemark();
+    } else if (target.classList.contains("remark-cancel")) {
+      closeRemarkModal();
+    } else if (target.classList.contains("remark-delete")) {
+      deleteRemark();
+    }
+    return;
+  }
+
+  // 处理忽略原因选项点击
+  if (
+    target.classList.contains("reason-option") ||
+    target.closest(".reason-option")
+  ) {
+    const option = target.classList.contains("reason-option")
+      ? target
+      : target.closest(".reason-option");
+    const radio = option.querySelector('input[type="radio"]');
+    if (radio && event.target !== radio) {
+      radio.checked = true;
+
+      // 处理自定义原因输入框显示逻辑
+      const customReasonInput = document.getElementById("customReasonInput");
+      if (radio.value === "其他原因") {
+        customReasonInput.classList.add("show");
+      } else {
+        customReasonInput.classList.remove("show");
+      }
+
+      // 更新选中样式
+      document.querySelectorAll(".reason-option").forEach((opt) => {
+        opt.classList.remove("selected");
+      });
+      option.classList.add("selected");
+    }
+    return;
+  }
+}
+
+/**
+ * 处理全局输入事件
+ */
+function handleGlobalInput(event) {
+  const target = event.target;
+
+  // 处理搜索输入
+  if (target.id === "searchInput") {
+    searchCommits();
+    return;
+  }
+}
+
+/**
+ * 处理全局change事件
+ */
+function handleGlobalChange(event) {
+  const target = event.target;
+
+  // 处理子筛选器复选框变化
+  if (target.id === "hideIgnoredCommits" || target.id === "hideCommonCommits") {
+    applySubFilters();
+    return;
+  }
+
+  // 处理搜索选项复选框变化
+  if (
+    target.id === "searchMessage" ||
+    target.id === "searchAuthor" ||
+    target.id === "searchHash"
+  ) {
+    searchCommits();
+    return;
+  }
+
+  // 处理忽略原因单选按钮变化
+  if (target.name === "ignoreReason") {
+    const customReasonInput = document.getElementById("customReasonInput");
+    if (target.value === "其他原因") {
+      customReasonInput.classList.add("show");
+    } else {
+      customReasonInput.classList.remove("show");
+    }
+
+    // 更新选中样式
+    document.querySelectorAll(".reason-option").forEach((opt) => {
+      opt.classList.remove("selected");
+    });
+    target.closest(".reason-option").classList.add("selected");
+    return;
+  }
+}
+
+/**
+ * 处理滚动事件
+ */
+function handleScroll() {
+  const backToTopButton = document.getElementById("backToTop");
+  if (backToTopButton) {
+    if (window.scrollY > 300) {
+      backToTopButton.classList.add("show");
+    } else {
+      backToTopButton.classList.remove("show");
+    }
+  }
+}
+
+/**
+ * 处理浏览器前进后退事件
+ */
+function handlePopState() {
+  // 从URL恢复筛选状态
+  initializeFilterState();
+}
+
+/**
+ * 初始化布局
+ */
+function initializeLayout() {
+  const savedLayout = localStorage.getItem("preferredLayout") || "flat";
+  switchLayout(savedLayout);
+}
+
+/**
+ * 切换布局
+ */
+function switchLayout(layout) {
+  // 更新布局按钮
+  document
+    .getElementById("chatLayoutBtn")
+    .classList.toggle("active", layout === "chat");
+  document
+    .getElementById("flatLayoutBtn")
+    .classList.toggle("active", layout === "flat");
+
+  // 更新时间轴类
+  const timeline = document.getElementById("timeline");
+  if (layout === "flat") {
+    timeline.classList.add("flat-layout");
+  } else {
+    timeline.classList.remove("flat-layout");
+  }
+
+  // 存储当前布局
+  document.body.setAttribute("data-layout", layout);
+
+  // 重新渲染提交
+  renderCommits();
+
+  // 保存偏好到localStorage
+  localStorage.setItem("preferredLayout", layout);
+}
+
+/**
+ * 切换命令标签
+ */
+function switchCommandTab(tab) {
+  document.querySelectorAll(".command-tab").forEach((item) => {
+    item.classList.toggle("active", item.getAttribute("data-command") === tab);
+  });
+  document.querySelectorAll(".command-content").forEach((item) => {
+    item.classList.toggle("active", item.id === `${tab}-content`);
+  });
+}
+
+// 页面加载时初始化
+document.addEventListener("DOMContentLoaded", () => {
+  // 检查URL是否有参数
+  const urlParams = new URLSearchParams(window.location.search);
+  if (
+    !urlParams.has("filter") &&
+    !urlParams.has("hideIgnored") &&
+    !urlParams.has("hideCommon")
+  ) {
+    // 设置默认URL参数
+    const url = new URL(window.location.href);
+    url.searchParams.set("filter", "all");
+    url.searchParams.set("hideIgnored", "0");
+    url.searchParams.set("hideCommon", "1");
+    window.history.replaceState({}, "", url.toString());
+  }
+
+  // 设置初始筛选状态跟踪
+  saveCurrentFilterState();
+
+  // 绑定事件
+  bindEvents();
+
+  // 初始化应用
+  initApp();
+});
+
+
+    </script>
+  </body>
+</html>

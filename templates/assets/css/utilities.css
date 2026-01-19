@@ -1,0 +1,589 @@
+/**
+ * Utility Classes 工具类
+ * Neumorphism Design System - Utility Classes
+ */
+
+/* ========== Display 显示 ========== */
+
+.hidden {
+  display: none !important;
+}
+
+.block {
+  display: block !important;
+}
+
+.inline-block {
+  display: inline-block !important;
+}
+
+.flex {
+  display: flex !important;
+}
+
+.inline-flex {
+  display: inline-flex !important;
+}
+
+/* ========== Visibility 可见性 ========== */
+
+.invisible {
+  visibility: hidden !important;
+}
+
+.visible {
+  visibility: visible !important;
+}
+
+/* ========== Flex Direction 弹性方向 ========== */
+
+.flex-row {
+  flex-direction: row !important;
+}
+
+.flex-col {
+  flex-direction: column !important;
+}
+
+/* ========== Flex Wrap 弹性换行 ========== */
+
+.flex-wrap {
+  flex-wrap: wrap !important;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap !important;
+}
+
+/* ========== Justify Content 主轴对齐 ========== */
+
+.justify-start {
+  justify-content: flex-start !important;
+}
+
+.justify-center {
+  justify-content: center !important;
+}
+
+.justify-end {
+  justify-content: flex-end !important;
+}
+
+.justify-between {
+  justify-content: space-between !important;
+}
+
+/* ========== Align Items 交叉轴对齐 ========== */
+
+.items-start {
+  align-items: flex-start !important;
+}
+
+.items-center {
+  align-items: center !important;
+}
+
+.items-end {
+  align-items: flex-end !important;
+}
+
+/* ========== Text Alignment 文本对齐 ========== */
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+/* ========== Text Transform 文本转换 ========== */
+
+.uppercase {
+  text-transform: uppercase !important;
+}
+
+.lowercase {
+  text-transform: lowercase !important;
+}
+
+.capitalize {
+  text-transform: capitalize !important;
+}
+
+/* ========== Font Weight 字体粗细 ========== */
+
+.font-normal {
+  font-weight: var(--font-weight-normal) !important;
+}
+
+.font-medium {
+  font-weight: var(--font-weight-medium) !important;
+}
+
+.font-semibold {
+  font-weight: var(--font-weight-semibold) !important;
+}
+
+.font-bold {
+  font-weight: var(--font-weight-bold) !important;
+}
+
+.font-extrabold {
+  font-weight: var(--font-weight-extrabold) !important;
+}
+
+/* ========== Font Size 字体大小 ========== */
+
+.text-xs {
+  font-size: var(--font-size-xs) !important;
+}
+
+.text-sm {
+  font-size: var(--font-size-sm) !important;
+}
+
+.text-base {
+  font-size: var(--font-size-base) !important;
+}
+
+.text-lg {
+  font-size: var(--font-size-lg) !important;
+}
+
+.text-xl {
+  font-size: var(--font-size-xl) !important;
+}
+
+/* ========== Color 颜色 ========== */
+
+.text-muted {
+  color: var(--color-muted) !important;
+}
+
+.text-fg {
+  color: var(--color-fg) !important;
+}
+
+.text-success {
+  color: var(--color-success) !important;
+}
+
+.text-warning {
+  color: var(--color-warning) !important;
+}
+
+.text-danger {
+  color: var(--color-danger) !important;
+}
+
+.text-info {
+  color: var(--color-info) !important;
+}
+
+/* ========== Margin 外边距 ========== */
+
+.m-0 {
+  margin: 0 !important;
+}
+.m-1 {
+  margin: var(--spacing-1) !important;
+}
+.m-2 {
+  margin: var(--spacing-2) !important;
+}
+.m-3 {
+  margin: var(--spacing-3) !important;
+}
+.m-4 {
+  margin: var(--spacing-4) !important;
+}
+.m-5 {
+  margin: var(--spacing-5) !important;
+}
+.m-6 {
+  margin: var(--spacing-6) !important;
+}
+.m-8 {
+  margin: var(--spacing-8) !important;
+}
+
+.mt-0 {
+  margin-top: 0 !important;
+}
+.mt-2 {
+  margin-top: var(--spacing-2) !important;
+}
+.mt-3 {
+  margin-top: var(--spacing-3) !important;
+}
+.mt-4 {
+  margin-top: var(--spacing-4) !important;
+}
+.mt-6 {
+  margin-top: var(--spacing-6) !important;
+}
+.mt-8 {
+  margin-top: var(--spacing-8) !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+.mb-2 {
+  margin-bottom: var(--spacing-2) !important;
+}
+.mb-3 {
+  margin-bottom: var(--spacing-3) !important;
+}
+.mb-4 {
+  margin-bottom: var(--spacing-4) !important;
+}
+.mb-6 {
+  margin-bottom: var(--spacing-6) !important;
+}
+.mb-8 {
+  margin-bottom: var(--spacing-8) !important;
+}
+
+.ml-0 {
+  margin-left: 0 !important;
+}
+.ml-2 {
+  margin-left: var(--spacing-2) !important;
+}
+.ml-3 {
+  margin-left: var(--spacing-3) !important;
+}
+.ml-4 {
+  margin-left: var(--spacing-4) !important;
+}
+.ml-auto {
+  margin-left: auto !important;
+}
+
+.mr-0 {
+  margin-right: 0 !important;
+}
+.mr-2 {
+  margin-right: var(--spacing-2) !important;
+}
+.mr-3 {
+  margin-right: var(--spacing-3) !important;
+}
+.mr-4 {
+  margin-right: var(--spacing-4) !important;
+}
+.mr-auto {
+  margin-right: auto !important;
+}
+
+/* ========== Padding 内边距 ========== */
+
+.p-0 {
+  padding: 0 !important;
+}
+.p-2 {
+  padding: var(--spacing-2) !important;
+}
+.p-3 {
+  padding: var(--spacing-3) !important;
+}
+.p-4 {
+  padding: var(--spacing-4) !important;
+}
+.p-5 {
+  padding: var(--spacing-5) !important;
+}
+.p-6 {
+  padding: var(--spacing-6) !important;
+}
+.p-8 {
+  padding: var(--spacing-8) !important;
+}
+
+.pt-2 {
+  padding-top: var(--spacing-2) !important;
+}
+.pt-3 {
+  padding-top: var(--spacing-3) !important;
+}
+.pt-4 {
+  padding-top: var(--spacing-4) !important;
+}
+.pt-6 {
+  padding-top: var(--spacing-6) !important;
+}
+
+.pb-2 {
+  padding-bottom: var(--spacing-2) !important;
+}
+.pb-3 {
+  padding-bottom: var(--spacing-3) !important;
+}
+.pb-4 {
+  padding-bottom: var(--spacing-4) !important;
+}
+.pb-6 {
+  padding-bottom: var(--spacing-6) !important;
+}
+
+.pl-2 {
+  padding-left: var(--spacing-2) !important;
+}
+.pl-3 {
+  padding-left: var(--spacing-3) !important;
+}
+.pl-4 {
+  padding-left: var(--spacing-4) !important;
+}
+.pl-6 {
+  padding-left: var(--spacing-6) !important;
+}
+
+.pr-2 {
+  padding-right: var(--spacing-2) !important;
+}
+.pr-3 {
+  padding-right: var(--spacing-3) !important;
+}
+.pr-4 {
+  padding-right: var(--spacing-4) !important;
+}
+.pr-6 {
+  padding-right: var(--spacing-6) !important;
+}
+
+/* ========== Gap 间距 ========== */
+
+.gap-1 {
+  gap: var(--spacing-1) !important;
+}
+.gap-2 {
+  gap: var(--spacing-2) !important;
+}
+.gap-3 {
+  gap: var(--spacing-3) !important;
+}
+.gap-4 {
+  gap: var(--spacing-4) !important;
+}
+.gap-5 {
+  gap: var(--spacing-5) !important;
+}
+.gap-6 {
+  gap: var(--spacing-6) !important;
+}
+
+/* ========== Width 宽度 ========== */
+
+.w-full {
+  width: 100% !important;
+}
+
+.w-auto {
+  width: auto !important;
+}
+
+/* ========== Height 高度 ========== */
+
+.h-full {
+  height: 100% !important;
+}
+
+.h-auto {
+  height: auto !important;
+}
+
+/* ========== Cursor 光标 ========== */
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+}
+
+.cursor-default {
+  cursor: default !important;
+}
+
+/* ========== Opacity 透明度 ========== */
+
+.opacity-0 {
+  opacity: 0 !important;
+}
+.opacity-50 {
+  opacity: 0.5 !important;
+}
+.opacity-75 {
+  opacity: 0.75 !important;
+}
+.opacity-100 {
+  opacity: 1 !important;
+}
+
+/* ========== Overflow 溢出 ========== */
+
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+.overflow-auto {
+  overflow: auto !important;
+}
+
+.overflow-scroll {
+  overflow: scroll !important;
+}
+
+/* ========== Position 定位 ========== */
+
+.relative {
+  position: relative !important;
+}
+
+.absolute {
+  position: absolute !important;
+}
+
+.fixed {
+  position: fixed !important;
+}
+
+.sticky {
+  position: sticky !important;
+}
+
+/* ========== Z-Index 层级 ========== */
+
+.z-10 {
+  z-index: 10 !important;
+}
+
+.z-20 {
+  z-index: 20 !important;
+}
+
+.z-50 {
+  z-index: 50 !important;
+}
+
+.z-100 {
+  z-index: 100 !important;
+}
+
+/* ========== Border Radius 圆角 ========== */
+
+.rounded-none {
+  border-radius: 0 !important;
+}
+
+.rounded-sm {
+  border-radius: var(--radius-small) !important;
+}
+
+.rounded {
+  border-radius: var(--radius-base) !important;
+}
+
+.rounded-lg {
+  border-radius: var(--radius-large) !important;
+}
+
+.rounded-full {
+  border-radius: var(--radius-full) !important;
+}
+
+/* ========== Transitions 过渡 ========== */
+
+.transition-all {
+  transition: all var(--transition-base) !important;
+}
+
+.transition-fast {
+  transition: all var(--transition-fast) !important;
+}
+
+.transition-none {
+  transition: none !important;
+}
+
+/* ========== Transform 变换 ========== */
+
+.scale-95 {
+  transform: scale(0.95) !important;
+}
+
+.scale-100 {
+  transform: scale(1) !important;
+}
+
+.scale-105 {
+  transform: scale(1.05) !important;
+}
+
+/* ========== Pointer Events 指针事件 ========== */
+
+.pointer-events-none {
+  pointer-events: none !important;
+}
+
+.pointer-events-auto {
+  pointer-events: auto !important;
+}
+
+/* ========== User Select 用户选择 ========== */
+
+.select-none {
+  user-select: none !important;
+}
+
+.select-text {
+  user-select: text !important;
+}
+
+.select-all {
+  user-select: all !important;
+}
+
+/* ========== Highlight 高亮 ========== */
+
+.highlight {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 223, 0, 0.3),
+    rgba(255, 235, 59, 0.3)
+  );
+  border-radius: var(--radius-small);
+  padding: 2px 4px;
+  box-shadow: inset 1px 1px 2px rgba(255, 235, 59, 0.4),
+    inset -1px -1px 2px rgba(255, 255, 255, 0.2);
+}
+
+/* ========== Scrollbar Styling 滚动条样式 ========== */
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(163, 177, 198, 0.1);
+  border-radius: var(--radius-full);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(163, 177, 198, 0.3);
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(163, 177, 198, 0.5);
+}

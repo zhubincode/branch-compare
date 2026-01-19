@@ -1,0 +1,135 @@
+/**
+ * Neumorphism Design Tokens
+ * Cool Grey Monochromatic Palette with RGBA Shadows
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap");
+
+:root {
+  /* ========== Colors - Cool Grey Monochromatic ========== */
+
+  /* Base "Cool Clay" Surface */
+  --color-bg: #e0e5ec;
+
+  /* Text Colors - WCAG Compliant */
+  --color-fg: #3d4852; /* Primary text - 7.5:1 contrast (AAA) */
+  --color-muted: #6b7280; /* Secondary text - 4.6:1 contrast (AA) */
+
+  /* Accent Colors */
+  --color-accent: #6c63ff; /* Soft violet for CTAs */
+  --color-accent-light: #8b84ff; /* Lighter violet for hover */
+  --color-accent-secondary: #38b2ac; /* Teal for success */
+
+  /* Semantic Colors */
+  --color-success: #28a745;
+  --color-warning: #ff9800;
+  --color-danger: #dc3545;
+  --color-info: #1890ff;
+
+  /* ========== Shadows - RGBA for Premium Smoothness ========== */
+
+  /* Shadow Colors */
+  --shadow-light: rgba(255, 255, 255, 0.5);
+  --shadow-light-strong: rgba(255, 255, 255, 0.6);
+  --shadow-dark: rgba(163, 177, 198, 0.6);
+  --shadow-dark-strong: rgba(163, 177, 198, 0.7);
+
+  /* Extruded (Raised) - Default State */
+  --shadow-extruded: 9px 9px 16px var(--shadow-dark),
+    -9px -9px 16px var(--shadow-light);
+
+  /* Extruded Hover - Lifted State */
+  --shadow-extruded-hover: 12px 12px 20px var(--shadow-dark-strong),
+    -12px -12px 20px var(--shadow-light-strong);
+
+  /* Extruded Small - For Smaller Elements */
+  --shadow-extruded-small: 5px 5px 10px var(--shadow-dark),
+    -5px -5px 10px var(--shadow-light);
+
+  /* Inset (Pressed) - Standard Pressed State */
+  --shadow-inset: inset 6px 6px 10px var(--shadow-dark),
+    inset -6px -6px 10px var(--shadow-light);
+
+  /* Inset Deep - For Inputs and Deep Wells */
+  --shadow-inset-deep: inset 10px 10px 20px var(--shadow-dark-strong),
+    inset -10px -10px 20px var(--shadow-light-strong);
+
+  /* Inset Small - For Subtle Tracks */
+  --shadow-inset-small: inset 3px 3px 6px var(--shadow-dark),
+    inset -3px -3px 6px var(--shadow-light);
+
+  /* ========== Border Radius - Soft & Rounded ========== */
+
+  --radius-container: 32px; /* Cards and major containers */
+  --radius-base: 16px; /* Buttons and medium elements */
+  --radius-small: 12px; /* Inner elements */
+  --radius-full: 9999px; /* Pills and circles */
+
+  /* ========== Typography ========== */
+
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-mono: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
+
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Font Sizes - 平衡的尺寸 */
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 0.9375rem; /* 15px */
+  --font-size-lg: 1.0625rem; /* 17px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-4xl: 2.25rem; /* 36px */
+  --font-size-5xl: 2.75rem; /* 44px */
+  --font-size-7xl: 3.5rem; /* 56px */
+
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* ========== Spacing ========== */
+
+  --spacing-1: 0.25rem; /* 4px */
+  --spacing-2: 0.5rem; /* 8px */
+  --spacing-3: 0.75rem; /* 12px */
+  --spacing-4: 1rem; /* 16px */
+  --spacing-5: 1.25rem; /* 20px */
+  --spacing-6: 1.5rem; /* 24px */
+  --spacing-8: 2rem; /* 32px */
+  --spacing-10: 2.5rem; /* 40px */
+  --spacing-12: 3rem; /* 48px */
+  --spacing-16: 4rem; /* 64px */
+  --spacing-20: 5rem; /* 80px */
+  --spacing-32: 8rem; /* 128px */
+
+  /* ========== Transitions ========== */
+
+  --transition-fast: 150ms ease-out;
+  --transition-base: 300ms ease-out;
+  --transition-slow: 500ms ease-out;
+
+  /* ========== Z-Index ========== */
+
+  --z-base: 1;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 30;
+  --z-modal-backdrop: 40;
+  --z-modal: 50;
+  --z-tooltip: 60;
+
+  /* ========== Breakpoints (for reference) ========== */
+
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
