@@ -405,7 +405,7 @@ function handleGlobalKeydown(event) {
  * 初始化布局
  */
 function initializeLayout() {
-  const savedLayout = localStorage.getItem("preferredLayout") || "flat";
+  const savedLayout = localStorage.getItem("preferredLayout") || "chat";
   switchLayout(savedLayout);
 }
 
