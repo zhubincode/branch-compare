@@ -12,76 +12,70 @@
     <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script>
     <style>
       /**
- * Neumorphism Design Tokens
- * Cool Grey Monochromatic Palette with RGBA Shadows
+ * Playful Geometric Design Tokens
+ * Punchy, High-Saturation Palette with Hard Shadows
  */
 
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
 
 :root {
-  /* ========== Colors - Cool Grey Monochromatic ========== */
+  /* ========== Colors - Playful Geometric ========== */
 
-  /* Base "Cool Clay" Surface */
-  --color-bg: #e0e5ec;
+  /* Base Surface */
+  --color-bg: #fffdf5; /* Warm Cream/Off-White (Paper feel) */
 
   /* Text Colors - WCAG Compliant */
-  --color-fg: #3d4852; /* Primary text - 7.5:1 contrast (AAA) */
-  --color-muted: #6b7280; /* Secondary text - 4.6:1 contrast (AA) */
+  --color-fg: #1e293b; /* Slate 800 (Softer than black) - AAA */
+  --color-muted: #64748b; /* Slate 500 - AA */
 
-  /* Accent Colors */
-  --color-accent: #6c63ff; /* Soft violet for CTAs */
-  --color-accent-light: #8b84ff; /* Lighter violet for hover */
-  --color-accent-secondary: #38b2ac; /* Teal for success */
+  /* Accent Colors - Playful Palette */
+  --color-accent: #8b5cf6; /* Vivid Violet (Primary Brand) */
+  --color-accent-light: #a78bfa; /* Lighter violet for hover */
+  --color-secondary: #f472b6; /* Hot Pink (Playful pop) */
+  --color-tertiary: #fbbf24; /* Amber/Yellow (Optimism) */
+  --color-quaternary: #34d399; /* Emerald/Mint (Freshness) */
 
   /* Semantic Colors */
-  --color-success: #28a745;
-  --color-warning: #ff9800;
-  --color-danger: #dc3545;
-  --color-info: #1890ff;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-danger: #f472b6;
+  --color-info: #8b5cf6;
 
-  /* ========== Shadows - RGBA for Premium Smoothness ========== */
+  /* Neutral Colors */
+  --color-border: #e2e8f0; /* Slate 200 */
+  --color-card: #ffffff; /* White */
+  --color-input: #ffffff; /* White */
 
-  /* Shadow Colors */
-  --shadow-light: rgba(255, 255, 255, 0.5);
-  --shadow-light-strong: rgba(255, 255, 255, 0.6);
-  --shadow-dark: rgba(163, 177, 198, 0.6);
-  --shadow-dark-strong: rgba(163, 177, 198, 0.7);
+  /* ========== Shadows - Hard "Pop" Shadows ========== */
 
-  /* Extruded (Raised) - Default State */
-  --shadow-extruded: 9px 9px 16px var(--shadow-dark),
-    -9px -9px 16px var(--shadow-light);
+  /* The "Pop" Shadow (Hard Shadow) - No blur, solid offset */
+  --shadow-pop: 4px 4px 0px 0px var(--color-fg);
+  --shadow-pop-hover: 6px 6px 0px 0px var(--color-fg);
+  --shadow-pop-active: 2px 2px 0px 0px var(--color-fg);
 
-  /* Extruded Hover - Lifted State */
-  --shadow-extruded-hover: 12px 12px 20px var(--shadow-dark-strong),
-    -12px -12px 20px var(--shadow-light-strong);
+  /* Card Shadows - Colored for different states */
+  --shadow-card: 8px 8px 0px 0px var(--color-border);
+  --shadow-card-hover: 10px 10px 0px 0px var(--color-border);
+  --shadow-card-success: 8px 8px 0px 0px var(--color-success);
+  --shadow-card-warning: 8px 8px 0px 0px var(--color-warning);
+  --shadow-card-accent: 8px 8px 0px 0px var(--color-accent);
 
-  /* Extruded Small - For Smaller Elements */
-  --shadow-extruded-small: 5px 5px 10px var(--shadow-dark),
-    -5px -5px 10px var(--shadow-light);
+  /* Small Shadows */
+  --shadow-small: 2px 2px 0px 0px var(--color-fg);
+  --shadow-small-hover: 3px 3px 0px 0px var(--color-fg);
 
-  /* Inset (Pressed) - Standard Pressed State */
-  --shadow-inset: inset 6px 6px 10px var(--shadow-dark),
-    inset -6px -6px 10px var(--shadow-light);
+  /* ========== Border Radius - Playful & Varied ========== */
 
-  /* Inset Deep - For Inputs and Deep Wells */
-  --shadow-inset-deep: inset 10px 10px 20px var(--shadow-dark-strong),
-    inset -10px -10px 20px var(--shadow-light-strong);
-
-  /* Inset Small - For Subtle Tracks */
-  --shadow-inset-small: inset 3px 3px 6px var(--shadow-dark),
-    inset -3px -3px 6px var(--shadow-light);
-
-  /* ========== Border Radius - Soft & Rounded ========== */
-
-  --radius-container: 32px; /* Cards and major containers */
-  --radius-base: 16px; /* Buttons and medium elements */
-  --radius-small: 12px; /* Inner elements */
+  --radius-sm: 8px; /* Small elements */
+  --radius-md: 16px; /* Medium elements */
+  --radius-lg: 24px; /* Large elements */
+  --radius-xl: 32px; /* Extra large containers */
   --radius-full: 9999px; /* Pills and circles */
 
   /* ========== Typography ========== */
 
-  --font-display: "Plus Jakarta Sans", sans-serif;
-  --font-body: "DM Sans", sans-serif;
+  --font-display: "Outfit", system-ui, sans-serif; /* Geometric, friendly headings */
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif; /* Legible, modern body */
   --font-mono: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
 
   /* Font Weights */
@@ -91,17 +85,16 @@
   --font-weight-bold: 700;
   --font-weight-extrabold: 800;
 
-  /* Font Sizes - 平衡的尺寸 */
+  /* Font Sizes - Balanced scale (Major Third 1.25) */
   --font-size-xs: 0.75rem; /* 12px */
   --font-size-sm: 0.875rem; /* 14px */
-  --font-size-base: 0.9375rem; /* 15px */
-  --font-size-lg: 1.0625rem; /* 17px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
   --font-size-xl: 1.25rem; /* 20px */
-  --font-size-2xl: 1.5rem; /* 24px */
-  --font-size-3xl: 1.875rem; /* 30px */
-  --font-size-4xl: 2.25rem; /* 36px */
-  --font-size-5xl: 2.75rem; /* 44px */
-  --font-size-7xl: 3.5rem; /* 56px */
+  --font-size-2xl: 1.563rem; /* 25px */
+  --font-size-3xl: 1.953rem; /* 31px */
+  --font-size-4xl: 2.441rem; /* 39px */
+  --font-size-5xl: 3.052rem; /* 49px */
 
   /* Line Heights */
   --line-height-tight: 1.25;
@@ -121,13 +114,18 @@
   --spacing-12: 3rem; /* 48px */
   --spacing-16: 4rem; /* 64px */
   --spacing-20: 5rem; /* 80px */
-  --spacing-32: 8rem; /* 128px */
+  --spacing-24: 6rem; /* 96px */
 
-  /* ========== Transitions ========== */
+  /* ========== Borders ========== */
 
-  --transition-fast: 150ms ease-out;
-  --transition-base: 300ms ease-out;
-  --transition-slow: 500ms ease-out;
+  --border-width: 2px; /* Chunky borders by default */
+  --border-color: var(--color-fg);
+
+  /* ========== Transitions - Bouncy & Elastic ========== */
+
+  --transition-fast: 150ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-base: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-slow: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* ========== Z-Index ========== */
 
@@ -149,7 +147,7 @@
 
 /**
  * Base Styles - Global Resets and Typography
- * Neumorphism Design System
+ * Playful Geometric Design System
  */
 
 /* ========== Global Reset ========== */
@@ -173,8 +171,33 @@ body {
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding: var(--spacing-2);
+  padding: var(--spacing-4);
   min-height: 100vh;
+  position: relative;
+}
+
+/* Playful dot grid background pattern */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(
+    circle,
+    var(--color-border) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* ========== Typography ========== */
@@ -186,15 +209,29 @@ h4,
 h5,
 h6 {
   font-family: var(--font-display);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-extrabold);
   line-height: var(--line-height-tight);
   color: var(--color-fg);
-  margin-bottom: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
 }
 
 h1 {
   font-size: var(--font-size-4xl);
-  font-weight: var(--font-weight-extrabold);
+  position: relative;
+  display: inline-block;
+}
+
+/* Squiggle decoration under h1 */
+h1::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='4' viewBox='0 0 100 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 2 Q 5 0, 10 2 T 20 2 T 30 2 T 40 2 T 50 2 T 60 2 T 70 2 T 80 2 T 90 2 T 100 2' stroke='%238B5CF6' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 100px 4px;
 }
 
 h2 {
@@ -297,83 +334,105 @@ select:focus {
   border-width: 0;
 }
 
-/* ========== Scrollbar Styling ========== */
+/* ========== Scrollbar Styling - Playful ========== */
 
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
 }
 
 ::-webkit-scrollbar-track {
   background: var(--color-bg);
-  border-radius: var(--radius-small);
-  box-shadow: var(--shadow-inset-small);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-muted);
-  border-radius: var(--radius-small);
-  box-shadow: var(--shadow-extruded-small);
+  background: var(--color-accent);
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-fg);
+  box-shadow: var(--shadow-small);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-fg);
+  background: var(--color-accent-light);
+  box-shadow: var(--shadow-small-hover);
 }
 
 /* ========== Selection ========== */
 
 ::selection {
-  background: var(--color-accent);
-  color: white;
+  background: var(--color-tertiary);
+  color: var(--color-fg);
 }
 
 ::-moz-selection {
-  background: var(--color-accent);
-  color: white;
+  background: var(--color-tertiary);
+  color: var(--color-fg);
+}
+
+/* ========== Reduced Motion ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /**
  * Layout Styles 布局样式
- * Neumorphism Design System - Layout Components
+ * Playful Geometric Design System - Layout Components
  */
 
 /* ========== Container 容器 ========== */
 
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  background: var(--color-bg);
-  border-radius: var(--radius-container);
-  box-shadow: var(--shadow-extruded);
-  padding: var(--spacing-3);
+  background: var(--color-card);
+  border-radius: var(--radius-xl);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-card);
+  padding: var(--spacing-8);
 }
 
 /* ========== Header 头部 ========== */
 
 .header {
-  margin-bottom: var(--spacing-3);
-  padding-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-8);
+  padding-bottom: var(--spacing-6);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: var(--spacing-3);
-  border-bottom: 1px solid rgba(163, 177, 198, 0.15);
+  gap: var(--spacing-6);
+  border-bottom: 3px dashed var(--color-border);
 }
 
 .header h1 {
-  margin: 0 0 var(--spacing-2) 0;
+  margin: 0 0 var(--spacing-4) 0;
   color: var(--color-fg);
   font-family: var(--font-display);
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-4xl);
   font-weight: var(--font-weight-extrabold);
   letter-spacing: -0.02em;
+  position: relative;
+  display: inline-block;
 }
 
 .meta-info {
   color: var(--color-muted);
   font-size: var(--font-size-sm);
-  line-height: 1.6;
+  line-height: 1.8;
+  font-weight: var(--font-weight-medium);
 }
 
 .meta-info > div {
@@ -387,7 +446,7 @@ select:focus {
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: var(--spacing-4);
-  margin-top: var(--spacing-4);
+  margin-top: var(--spacing-5);
 }
 
 .legend-item {
@@ -481,26 +540,26 @@ select:focus {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-2) 0;
+  padding: var(--spacing-4) 0;
   width: 100%;
 }
 
 .commit-row {
   display: flex;
-  margin-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
   position: relative;
   width: 100%;
-  animation: fadeIn 0.4s ease-out;
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes fadeIn {
+@keyframes popIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: scale(0.9) translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
   }
 }
 
@@ -549,28 +608,30 @@ body[data-layout="flat"] .timeline .commit-container.both {
 /* ========== Filter Section 筛选区域 ========== */
 
 .filter-section {
-  margin-bottom: var(--spacing-3);
-  padding: var(--spacing-3);
-  background: var(--color-bg);
-  border-radius: var(--radius-container);
-  box-shadow: var(--shadow-inset);
+  margin-bottom: var(--spacing-6);
+  padding: var(--spacing-6);
+  background: var(--color-card);
+  border-radius: var(--radius-xl);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-card);
 }
 
 .filter-buttons {
   display: flex;
   gap: var(--spacing-3);
-  margin-bottom: var(--spacing-5);
+  margin-bottom: var(--spacing-6);
   flex-wrap: wrap;
 }
 
 .sub-filter-section {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-4);
-  margin: var(--spacing-4) 0 0 0;
-  padding: var(--spacing-4);
-  background: rgba(163, 177, 198, 0.05);
-  border-radius: var(--radius-base);
+  gap: var(--spacing-5);
+  margin: var(--spacing-5) 0 0 0;
+  padding: var(--spacing-5);
+  background: rgba(139, 92, 246, 0.05);
+  border-radius: var(--radius-md);
+  border: 2px dashed var(--color-accent);
   transition: all var(--transition-base);
   max-height: 200px;
   overflow: hidden;
@@ -581,15 +642,17 @@ body[data-layout="flat"] .timeline .commit-container.both {
   margin: 0;
   padding: 0;
   opacity: 0;
+  border: none;
 }
 
 /* ========== Search Section 搜索区域 ========== */
 
 .search-section {
-  margin-top: var(--spacing-5);
-  padding: var(--spacing-4);
-  background: rgba(163, 177, 198, 0.05);
-  border-radius: var(--radius-base);
+  margin-top: var(--spacing-6);
+  padding: var(--spacing-5);
+  background: rgba(251, 191, 36, 0.08);
+  border-radius: var(--radius-md);
+  border: 2px dashed var(--color-tertiary);
 }
 
 .search-container {
@@ -597,74 +660,91 @@ body[data-layout="flat"] .timeline .commit-container.both {
   width: 100%;
   display: flex;
   align-items: center;
-  margin-bottom: var(--spacing-4);
+  margin-bottom: var(--spacing-5);
   gap: var(--spacing-3);
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 .search-input {
-  flex: 0 0 300px;
-  max-width: 300px;
+  flex: 1 1 280px;
+  min-width: 200px;
+  max-width: 100%;
+  padding-right: 44px;
 }
 
 .clear-search {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   flex-shrink: 0;
   width: 32px;
   height: 32px;
   min-width: 32px;
   min-height: 32px;
   border-radius: 50%;
-  background: var(--color-bg);
-  color: var(--color-muted);
-  border: none;
+  background: var(--color-secondary);
+  color: white;
+  border: var(--border-width) solid var(--color-fg);
   cursor: pointer;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  box-shadow: var(--shadow-extruded-small);
+  font-weight: var(--font-weight-extrabold);
+  box-shadow: var(--shadow-small);
   transition: all var(--transition-base);
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.clear-search.visible {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
 }
 
 .clear-search:hover {
-  color: var(--color-danger);
-  transform: scale(1.05);
-  box-shadow: var(--shadow-extruded-hover);
+  background: var(--color-danger);
+  transform: translateY(-50%) translate(-2px, -2px) rotate(-5deg);
+  box-shadow: var(--shadow-small-hover);
 }
 
 .clear-search:active {
-  transform: scale(0.95);
-  box-shadow: var(--shadow-inset-small);
+  transform: translateY(-50%) translate(1px, 1px) rotate(0deg);
+  box-shadow: var(--shadow-pop-active);
 }
 
 .search-options {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: var(--spacing-4);
   align-items: center;
-  white-space: nowrap;
+  width: 100%;
 }
 
 /* ========== Command Section 命令区域 ========== */
 
 .command-section {
-  margin-top: var(--spacing-3);
-  background: var(--color-bg);
-  padding: var(--spacing-3);
-  border-radius: var(--radius-container);
-  box-shadow: var(--shadow-inset);
+  margin-top: var(--spacing-8);
+  background: var(--color-card);
+  padding: var(--spacing-8);
+  border-radius: var(--radius-xl);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-card);
 }
 
 .command-section h3 {
-  margin: 0 0 var(--spacing-2) 0;
+  margin: 0 0 var(--spacing-5) 0;
   color: var(--color-fg);
   font-family: var(--font-display);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-extrabold);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--spacing-3);
+  gap: var(--spacing-4);
   flex-wrap: nowrap;
 }
 
@@ -680,11 +760,11 @@ body[data-layout="flat"] .timeline .commit-container.both {
 .command-tabs {
   display: flex;
   gap: var(--spacing-2);
-  margin-bottom: var(--spacing-3);
+  margin-bottom: var(--spacing-6);
   background: var(--color-bg);
-  padding: var(--spacing-1);
+  padding: var(--spacing-2);
   border-radius: var(--radius-full);
-  box-shadow: var(--shadow-inset);
+  border: var(--border-width) solid var(--color-border);
 }
 
 .command-content {
@@ -698,26 +778,25 @@ body[data-layout="flat"] .timeline .commit-container.both {
 .command-line {
   display: flex;
   align-items: center;
-  margin: var(--spacing-2) 0;
+  margin: var(--spacing-3) 0;
   gap: var(--spacing-3);
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: var(--spacing-4) var(--spacing-5);
   background: linear-gradient(
     135deg,
-    rgba(40, 44, 52, 0.98) 0%,
-    rgba(33, 37, 43, 0.98) 100%
+    rgba(30, 41, 59, 0.98) 0%,
+    rgba(15, 23, 42, 0.98) 100%
   );
-  border-radius: var(--radius-base);
-  border-left: 3px solid var(--color-accent);
-  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3),
-    inset -1px -1px 2px rgba(255, 255, 255, 0.05), 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--color-accent);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-small);
   transition: all var(--transition-fast);
 }
 
 .command-line:hover {
   border-left-color: var(--color-accent-light);
-  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3),
-    inset -1px -1px 2px rgba(255, 255, 255, 0.05),
-    0 4px 12px rgba(108, 99, 255, 0.15);
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-small-hover);
 }
 
 .command-line pre {
@@ -727,24 +806,56 @@ body[data-layout="flat"] .timeline .commit-container.both {
   font-size: var(--font-size-sm);
   white-space: pre-wrap;
   overflow-x: auto;
-  color: #abb2bf;
-  line-height: 1.6;
+  color: #e2e8f0;
+  line-height: 1.7;
   font-weight: var(--font-weight-medium);
 }
 
 .command-line pre code {
-  color: #61afef;
-  text-shadow: 0 0 8px rgba(97, 175, 239, 0.3);
+  color: #8b5cf6;
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Git 命令语法高亮 */
+.git-keyword {
+  color: #f472b6;
+  font-weight: var(--font-weight-extrabold);
+  text-shadow: 0 0 8px rgba(244, 114, 182, 0.5);
+}
+
+.git-subcommand {
+  color: #8b5cf6;
+  font-weight: var(--font-weight-bold);
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+}
+
+.git-hash {
+  color: #fbbf24;
+  font-weight: var(--font-weight-bold);
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+}
+
+.git-branch {
+  color: #34d399;
+  font-weight: var(--font-weight-semibold);
+  text-shadow: 0 0 8px rgba(52, 211, 153, 0.3);
+}
+
+.git-comment {
+  color: #94a3b8;
+  font-style: italic;
+  font-weight: var(--font-weight-normal);
 }
 
 #source-to-target-commands-container,
 #target-to-source-commands-container {
-  max-height: 400px;
+  max-height: 450px;
   overflow-y: auto;
-  padding: var(--spacing-3);
-  background: rgba(163, 177, 198, 0.03);
-  border-radius: var(--radius-base);
-  box-shadow: var(--shadow-inset-small);
+  padding: var(--spacing-4);
+  background: rgba(139, 92, 246, 0.03);
+  border-radius: var(--radius-md);
+  border: 2px dashed var(--color-border);
 }
 
 /* ========== Responsive Design 响应式设计 ========== */
@@ -770,7 +881,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
 
   .container {
     padding: var(--spacing-5);
-    border-radius: var(--radius-base);
+    border-radius: var(--radius-md);
   }
 
   .header {
@@ -780,7 +891,11 @@ body[data-layout="flat"] .timeline .commit-container.both {
   }
 
   .header h1 {
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-3xl);
+  }
+
+  .header h1::after {
+    display: none;
   }
 
   .timeline-legend {
@@ -790,7 +905,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
 
   .legend-item {
     font-size: var(--font-size-xs);
-    padding: var(--spacing-2) var(--spacing-3);
+    padding: var(--spacing-2) var(--spacing-4);
   }
 
   .theme-switcher {
@@ -832,8 +947,19 @@ body[data-layout="flat"] .timeline .commit-container.both {
     gap: var(--spacing-3);
   }
 
+  .search-input {
+    flex: 1;
+    max-width: 100%;
+    min-width: 100%;
+  }
+
+  .clear-search {
+    right: 8px;
+  }
+
   .search-options {
     gap: var(--spacing-3);
+    flex-wrap: wrap;
   }
 
   .command-section {
@@ -845,6 +971,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-3);
+    font-size: var(--font-size-xl);
   }
 
   .command-tabs {
@@ -859,7 +986,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
   }
 
   .header h1 {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-2xl);
   }
 
   .filter-section,
@@ -868,7 +995,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
   }
 
   .legend-item {
-    padding: var(--spacing-1) var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-3);
   }
 
   .legend-dot {
@@ -1364,15 +1491,19 @@ body[data-layout="flat"] .timeline .commit-container.both {
 }
 
 .rounded-sm {
-  border-radius: var(--radius-small) !important;
+  border-radius: var(--radius-sm) !important;
 }
 
 .rounded {
-  border-radius: var(--radius-base) !important;
+  border-radius: var(--radius-md) !important;
 }
 
 .rounded-lg {
-  border-radius: var(--radius-large) !important;
+  border-radius: var(--radius-lg) !important;
+}
+
+.rounded-xl {
+  border-radius: var(--radius-xl) !important;
 }
 
 .rounded-full {
@@ -1434,45 +1565,132 @@ body[data-layout="flat"] .timeline .commit-container.both {
 /* ========== Highlight 高亮 ========== */
 
 .highlight {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 223, 0, 0.3),
-    rgba(255, 235, 59, 0.3)
-  );
-  border-radius: var(--radius-small);
-  padding: 2px 4px;
-  box-shadow: inset 1px 1px 2px rgba(255, 235, 59, 0.4),
-    inset -1px -1px 2px rgba(255, 255, 255, 0.2);
+  background: var(--color-tertiary);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  border: 1px solid var(--color-fg);
+  box-shadow: var(--shadow-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-fg);
+  display: inline;
+}
+
+/* 可选的高亮样式 */
+.highlight-accent {
+  background: var(--color-accent);
+  color: white;
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  border: 1px solid var(--color-fg);
+  box-shadow: var(--shadow-small);
+  font-weight: var(--font-weight-bold);
+  display: inline;
+}
+
+.highlight-secondary {
+  background: var(--color-secondary);
+  color: white;
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  border: 1px solid var(--color-fg);
+  box-shadow: var(--shadow-small);
+  font-weight: var(--font-weight-bold);
+  display: inline;
+}
+
+.highlight-underline {
+  background: transparent;
+  border-bottom: 3px solid var(--color-tertiary);
+  padding: 0 2px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-fg);
+  display: inline;
 }
 
 /* ========== Scrollbar Styling 滚动条样式 ========== */
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(163, 177, 198, 0.1);
+  background: var(--color-bg);
   border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(163, 177, 198, 0.3);
+  background: var(--color-accent);
   border-radius: var(--radius-full);
+  border: 1px solid var(--color-fg);
   transition: background var(--transition-fast);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(163, 177, 198, 0.5);
+  background: var(--color-accent-light);
+}
+
+/* ========== Playful Animations 趣味动画 ========== */
+
+.bounce-in {
+  animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.wiggle {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(3deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 /**
- * Component Styles - Neumorphism Design System
- * All UI components with proper shadow physics
+ * Component Styles - Playful Geometric Design System
+ * All UI components with hard "pop" shadows and playful interactions
  */
 
-/* ========== Buttons ========== */
+/* ========== Buttons - "Candy Button" Style ========== */
 
 .btn,
 .filter-button,
@@ -1485,19 +1703,20 @@ body[data-layout="flat"] .timeline .commit-container.both {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-2) var(--spacing-4);
-  border-radius: var(--radius-base);
+  padding: var(--spacing-3) var(--spacing-5);
+  border-radius: var(--radius-full);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
   font-family: var(--font-body);
-  background: var(--color-bg);
+  background: var(--color-card);
   color: var(--color-fg);
-  border: none;
+  border: var(--border-width) solid var(--color-fg);
   cursor: pointer;
-  box-shadow: var(--shadow-extruded-small);
+  box-shadow: var(--shadow-pop);
   transition: all var(--transition-base);
-  min-height: 36px;
-  min-width: 36px;
+  min-height: 40px;
+  min-width: 40px;
+  position: relative;
 }
 
 .btn:hover,
@@ -1506,8 +1725,8 @@ body[data-layout="flat"] .timeline .commit-container.both {
 .copy-line-button:hover,
 .modal-button:hover,
 .remark-modal-button:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-extruded-hover);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-pop-hover);
 }
 
 .btn:active,
@@ -1515,11 +1734,11 @@ body[data-layout="flat"] .timeline .commit-container.both {
 .copy-button:active,
 .modal-button:active,
 .remark-modal-button:active {
-  transform: translateY(0.5px);
-  box-shadow: var(--shadow-inset-small);
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-pop-active);
 }
 
-/* Primary Button (Accent) */
+/* Primary Button (Accent) - The "Candy Button" */
 .btn-primary,
 .filter-button.active,
 .command-tab.active,
@@ -1528,8 +1747,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
 .remark-save {
   background: var(--color-accent);
   color: white;
-  box-shadow: 5px 5px 10px rgba(108, 99, 255, 0.3),
-    -5px -5px 10px rgba(255, 255, 255, 0.1);
+  border-color: var(--color-fg);
 }
 
 .btn-primary:hover,
@@ -1537,27 +1755,42 @@ body[data-layout="flat"] .timeline .commit-container.both {
 .modal-button.confirm:hover,
 .remark-save:hover {
   background: var(--color-accent-light);
-  box-shadow: 7px 7px 14px rgba(108, 99, 255, 0.4),
-    -7px -7px 14px rgba(255, 255, 255, 0.15);
+}
+
+/* Secondary Button - Fills with yellow on hover */
+.btn-secondary,
+.filter-button {
+  background: transparent;
+  color: var(--color-fg);
+  border: var(--border-width) solid var(--color-fg);
+}
+
+.btn-secondary:hover,
+.filter-button:hover:not(.active) {
+  background: var(--color-tertiary);
+  color: var(--color-fg);
 }
 
 /* Success Button */
 .btn-success {
   background: var(--color-success);
-  color: white;
+  color: var(--color-fg);
+  border-color: var(--color-fg);
 }
 
 /* Danger Button */
 .btn-danger,
 .remark-delete {
-  background: var(--color-danger);
+  background: var(--color-secondary);
   color: white;
+  border-color: var(--color-fg);
 }
 
 /* Info Button */
 .btn-info {
   background: var(--color-info);
   color: white;
+  border-color: var(--color-fg);
 }
 
 /* Small Buttons */
@@ -1568,37 +1801,38 @@ body[data-layout="flat"] .timeline .commit-container.both {
 .view-changes-btn,
 .compare-in-vscode,
 .copy-line-button {
-  padding: var(--spacing-1) var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  min-height: 26px;
-  border-radius: var(--radius-small);
+  font-weight: var(--font-weight-bold);
+  min-height: 32px;
+  border-radius: var(--radius-md);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .ignore-button {
-  background: var(--color-danger);
+  background: var(--color-secondary);
   color: white;
-  opacity: 0.9;
+  border-color: var(--color-fg);
 }
 
 .remark-button {
   background: var(--color-info);
   color: white;
-  opacity: 0.9;
+  border-color: var(--color-fg);
 }
 
 .ignore-button:hover,
 .remark-button:hover {
-  opacity: 1;
-  transform: translateY(-1px);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-pop-hover);
 }
 
 .vscode-button,
 .compare-in-vscode {
   background: #0066b8;
   color: white;
+  border-color: var(--color-fg);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1608,53 +1842,120 @@ body[data-layout="flat"] .timeline .commit-container.both {
 
 .vscode-button svg,
 .compare-in-vscode svg {
-  width: 12px;
-  height: 12px;
-  min-width: 12px;
-  min-height: 12px;
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  min-height: 14px;
   fill: currentColor;
   display: block;
   flex-shrink: 0;
+  stroke-width: 2.5px;
 }
 
 .view-changes-btn {
-  background: var(--color-bg);
+  background: var(--color-card);
   color: var(--color-fg);
-  box-shadow: var(--shadow-extruded-small);
+  border-color: var(--color-fg);
 }
 
-/* Command Tab */
+/* Command Tab - Lightweight with SVG Icons */
 .command-tab {
   background: transparent;
   box-shadow: none;
   color: var(--color-muted);
-  border-radius: var(--radius-base);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
   padding: var(--spacing-2) var(--spacing-4);
   min-height: 36px;
   font-weight: var(--font-weight-medium);
-  transition: all var(--transition-base);
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  white-space: nowrap;
 }
 
 .command-tab:hover:not(.active) {
   color: var(--color-fg);
-  background: rgba(163, 177, 198, 0.1);
+  background: rgba(251, 191, 36, 0.1);
+  border-color: var(--color-border);
 }
 
 .command-tab.active {
   background: var(--color-accent);
   color: white;
-  font-weight: var(--font-weight-bold);
-  box-shadow: var(--shadow-extruded-small);
+  border-color: var(--color-accent);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: 0 1px 3px rgba(139, 92, 246, 0.3);
+}
+
+/* Branch Badge in Command Tab */
+.branch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-semibold);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.branch-badge.source {
+  background: rgba(52, 211, 153, 0.15);
+  color: #059669;
+}
+
+.branch-badge.target {
+  background: rgba(251, 191, 36, 0.15);
+  color: #d97706;
+}
+
+.command-tab.active .branch-badge {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Branch Icon SVG */
+.branch-icon {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+/* Arrow Icon SVG */
+.arrow-icon {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: all var(--transition-fast);
+}
+
+.command-tab:hover .arrow-icon {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+.command-tab.active .arrow-icon {
+  opacity: 1;
 }
 
 /* Theme/Layout Switcher */
 .theme-switcher {
   display: inline-flex;
   align-items: center;
-  background: var(--color-bg);
+  background: var(--color-card);
   border-radius: var(--radius-full);
   padding: var(--spacing-1);
-  box-shadow: var(--shadow-inset-small);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-pop);
   gap: var(--spacing-1);
 }
 
@@ -1666,123 +1967,149 @@ body[data-layout="flat"] .timeline .commit-container.both {
   box-shadow: none;
   background: transparent;
   color: var(--color-muted);
+  border: var(--border-width) solid transparent;
 }
 
 .theme-button.active {
   background: var(--color-accent);
   color: white;
-  box-shadow: var(--shadow-extruded-small);
+  border-color: var(--color-fg);
+  box-shadow: var(--shadow-small);
 }
 
 .theme-button:hover:not(.active) {
   color: var(--color-fg);
+  background: var(--color-tertiary);
+  transform: none;
+  box-shadow: none;
 }
 
-/* ========== Cards ========== */
+/* ========== Cards - "Sticker" Style ========== */
 
 .card,
 .container {
-  background: var(--color-bg);
-  border-radius: var(--radius-container);
+  background: var(--color-card);
+  border-radius: var(--radius-xl);
   padding: var(--spacing-8);
-  box-shadow: var(--shadow-extruded);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-card);
   transition: all var(--transition-base);
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-extruded-hover);
+  transform: rotate(-1deg) scale(1.02);
+  box-shadow: var(--shadow-card-hover);
 }
 
-/* ========== Commit Cards ========== */
+/* ========== Commit Cards - Playful Stickers ========== */
 
 .commit {
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-2) var(--spacing-3);
-  border-radius: var(--radius-base);
-  background: var(--color-bg);
-  box-shadow: var(--shadow-extruded);
+  padding: var(--spacing-4) var(--spacing-5);
+  border-radius: var(--radius-md);
+  background: var(--color-card);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-card);
   position: relative;
   transition: all var(--transition-base);
-  margin-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
+}
+
+.commit:hover {
+  transform: rotate(-0.5deg) scale(1.01);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .commit-container.source .commit {
   border-left: 4px solid var(--color-success);
-  border-top-left-radius: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(40, 167, 69, 0.02) 0%,
-    var(--color-bg) 100%
-  );
+  box-shadow: var(--shadow-card-success);
 }
 
 .commit-container.target .commit {
   border-right: 4px solid var(--color-warning);
-  border-top-right-radius: 0;
-  background: linear-gradient(
-    225deg,
-    rgba(255, 152, 0, 0.02) 0%,
-    var(--color-bg) 100%
-  );
+  box-shadow: var(--shadow-card-warning);
 }
 
 .commit-container.both .commit {
   border-top: 4px solid var(--color-success);
-  border-left: none;
-  border-right: none;
-  border-radius: var(--radius-base);
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(40, 167, 69, 0.02) 0%,
-    var(--color-bg) 100%
-  );
+  box-shadow: var(--shadow-card-success);
 }
 
 .commit-container.both .commit.matched-by-message {
-  background: linear-gradient(
-    180deg,
-    rgba(24, 144, 255, 0.02) 0%,
-    var(--color-bg) 100%
-  );
   border-top-color: var(--color-info);
+  box-shadow: var(--shadow-card-accent);
 }
 
 .commit.ignored {
   opacity: 0.5;
-  box-shadow: var(--shadow-inset-small);
+  filter: grayscale(0.7);
+  box-shadow: var(--shadow-small);
+  position: relative;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-card),
+    var(--color-card) 10px,
+    rgba(100, 116, 139, 0.05) 10px,
+    rgba(100, 116, 139, 0.05) 20px
+  );
 }
 
-/* Commit Badge */
+.commit.ignored::before {
+  content: "已忽略";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(244, 114, 182, 0.15);
+  color: #be185d;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-semibold);
+  border: 1px solid rgba(244, 114, 182, 0.3);
+  z-index: 10;
+}
+
+.commit.ignored:hover {
+  opacity: 0.7;
+  transform: none;
+}
+
+/* Commit Badge - Colorful sticker labels */
 .commit-badge {
   position: absolute;
-  top: -10px;
-  padding: var(--spacing-1) var(--spacing-3);
+  top: -12px;
+  padding: var(--spacing-1) var(--spacing-4);
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-extrabold);
   color: white;
-  box-shadow: var(--shadow-extruded-small);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-small);
   z-index: var(--z-base);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+  transition: transform var(--transition-fast);
+}
+
+.commit:hover .commit-badge {
+  transform: rotate(2deg);
 }
 
 .commit-container.source .commit-badge {
-  left: var(--spacing-3);
+  left: var(--spacing-4);
   background: var(--color-success);
 }
 
 .commit-container.target .commit-badge {
-  right: var(--spacing-3);
+  right: var(--spacing-4);
   background: var(--color-warning);
 }
 
 .commit-container.both .commit-badge {
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) rotate(-2deg);
   background: var(--color-success);
 }
 
@@ -1790,23 +2117,29 @@ body[data-layout="flat"] .timeline .commit-container.both {
   background: var(--color-info);
 }
 
+.commit:hover .commit-container.both .commit-badge {
+  transform: translateX(-50%) rotate(2deg);
+}
+
 /* Commit Content */
 .commit-time {
   color: var(--color-muted);
   font-size: var(--font-size-xs);
-  margin-bottom: var(--spacing-1);
-  margin-top: var(--spacing-2);
-  font-weight: var(--font-weight-normal);
+  margin-bottom: var(--spacing-2);
+  margin-top: var(--spacing-3);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .commit-message {
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
   color: var(--color-fg);
-  margin-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-3);
   cursor: pointer;
   transition: color var(--transition-fast);
   font-size: var(--font-size-base);
-  line-height: 1.5;
+  line-height: 1.6;
   word-wrap: break-word;
   word-break: break-word;
   overflow-wrap: break-word;
@@ -1823,13 +2156,13 @@ body[data-layout="flat"] .timeline .commit-container.both {
   font-size: var(--font-size-xs);
   color: var(--color-muted);
   gap: var(--spacing-2);
-  margin-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-3);
   align-items: center;
 }
 
 .commit-author {
   margin-right: var(--spacing-1);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-bold);
   color: var(--color-fg);
 }
 
@@ -1837,85 +2170,103 @@ body[data-layout="flat"] .timeline .commit-container.both {
   font-family: var(--font-mono);
   cursor: pointer;
   background: var(--color-bg);
-  padding: var(--spacing-1) var(--spacing-2);
-  border-radius: var(--radius-small);
-  box-shadow: var(--shadow-inset-small);
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
   transition: all var(--transition-fast);
   font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
 }
 
 .commit-hash:hover {
-  box-shadow: var(--shadow-inset);
-  transform: translateY(1px);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-small);
 }
 
 .commit-hash-pair {
   background: var(--color-bg);
-  padding: var(--spacing-3);
-  border-radius: var(--radius-base);
-  box-shadow: var(--shadow-inset-small);
-  margin-top: var(--spacing-2);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--color-border);
+  margin-top: var(--spacing-3);
 }
 
 .commit-hash-branch {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
-  padding: var(--spacing-1);
-  margin-bottom: var(--spacing-1);
+  padding: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
 }
 
 .commit-hash-branch:last-child {
-  background: rgba(255, 152, 0, 0.05);
-  border-radius: var(--radius-small);
+  background: rgba(251, 191, 36, 0.1);
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--color-warning);
 }
 
 .branch-label {
-  min-width: 80px;
-  font-weight: var(--font-weight-bold);
+  min-width: 90px;
+  font-weight: var(--font-weight-extrabold);
   color: var(--color-fg);
   font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* ========== Inputs ========== */
+/* ========== Inputs - Clean with Hard Shadow on Focus ========== */
 
 .input,
 .search-input,
 .remark-textarea {
   width: 100%;
   padding: var(--spacing-3) var(--spacing-4);
-  border: none;
-  border-radius: var(--radius-base);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
   font-family: var(--font-body);
-  background: var(--color-bg);
+  background: var(--color-input);
   color: var(--color-fg);
-  box-shadow: var(--shadow-inset);
+  box-shadow: none;
   transition: all var(--transition-base);
 }
 
 .input:focus,
 .search-input:focus,
 .remark-textarea:focus {
-  box-shadow: var(--shadow-inset-deep);
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-pop);
+  outline: none;
+  transform: translate(-2px, -2px);
 }
 
 .input::placeholder,
 .search-input::placeholder,
 .remark-textarea::placeholder {
   color: var(--color-muted);
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .remark-textarea {
-  min-height: 120px;
+  min-height: 140px;
   resize: vertical;
   line-height: var(--line-height-relaxed);
 }
 
-/* ========== Checkboxes ========== */
+/* Input Labels - Bold, uppercase, tracking */
+.input-label {
+  display: block;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--spacing-2);
+  color: var(--color-fg);
+}
+
+/* ========== Checkboxes - Playful Toggle ========== */
 
 .filter-checkbox,
 .search-checkbox {
@@ -1923,10 +2274,11 @@ body[data-layout="flat"] .timeline .commit-container.both {
   align-items: center;
   cursor: pointer;
   font-size: var(--font-size-sm);
-  color: var(--color-muted);
+  color: var(--color-fg);
   gap: var(--spacing-2);
   white-space: nowrap;
   flex-shrink: 0;
+  font-weight: var(--font-weight-medium);
 }
 
 .filter-checkbox input[type="checkbox"],
@@ -1935,27 +2287,30 @@ body[data-layout="flat"] .timeline .commit-container.both {
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  min-height: 20px;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  min-height: 22px;
   flex-shrink: 0;
-  border-radius: var(--radius-small);
-  background: var(--color-bg);
-  box-shadow: var(--shadow-inset-small);
+  border-radius: var(--radius-sm);
+  background: var(--color-card);
+  border: var(--border-width) solid var(--color-fg);
   position: relative;
   transition: all var(--transition-base);
+  box-shadow: var(--shadow-small);
 }
 
 .filter-checkbox input[type="checkbox"]:hover,
 .search-checkbox input[type="checkbox"]:hover {
-  box-shadow: var(--shadow-inset);
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-small-hover);
 }
 
 .filter-checkbox input[type="checkbox"]:checked,
 .search-checkbox input[type="checkbox"]:checked {
   background: var(--color-accent);
-  box-shadow: var(--shadow-extruded-small);
+  border-color: var(--color-fg);
+  box-shadow: var(--shadow-pop);
 }
 
 .filter-checkbox input[type="checkbox"]:checked::after,
@@ -1966,8 +2321,8 @@ body[data-layout="flat"] .timeline .commit-container.both {
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-size: 14px;
-  font-weight: var(--font-weight-bold);
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
 }
 
 .filter-checkbox span,
@@ -1976,7 +2331,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
   user-select: none;
 }
 
-/* ========== Modals ========== */
+/* ========== Modals - Playful Pop-up ========== */
 
 .modal,
 .remark-modal {
@@ -1986,8 +2341,8 @@ body[data-layout="flat"] .timeline .commit-container.both {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
   z-index: var(--z-modal-backdrop);
   align-items: center;
   justify-content: center;
@@ -1996,22 +2351,43 @@ body[data-layout="flat"] .timeline .commit-container.both {
 .modal.show,
 .remark-modal.show {
   display: flex;
+  animation: fadeIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-content,
 .remark-modal-content {
   position: relative;
   background: var(--color-bg);
-  padding: var(--spacing-5);
-  border-radius: var(--radius-container);
-  box-shadow: 20px 20px 60px rgba(163, 177, 198, 0.6),
-    -20px -20px 60px rgba(255, 255, 255, 0.8),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  padding: var(--spacing-8);
+  border-radius: var(--radius-xl);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: 16px 16px 0px var(--color-fg);
   width: 90%;
-  max-width: 500px;
+  max-width: 520px;
   max-height: 90vh;
   overflow: auto;
   z-index: var(--z-modal);
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8) rotate(-5deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
 }
 
 .modal h3,
@@ -2019,51 +2395,67 @@ body[data-layout="flat"] .timeline .commit-container.both {
   margin-top: 0;
   margin-bottom: var(--spacing-6);
   color: var(--color-fg);
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-extrabold);
   font-family: var(--font-display);
 }
 
 /* Reason List */
 .reason-list {
   margin: var(--spacing-4) 0;
-  max-height: 300px;
+  max-height: 320px;
   overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--spacing-1);
 }
 
 .reason-option {
   display: flex;
   align-items: center;
   padding: var(--spacing-3) var(--spacing-4);
-  border-radius: var(--radius-base);
+  border-radius: var(--radius-md);
   margin-bottom: var(--spacing-3);
   cursor: pointer;
-  background: var(--color-bg);
-  box-shadow: var(--shadow-extruded-small);
+  background: var(--color-card);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-small);
   transition: all var(--transition-base);
+  width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .reason-option:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-extruded-hover);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-small-hover);
 }
 
 .reason-option.selected {
-  box-shadow: var(--shadow-inset-small);
-  background: rgba(108, 99, 255, 0.05);
+  background: var(--color-tertiary);
+  box-shadow: var(--shadow-pop);
+  transform: translate(-2px, -2px);
 }
 
 .reason-option input[type="radio"] {
   margin-right: var(--spacing-3);
   width: 20px;
   height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   cursor: pointer;
+  accent-color: var(--color-accent);
+  flex-shrink: 0;
 }
 
 .reason-option label {
   flex: 1;
   cursor: pointer;
   font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .custom-reason {
@@ -2081,43 +2473,52 @@ body[data-layout="flat"] .timeline .commit-container.both {
   display: flex;
   justify-content: flex-end;
   gap: var(--spacing-3);
-  margin-top: var(--spacing-6);
+  margin-top: var(--spacing-8);
 }
 
 .remark-delete {
   margin-right: auto;
 }
 
-/* ========== Info Displays ========== */
+/* ========== Info Displays - Colorful Callouts ========== */
 
 .ignore-reason,
 .commit-remark {
   font-size: var(--font-size-xs);
-  color: var(--color-muted);
+  color: var(--color-fg);
   margin: var(--spacing-3) 0 0 0;
   padding: var(--spacing-3) var(--spacing-4);
-  background: var(--color-bg);
-  border-radius: var(--radius-small);
-  box-shadow: var(--shadow-inset-small);
+  background: var(--color-card);
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--color-secondary);
+  box-shadow: var(--shadow-small);
   line-height: var(--line-height-relaxed);
   display: flex;
   align-items: flex-start;
   gap: var(--spacing-2);
 }
 
+.commit-remark {
+  border-color: var(--color-info);
+  background: rgba(139, 92, 246, 0.05);
+}
+
 .ignore-reason-title,
 .commit-remark-title {
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-extrabold);
   color: var(--color-fg);
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: var(--font-size-xs);
 }
 
 .cherry-pick-time {
   margin-top: var(--spacing-3);
-  padding: var(--spacing-2) var(--spacing-4);
-  background: rgba(255, 152, 0, 0.05);
-  border-left: 3px solid var(--color-warning);
-  border-radius: var(--radius-small);
+  padding: var(--spacing-3) var(--spacing-4);
+  background: rgba(251, 191, 36, 0.1);
+  border-left: 4px solid var(--color-warning);
+  border-radius: var(--radius-sm);
   font-size: var(--font-size-xs);
   display: flex;
   align-items: center;
@@ -2125,11 +2526,13 @@ body[data-layout="flat"] .timeline .commit-container.both {
 }
 
 .cherry-pick-label {
-  font-weight: var(--font-weight-bold);
-  color: #e07600;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-warning);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* ========== Loading & Toast ========== */
+/* ========== Loading & Toast - Playful Feedback ========== */
 
 .loading-overlay {
   position: fixed;
@@ -2137,8 +2540,8 @@ body[data-layout="flat"] .timeline .commit-container.both {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(4px);
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2154,12 +2557,14 @@ body[data-layout="flat"] .timeline .commit-container.both {
 }
 
 .loading-spinner {
-  width: 60px;
-  height: 60px;
-  border: 6px solid rgba(255, 255, 255, 0.3);
+  width: 64px;
+  height: 64px;
+  border: 6px solid var(--color-card);
   border-radius: 50%;
   border-top-color: var(--color-accent);
-  animation: spin 1s ease-in-out infinite;
+  border-right-color: var(--color-secondary);
+  border-bottom-color: var(--color-tertiary);
+  animation: spin 1s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
 }
 
 @keyframes spin {
@@ -2170,48 +2575,50 @@ body[data-layout="flat"] .timeline .commit-container.both {
 
 .success-toast {
   position: fixed;
-  top: var(--spacing-6);
-  right: var(--spacing-6);
+  top: var(--spacing-8);
+  right: var(--spacing-8);
   background: var(--color-success);
-  color: white;
+  color: var(--color-fg);
   padding: var(--spacing-4) var(--spacing-6);
-  border-radius: var(--radius-base);
-  box-shadow: var(--shadow-extruded-hover);
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-pop);
   z-index: var(--z-tooltip);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-bold);
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(-20px) rotate(-2deg);
   transition: all var(--transition-base);
 }
 
 .success-toast.show {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) rotate(0deg);
 }
 
-/* ========== Back to Top ========== */
+/* ========== Back to Top - Floating Candy Button ========== */
 
 .back-to-top {
   position: fixed;
   bottom: var(--spacing-8);
   right: var(--spacing-8);
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   background: var(--color-accent);
   color: white;
   border-radius: 50%;
+  border: var(--border-width) solid var(--color-fg);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: var(--shadow-extruded);
+  box-shadow: var(--shadow-pop);
   opacity: 0;
   visibility: hidden;
   transition: all var(--transition-base);
   font-size: var(--font-size-2xl);
   z-index: var(--z-fixed);
-  border: none;
+  font-weight: var(--font-weight-extrabold);
 }
 
 .back-to-top.show {
@@ -2220,33 +2627,43 @@ body[data-layout="flat"] .timeline .commit-container.both {
 }
 
 .back-to-top:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-extruded-hover);
+  transform: translate(-3px, -3px) rotate(-5deg);
+  box-shadow: var(--shadow-pop-hover);
+  background: var(--color-accent-light);
 }
 
-/* ========== Legend ========== */
+.back-to-top:active {
+  transform: translate(1px, 1px) rotate(0deg);
+  box-shadow: var(--shadow-pop-active);
+}
+
+/* ========== Legend - Colorful Badges ========== */
 
 .legend-item {
   display: inline-flex;
   align-items: center;
-  background: var(--color-bg);
+  background: var(--color-card);
   padding: var(--spacing-2) var(--spacing-5);
   border-radius: var(--radius-full);
-  box-shadow: var(--shadow-extruded-small);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-small);
   font-size: var(--font-size-sm);
-  transition: transform var(--transition-fast);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
   gap: var(--spacing-2);
 }
 
 .legend-item:hover {
-  transform: translateY(-1px);
+  transform: translate(-1px, -1px) rotate(-1deg);
+  box-shadow: var(--shadow-small-hover);
 }
 
 .legend-dot {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  box-shadow: var(--shadow-extruded-small);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-small);
 }
 
 .legend-dot.source {
@@ -2261,24 +2678,30 @@ body[data-layout="flat"] .timeline .commit-container.both {
   background: var(--color-info);
 }
 
-/* ========== Branch Indicator (Flat Layout) ========== */
+/* ========== Branch Indicator (Flat Layout) - Playful Dots ========== */
 
 .timeline.flat-layout .branch-indicator {
   position: absolute;
-  top: var(--spacing-4);
-  width: 14px;
-  height: 14px;
+  top: var(--spacing-5);
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  box-shadow: var(--shadow-extruded-small);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-small);
+  transition: transform var(--transition-fast);
+}
+
+.commit:hover .timeline.flat-layout .branch-indicator {
+  transform: scale(1.2);
 }
 
 .timeline.flat-layout .commit-container.source .branch-indicator {
-  right: var(--spacing-4);
+  right: var(--spacing-5);
   background: var(--color-success);
 }
 
 .timeline.flat-layout .commit-container.target .branch-indicator {
-  left: var(--spacing-4);
+  left: var(--spacing-5);
   background: var(--color-warning);
 }
 
@@ -2290,28 +2713,140 @@ body[data-layout="flat"] .timeline .commit-container.both {
   );
 }
 
-/* ========== Responsive ========== */
+/* ========== Responsive - Mobile Optimizations ========== */
 
 @media (max-width: 768px) {
+  body {
+    padding: var(--spacing-2);
+  }
+
+  /* Reduce shadow sizes on mobile */
   .btn,
   .filter-button,
   .modal-button,
   .remark-modal-button {
     min-height: 48px;
     padding: var(--spacing-3) var(--spacing-5);
+    box-shadow: var(--shadow-small);
+  }
+
+  .btn:hover,
+  .filter-button:hover,
+  .modal-button:hover,
+  .remark-modal-button:hover {
+    box-shadow: var(--shadow-small-hover);
+  }
+
+  .commit {
+    box-shadow: var(--shadow-small);
+  }
+
+  .commit:hover {
+    transform: none;
+    box-shadow: var(--shadow-small);
+  }
+
+  .card,
+  .container {
+    box-shadow: var(--shadow-small);
+  }
+
+  .card:hover {
+    transform: none;
+    box-shadow: var(--shadow-small);
   }
 
   .modal-content,
   .remark-modal-content {
     width: 95%;
     padding: var(--spacing-6);
+    box-shadow: 8px 8px 0px var(--color-fg);
   }
 
   .back-to-top {
     bottom: var(--spacing-6);
     right: var(--spacing-6);
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
+  }
+
+  /* Hide decorative background on mobile */
+  body::before {
+    opacity: 0.2;
+  }
+
+  h1::after {
+    display: none;
+  }
+
+  /* Command Tab Mobile Adjustments */
+  .command-tab {
+    flex-direction: column;
+    gap: 6px;
+    padding: var(--spacing-2) var(--spacing-3);
+    min-height: auto;
+  }
+
+  .branch-badge {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+  }
+
+  .branch-icon {
+    width: 11px;
+    height: 11px;
+  }
+
+  .arrow-icon {
+    width: 12px;
+    height: 12px;
+    transform: rotate(90deg);
+  }
+
+  .command-tab:hover .arrow-icon {
+    transform: rotate(90deg) translateX(2px);
+  }
+}
+
+/* ========== Wiggle Animation for Icons ========== */
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(3deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+}
+
+.vscode-button:hover svg,
+.compare-in-vscode:hover svg {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+/* ========== Accessibility - Respect Reduced Motion ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  .commit:hover,
+  .card:hover,
+  .back-to-top:hover,
+  .legend-item:hover,
+  .commit-badge {
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .modal-content,
+  .remark-modal-content {
+    animation: none !important;
+  }
+
+  .loading-spinner {
+    animation: spin 2s linear infinite !important;
   }
 }
 
@@ -2375,7 +2910,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
         <div>
           <h1>分支提交对比</h1>
           <div class="meta-info">
-            <div>生成时间: 2026/01/19 14:52</div>
+            <div>生成时间: 2026/01/22 10:51</div>
             <div id="authorInfo" style="display: none">提交者: "全部"</div>
             <div id="timeRangeInfo" style="display: none">
               时间范围: "全部时间"
@@ -2429,7 +2964,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
 
         <div class="sub-filter-section" id="subFilterSection">
           <label class="filter-checkbox">
-            <input type="checkbox" id="hideIgnoredCommits" checked />
+            <input type="checkbox" id="hideIgnoredCommits" />
             <span>隐藏已忽略提交</span>
           </label>
           <label class="filter-checkbox">
@@ -2470,10 +3005,84 @@ body[data-layout="flat"] .timeline .commit-container.both {
       <div class="command-section">
         <div class="command-tabs">
           <button class="command-tab active" data-command="source-to-target">
-            "main" → "feature/test"
+            <span class="branch-badge source">
+              <svg
+                class="branch-icon"
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M11.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122V6A2.5 2.5 0 0110 8.5H6a1 1 0 00-1 1v1.128a2.251 2.251 0 11-1.5 0V5.372a2.25 2.25 0 111.5 0v1.836A2.492 2.492 0 016 7h4a1 1 0 001-1v-.628A2.25 2.25 0 019.5 3.25zM4.25 12a.75.75 0 100 1.5.75.75 0 000-1.5zM3.5 3.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0z"
+                />
+              </svg>
+              "main"
+            </span>
+            <svg
+              class="arrow-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12H19M19 12L12 5M19 12L12 19"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="branch-badge target">
+              <svg
+                class="branch-icon"
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M11.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122V6A2.5 2.5 0 0110 8.5H6a1 1 0 00-1 1v1.128a2.251 2.251 0 11-1.5 0V5.372a2.25 2.25 0 111.5 0v1.836A2.492 2.492 0 016 7h4a1 1 0 001-1v-.628A2.25 2.25 0 019.5 3.25zM4.25 12a.75.75 0 100 1.5.75.75 0 000-1.5zM3.5 3.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0z"
+                />
+              </svg>
+              "feature/test"
+            </span>
           </button>
           <button class="command-tab" data-command="target-to-source">
-            "feature/test" → "main"
+            <span class="branch-badge target">
+              <svg
+                class="branch-icon"
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M11.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122V6A2.5 2.5 0 0110 8.5H6a1 1 0 00-1 1v1.128a2.251 2.251 0 11-1.5 0V5.372a2.25 2.25 0 111.5 0v1.836A2.492 2.492 0 016 7h4a1 1 0 001-1v-.628A2.25 2.25 0 019.5 3.25zM4.25 12a.75.75 0 100 1.5.75.75 0 000-1.5zM3.5 3.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0z"
+                />
+              </svg>
+              "feature/test"
+            </span>
+            <svg
+              class="arrow-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12H19M19 12L12 5M19 12L12 19"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="branch-badge source">
+              <svg
+                class="branch-icon"
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M11.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122V6A2.5 2.5 0 0110 8.5H6a1 1 0 00-1 1v1.128a2.251 2.251 0 11-1.5 0V5.372a2.25 2.25 0 111.5 0v1.836A2.492 2.492 0 016 7h4a1 1 0 001-1v-.628A2.25 2.25 0 019.5 3.25zM4.25 12a.75.75 0 100 1.5.75.75 0 000-1.5zM3.5 3.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0z"
+                />
+              </svg>
+              "main"
+            </span>
           </button>
         </div>
 
@@ -2511,10 +3120,10 @@ body[data-layout="flat"] .timeline .commit-container.both {
       const API_BASE = `http://localhost:${PORT}`;
 
       // 从模板注入的数据
-      const commits = [{"hash":"abc123","message":"测试提交1","authorName":"张三","date":"2026-01-19T06:52:45.748Z","status":"source","formattedDate":"2026/01/19 14:52"},{"hash":"def456","message":"测试提交2","authorName":"李四","date":"2026-01-19T06:52:45.748Z","status":"target","formattedDate":"2026/01/19 14:52"},{"hash":"ghi789","message":"共同提交","authorName":"王五","date":"2026-01-19T06:52:45.748Z","status":"both","formattedDate":"2026/01/19 14:52"}];
+      const commits = [{"hash":"abc123","message":"测试提交1","authorName":"张三","date":"2026-01-22T02:51:16.092Z","status":"source","formattedDate":"2026/01/22 10:51"},{"hash":"def456","message":"测试提交2","authorName":"李四","date":"2026-01-22T02:51:16.092Z","status":"target","formattedDate":"2026/01/22 10:51"},{"hash":"ghi789","message":"共同提交","authorName":"王五","date":"2026-01-22T02:51:16.092Z","status":"both","formattedDate":"2026/01/22 10:51"}];
       const sourceBranch = "main";
       const targetBranch = "feature/test";
-      let ignoredCommits = [{"hash":"725cb134eb9c9d2d684e95ffc9a562e87e30cd9c","reason":"不需要合并","timestamp":"2025-03-25T01:29:31.535Z"},{"hash":"56f28a86fccf14a734057b872114ea79848fa056","reason":"已手动合并","timestamp":"2025-03-25T02:03:03.419Z"},{"hash":"daa41558451d47086bbb5c6170c04cb0bb100c4a","reason":"已手动合并","timestamp":"2025-03-25T02:03:06.742Z"},{"hash":"02492fa6ccf008a4c4bbddcc0945627dd0d08ccc","reason":"已手动合并","timestamp":"2025-03-25T02:03:09.142Z"},{"hash":"ee5d6563d413d3f07761a8a7aaf032de624c76df","reason":"已手动合并","timestamp":"2025-03-25T02:03:12.171Z"},{"hash":"eb32405edf9c30b962e9958f4025818d9f6f851a","reason":"已手动合并","timestamp":"2025-03-25T02:03:14.435Z"},{"hash":"a89419be84d47d9d25e26b7492d84d01aeac4191","reason":"已手动合并","timestamp":"2025-03-25T02:03:17.023Z"},{"hash":"762de0a627a243f47c7e2f660094e732860b9d68","reason":"不需要合并","timestamp":"2025-03-25T02:03:55.058Z"},{"hash":"dba3eb1f8e15831093f64af3264a1114fc75cbfb","reason":"不需要合并","timestamp":"2025-03-25T02:18:47.553Z"},{"hash":"4138ca05afe8e787fe2b88a060df368d3def3771","reason":"auto-test 已有，历史原因导致缺失，这是一个补充修改，所以无需 cherry-pick 回auto-test分支","timestamp":"2025-03-25T02:26:25.492Z"}] || [];
+      let ignoredCommits = [{"hash":"089bb9c51ec8331e83bdbe9989efb7487a19c700","reason":"已手动合并","timestamp":"2026-01-22T02:50:38.679Z"}] || [];
       let commitRemarks = [] || [];
       const author = "全部";
       const timeRange = "全部时间";
@@ -3235,73 +3844,78 @@ function restoreFilterState() {
     return;
   }
 
-  // 设置主筛选按钮状态
-  document.querySelectorAll(".filter-button").forEach((btn) => {
-    btn.classList.toggle(
-      "active",
-      btn.getAttribute("data-filter") === appState.filterState.mainFilter
+  // 使用 requestAnimationFrame 确保 DOM 完全渲染后再恢复状态
+  requestAnimationFrame(() => {
+    // 设置主筛选按钮状态
+    document.querySelectorAll(".filter-button").forEach((btn) => {
+      btn.classList.toggle(
+        "active",
+        btn.getAttribute("data-filter") === appState.filterState.mainFilter
+      );
+    });
+
+    document.body.setAttribute(
+      "data-current-filter",
+      appState.filterState.mainFilter
     );
+
+    // 获取DOM元素
+    const hideIgnoredEl = document.getElementById("hideIgnoredCommits");
+    const hideCommonEl = document.getElementById("hideCommonCommits");
+    const searchInputEl = document.getElementById("searchInput");
+    const searchMessageEl = document.getElementById("searchMessage");
+    const searchAuthorEl = document.getElementById("searchAuthor");
+    const searchHashEl = document.getElementById("searchHash");
+    const clearButton = document.getElementById("clearSearch");
+    const subFilterSection = document.getElementById("subFilterSection");
+
+    if (
+      !hideIgnoredEl ||
+      !hideCommonEl ||
+      !searchInputEl ||
+      !searchMessageEl ||
+      !searchAuthorEl ||
+      !searchHashEl ||
+      !clearButton ||
+      !subFilterSection
+    ) {
+      console.warn("部分筛选DOM元素未找到，跳过状态恢复");
+      return;
+    }
+
+    // 恢复复选框状态
+    hideIgnoredEl.checked = appState.filterState.hideIgnored;
+    hideCommonEl.checked = appState.filterState.hideCommon;
+
+    // 恢复搜索状态
+    searchInputEl.value = appState.filterState.searchText;
+    searchMessageEl.checked = appState.filterState.searchMessage;
+    searchAuthorEl.checked = appState.filterState.searchAuthor;
+    searchHashEl.checked = appState.filterState.searchHash;
+
+    // 显示/隐藏清除按钮
+    if (appState.filterState.searchText) {
+      clearButton.classList.add("visible");
+    } else {
+      clearButton.classList.remove("visible");
+    }
+
+    // 设置子筛选器可见性
+    if (appState.filterState.mainFilter === "all") {
+      subFilterSection.classList.remove("hidden");
+    } else {
+      subFilterSection.classList.add("hidden");
+    }
+
+    // 应用筛选 - 使用另一个 requestAnimationFrame 确保所有 DOM 更新完成
+    requestAnimationFrame(() => {
+      if (appState.filterState.searchText) {
+        searchCommits(false);
+      } else {
+        applyFilters(appState.filterState.mainFilter);
+      }
+    });
   });
-
-  document.body.setAttribute(
-    "data-current-filter",
-    appState.filterState.mainFilter
-  );
-
-  // 获取DOM元素
-  const hideIgnoredEl = document.getElementById("hideIgnoredCommits");
-  const hideCommonEl = document.getElementById("hideCommonCommits");
-  const searchInputEl = document.getElementById("searchInput");
-  const searchMessageEl = document.getElementById("searchMessage");
-  const searchAuthorEl = document.getElementById("searchAuthor");
-  const searchHashEl = document.getElementById("searchHash");
-  const clearButton = document.getElementById("clearSearch");
-  const subFilterSection = document.getElementById("subFilterSection");
-
-  if (
-    !hideIgnoredEl ||
-    !hideCommonEl ||
-    !searchInputEl ||
-    !searchMessageEl ||
-    !searchAuthorEl ||
-    !searchHashEl ||
-    !clearButton ||
-    !subFilterSection
-  ) {
-    console.warn("部分筛选DOM元素未找到，跳过状态恢复");
-    return;
-  }
-
-  // 恢复复选框状态
-  hideIgnoredEl.checked = appState.filterState.hideIgnored;
-  hideCommonEl.checked = appState.filterState.hideCommon;
-
-  // 恢复搜索状态
-  searchInputEl.value = appState.filterState.searchText;
-  searchMessageEl.checked = appState.filterState.searchMessage;
-  searchAuthorEl.checked = appState.filterState.searchAuthor;
-  searchHashEl.checked = appState.filterState.searchHash;
-
-  // 显示/隐藏清除按钮
-  if (appState.filterState.searchText) {
-    clearButton.classList.add("visible");
-  } else {
-    clearButton.classList.remove("visible");
-  }
-
-  // 设置子筛选器可见性
-  if (appState.filterState.mainFilter === "all") {
-    subFilterSection.classList.remove("hidden");
-  } else {
-    subFilterSection.classList.add("hidden");
-  }
-
-  // 应用筛选
-  if (appState.filterState.searchText) {
-    searchCommits(false);
-  } else {
-    applyFilters(appState.filterState.mainFilter);
-  }
 }
 
 /**
@@ -3379,12 +3993,10 @@ function loadLayoutPreference() {
 
 /**
  * 渲染提交列表
- * @param {boolean} shouldRestoreState - 是否恢复筛选状态
+ * @param {boolean} shouldRestoreState - 是否恢复筛选状态（默认不恢复）
  */
-function renderCommits(shouldRestoreState = true) {
-  if (shouldRestoreState) {
-    saveCurrentFilterState();
-  }
+function renderCommits(shouldRestoreState = false) {
+  console.log("渲染提交列表, shouldRestoreState:", shouldRestoreState);
 
   const timeline = document.getElementById("timeline");
   timeline.innerHTML = "";
@@ -3403,9 +4015,7 @@ function renderCommits(shouldRestoreState = true) {
 
   updateCherryPickCommands();
 
-  if (shouldRestoreState) {
-    restoreFilterState();
-  }
+  console.log("提交列表渲染完成");
 }
 
 /**
@@ -3633,7 +4243,7 @@ function updateDirectionalCommands(
     cmdLine.className = "command-line";
 
     const cmdText = document.createElement("pre");
-    cmdText.textContent = cmd;
+    cmdText.innerHTML = highlightGitCommand(cmd);
     cmdLine.appendChild(cmdText);
 
     if (cmd && !cmd.startsWith("#")) {
@@ -3650,6 +4260,56 @@ function updateDirectionalCommands(
   });
 
   document.getElementById(`${direction}-commands`).textContent = commands;
+}
+
+/**
+ * Git 命令语法高亮
+ * @param {string} command - Git 命令字符串
+ * @returns {string} 高亮后的 HTML
+ */
+function highlightGitCommand(command) {
+  // 如果是注释行
+  if (command.startsWith("#")) {
+    return `<span class="git-comment">${escapeHtml(command)}</span>`;
+  }
+
+  // 分离命令和注释
+  const commentIndex = command.indexOf("#");
+  let cmdPart = command;
+  let commentPart = "";
+
+  if (commentIndex !== -1) {
+    cmdPart = command.substring(0, commentIndex);
+    commentPart = command.substring(commentIndex);
+  }
+
+  // 转义 HTML 特殊字符
+  cmdPart = escapeHtml(cmdPart);
+
+  // 高亮 git 关键字
+  cmdPart = cmdPart.replace(
+    /\b(git)\b/g,
+    '<span class="git-keyword">$1</span>'
+  );
+
+  // 高亮子命令 (checkout, cherry-pick, etc.)
+  cmdPart = cmdPart.replace(
+    /\b(checkout|cherry-pick|commit|push|pull|merge|rebase|branch|status|log|diff|add|reset|stash)\b/g,
+    '<span class="git-subcommand">$1</span>'
+  );
+
+  // 高亮哈希值 (7位或更长的十六进制字符串)
+  cmdPart = cmdPart.replace(
+    /\b([0-9a-f]{7,40})\b/g,
+    '<span class="git-hash">$1</span>'
+  );
+
+  // 添加注释部分
+  if (commentPart) {
+    cmdPart += `  <span class="git-comment">${escapeHtml(commentPart)}</span>`;
+  }
+
+  return cmdPart;
 }
 
 /**
@@ -4072,25 +4732,35 @@ async function confirmIgnore() {
   saveCurrentFilterState();
 
   try {
-    const commitElement = currentIgnoreElement.closest(".commit");
+    // 先加载最新的完整数据
+    const latestIgnoredCommits = await loadIgnoredCommits();
 
-    const index = appState.ignoredCommits.findIndex(
+    // 检查是否已存在
+    const index = latestIgnoredCommits.findIndex(
       (item) => item.hash === currentIgnoreHash
     );
+
+    // 如果不存在，添加新的忽略记录
     if (index === -1) {
-      appState.ignoredCommits.push({
+      latestIgnoredCommits.push({
         hash: currentIgnoreHash,
         reason: finalReason,
         timestamp: new Date().toISOString(),
       });
+    } else {
+      // 如果已存在，更新原因和时间戳
+      latestIgnoredCommits[index].reason = finalReason;
+      latestIgnoredCommits[index].timestamp = new Date().toISOString();
     }
 
-    await saveIgnoredCommits(appState.ignoredCommits);
+    // 保存更新后的完整数据
+    await saveIgnoredCommits(latestIgnoredCommits);
 
-    // 重新加载数据
+    // 重新加载数据到应用状态
     appState.ignoredCommits = await loadIgnoredCommits();
 
-    renderCommits();
+    renderCommits(false);
+    restoreFilterState();
     closeIgnoreModal();
     showSuccessMessage("忽略提交成功");
   } catch (error) {
@@ -4106,33 +4776,38 @@ async function confirmIgnore() {
  * @param {string} hash - 提交哈希
  * @param {HTMLElement} element - 触发元素
  */
-function toggleIgnoreCommit(hash, element) {
-  const index = appState.ignoredCommits.findIndex((item) => item.hash === hash);
+async function toggleIgnoreCommit(hash, element) {
+  try {
+    // 先加载最新的完整数据来检查状态
+    const latestIgnoredCommits = await loadIgnoredCommits();
+    const index = latestIgnoredCommits.findIndex((item) => item.hash === hash);
 
-  if (index === -1) {
-    showIgnoreModal(hash, element);
-  } else {
-    showLoading();
-    saveCurrentFilterState();
+    if (index === -1) {
+      // 不存在，显示模态框添加忽略
+      showIgnoreModal(hash, element);
+    } else {
+      // 已存在，直接删除（取消忽略）
+      showLoading();
+      saveCurrentFilterState();
 
-    appState.ignoredCommits.splice(index, 1);
+      const updatedCommits = latestIgnoredCommits.filter(
+        (item) => item.hash !== hash
+      );
 
-    saveIgnoredCommits(appState.ignoredCommits)
-      .then(() => {
-        return loadIgnoredCommits();
-      })
-      .then((commits) => {
-        appState.ignoredCommits = commits;
-        renderCommits();
-        showSuccessMessage("取消忽略成功");
-      })
-      .catch((error) => {
-        console.error("保存忽略提交失败:", error);
-        alert("保存忽略提交失败: " + error.message);
-      })
-      .finally(() => {
-        hideLoading();
-      });
+      await saveIgnoredCommits(updatedCommits);
+
+      // 重新加载数据到应用状态
+      appState.ignoredCommits = await loadIgnoredCommits();
+
+      renderCommits(false);
+      restoreFilterState();
+      showSuccessMessage("取消忽略成功");
+      hideLoading();
+    }
+  } catch (error) {
+    console.error("切换忽略状态失败:", error);
+    alert("操作失败: " + error.message);
+    hideLoading();
   }
 }
 
@@ -4182,18 +4857,22 @@ async function confirmRemark() {
     showLoading();
     saveCurrentFilterState();
 
-    const existingIndex = appState.commitRemarks.findIndex(
+    // 先加载最新的完整数据
+    const latestRemarks = await loadCommitRemarks();
+
+    const existingIndex = latestRemarks.findIndex(
       (r) => r.hash === currentCommitHash
     );
 
     if (remarkText) {
       if (existingIndex >= 0) {
-        appState.commitRemarks[existingIndex].content = remarkText;
-        appState.commitRemarks[existingIndex].timestamp =
-          new Date().toISOString();
+        // 更新现有备注
+        latestRemarks[existingIndex].content = remarkText;
+        latestRemarks[existingIndex].timestamp = new Date().toISOString();
         console.log("已更新现有备注");
       } else {
-        appState.commitRemarks.push({
+        // 添加新备注
+        latestRemarks.push({
           hash: currentCommitHash,
           content: remarkText,
           timestamp: new Date().toISOString(),
@@ -4201,15 +4880,21 @@ async function confirmRemark() {
         console.log("已添加新备注");
       }
     } else if (existingIndex >= 0) {
-      appState.commitRemarks.splice(existingIndex, 1);
+      // 删除备注
+      latestRemarks.splice(existingIndex, 1);
       console.log("已删除备注");
     }
 
-    await saveCommitRemarks(appState.commitRemarks);
+    // 保存更新后的完整数据
+    await saveCommitRemarks(latestRemarks);
     console.log("服务器保存备注完成");
 
+    // 重新加载数据到应用状态
+    appState.commitRemarks = await loadCommitRemarks();
+
     closeRemarkModal();
-    renderCommits();
+    renderCommits(false);
+    restoreFilterState();
     showSuccessMessage("备注已保存");
   } catch (error) {
     console.error("保存备注操作失败:", error);
@@ -4229,18 +4914,27 @@ async function deleteRemark() {
     showLoading();
     saveCurrentFilterState();
 
-    const existingIndex = appState.commitRemarks.findIndex(
+    // 先加载最新的完整数据
+    const latestRemarks = await loadCommitRemarks();
+
+    const existingIndex = latestRemarks.findIndex(
       (r) => r.hash === currentCommitHash
     );
 
     if (existingIndex >= 0) {
-      appState.commitRemarks.splice(existingIndex, 1);
+      // 从完整数据中移除该备注
+      latestRemarks.splice(existingIndex, 1);
       console.log("已删除备注");
 
-      await saveCommitRemarks(appState.commitRemarks);
+      // 保存更新后的完整数据
+      await saveCommitRemarks(latestRemarks);
+
+      // 重新加载数据到应用状态
+      appState.commitRemarks = await loadCommitRemarks();
 
       closeRemarkModal();
-      renderCommits();
+      renderCommits(false);
+      restoreFilterState();
       showSuccessMessage("备注已删除");
     }
   } catch (error) {
@@ -4716,6 +5410,9 @@ function bindEvents() {
 
   // 浏览器前进后退事件
   window.addEventListener("popstate", handlePopState);
+
+  // 键盘事件
+  document.addEventListener("keydown", handleGlobalKeydown);
 }
 
 /**
@@ -5013,6 +5710,31 @@ function handlePopState() {
 }
 
 /**
+ * 处理全局键盘事件
+ */
+function handleGlobalKeydown(event) {
+  // ESC 键关闭模态框
+  if (event.key === "Escape" || event.keyCode === 27) {
+    const ignoreModal = document.getElementById("ignoreModal");
+    const remarkModal = document.getElementById("remarkModal");
+
+    // 检查忽略原因模态框是否打开
+    if (ignoreModal && ignoreModal.classList.contains("show")) {
+      closeIgnoreModal();
+      event.preventDefault();
+      return;
+    }
+
+    // 检查备注模态框是否打开
+    if (remarkModal && remarkModal.classList.contains("show")) {
+      closeRemarkModal();
+      event.preventDefault();
+      return;
+    }
+  }
+}
+
+/**
  * 初始化布局
  */
 function initializeLayout() {
@@ -5024,6 +5746,11 @@ function initializeLayout() {
  * 切换布局
  */
 function switchLayout(layout) {
+  console.log("切换布局到:", layout);
+
+  // 保存当前筛选状态
+  saveCurrentFilterState();
+
   // 更新布局按钮
   document
     .getElementById("chatLayoutBtn")
@@ -5043,11 +5770,16 @@ function switchLayout(layout) {
   // 存储当前布局
   document.body.setAttribute("data-layout", layout);
 
-  // 重新渲染提交
-  renderCommits();
-
   // 保存偏好到localStorage
   localStorage.setItem("preferredLayout", layout);
+
+  // 重新渲染提交 - 明确传递 false 避免重复保存状态
+  renderCommits(false);
+
+  // 恢复筛选状态
+  restoreFilterState();
+
+  console.log("布局切换完成");
 }
 
 /**

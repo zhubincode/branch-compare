@@ -5,16 +5,25 @@
 
 /**
  * 渲染提交列表
- * @param {boolean} shouldRestoreState - 是否恢复筛选状态
+ * @param {boolean} shouldRestoreState - 是否恢复筛选状态（默认不恢复）
+ * @param {string} changedHash - 改变状态的提交哈希（用于动画）
+ * @param {boolean} isInitialLoad - 是否首次加载（用于动画）
  */
-function renderCommits(shouldRestoreState = true) {
-  if (shouldRestoreState) {
-    saveCurrentFilterState();
-  }
+function renderCommits(
+  shouldRestoreState = false,
+  changedHash = null,
+  isInitialLoad = false
+) {
+  console.log(
+    "渲染提交列表, shouldRestoreState:",
+    shouldRestoreState,
+    "changedHash:",
+    changedHash,
+    "isInitialLoad:",
+    isInitialLoad
+  );
 
   const timeline = document.getElementById("timeline");
-  timeline.innerHTML = "";
-
   const currentLayout = document.body.getAttribute("data-layout") || "flat";
 
   // 按时间排序（从新到旧）
@@ -22,16 +31,43 @@ function renderCommits(shouldRestoreState = true) {
     (a, b) => new Date(b.date || b.dateIso) - new Date(a.date || a.dateIso)
   );
 
+  // 如果有changedHash，只更新那个特定的卡片
+  if (changedHash) {
+    const existingRow = timeline
+      .querySelector(`[data-hash="${changedHash}"]`)
+      ?.closest(".commit-row");
+    if (existingRow) {
+      const commit = sortedCommits.find((c) => c.hash === changedHash);
+      if (commit) {
+        const newRow = renderCommitCard(commit, currentLayout);
+        newRow.classList.add("state-changed");
+        existingRow.replaceWith(newRow);
+
+        // 移除动画类，以便下次可以再次触发
+        setTimeout(() => {
+          newRow.classList.remove("state-changed");
+        }, 300);
+      }
+      updateCherryPickCommands();
+      console.log("已更新单个提交卡片");
+      return;
+    }
+  }
+
+  // 完全重新渲染（首次加载或无法找到特定卡片）
+  timeline.innerHTML = "";
   sortedCommits.forEach((commit) => {
     const commitRow = renderCommitCard(commit, currentLayout);
+    // 只在首次加载时添加动画类
+    if (isInitialLoad) {
+      commitRow.classList.add("initial-load");
+    }
     timeline.appendChild(commitRow);
   });
 
   updateCherryPickCommands();
 
-  if (shouldRestoreState) {
-    restoreFilterState();
-  }
+  console.log("提交列表渲染完成");
 }
 
 /**
@@ -259,7 +295,7 @@ function updateDirectionalCommands(
     cmdLine.className = "command-line";
 
     const cmdText = document.createElement("pre");
-    cmdText.textContent = cmd;
+    cmdText.innerHTML = highlightGitCommand(cmd);
     cmdLine.appendChild(cmdText);
 
     if (cmd && !cmd.startsWith("#")) {
@@ -276,6 +312,56 @@ function updateDirectionalCommands(
   });
 
   document.getElementById(`${direction}-commands`).textContent = commands;
+}
+
+/**
+ * Git 命令语法高亮
+ * @param {string} command - Git 命令字符串
+ * @returns {string} 高亮后的 HTML
+ */
+function highlightGitCommand(command) {
+  // 如果是注释行
+  if (command.startsWith("#")) {
+    return `<span class="git-comment">${escapeHtml(command)}</span>`;
+  }
+
+  // 分离命令和注释
+  const commentIndex = command.indexOf("#");
+  let cmdPart = command;
+  let commentPart = "";
+
+  if (commentIndex !== -1) {
+    cmdPart = command.substring(0, commentIndex);
+    commentPart = command.substring(commentIndex);
+  }
+
+  // 转义 HTML 特殊字符
+  cmdPart = escapeHtml(cmdPart);
+
+  // 高亮 git 关键字
+  cmdPart = cmdPart.replace(
+    /\b(git)\b/g,
+    '<span class="git-keyword">$1</span>'
+  );
+
+  // 高亮子命令 (checkout, cherry-pick, etc.)
+  cmdPart = cmdPart.replace(
+    /\b(checkout|cherry-pick|commit|push|pull|merge|rebase|branch|status|log|diff|add|reset|stash)\b/g,
+    '<span class="git-subcommand">$1</span>'
+  );
+
+  // 高亮哈希值 (7位或更长的十六进制字符串)
+  cmdPart = cmdPart.replace(
+    /\b([0-9a-f]{7,40})\b/g,
+    '<span class="git-hash">$1</span>'
+  );
+
+  // 添加注释部分
+  if (commentPart) {
+    cmdPart += `  <span class="git-comment">${escapeHtml(commentPart)}</span>`;
+  }
+
+  return cmdPart;
 }
 
 /**

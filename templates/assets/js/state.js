@@ -118,73 +118,78 @@ function restoreFilterState() {
     return;
   }
 
-  // 设置主筛选按钮状态
-  document.querySelectorAll(".filter-button").forEach((btn) => {
-    btn.classList.toggle(
-      "active",
-      btn.getAttribute("data-filter") === appState.filterState.mainFilter
+  // 使用 requestAnimationFrame 确保 DOM 完全渲染后再恢复状态
+  requestAnimationFrame(() => {
+    // 设置主筛选按钮状态
+    document.querySelectorAll(".filter-button").forEach((btn) => {
+      btn.classList.toggle(
+        "active",
+        btn.getAttribute("data-filter") === appState.filterState.mainFilter
+      );
+    });
+
+    document.body.setAttribute(
+      "data-current-filter",
+      appState.filterState.mainFilter
     );
+
+    // 获取DOM元素
+    const hideIgnoredEl = document.getElementById("hideIgnoredCommits");
+    const hideCommonEl = document.getElementById("hideCommonCommits");
+    const searchInputEl = document.getElementById("searchInput");
+    const searchMessageEl = document.getElementById("searchMessage");
+    const searchAuthorEl = document.getElementById("searchAuthor");
+    const searchHashEl = document.getElementById("searchHash");
+    const clearButton = document.getElementById("clearSearch");
+    const subFilterSection = document.getElementById("subFilterSection");
+
+    if (
+      !hideIgnoredEl ||
+      !hideCommonEl ||
+      !searchInputEl ||
+      !searchMessageEl ||
+      !searchAuthorEl ||
+      !searchHashEl ||
+      !clearButton ||
+      !subFilterSection
+    ) {
+      console.warn("部分筛选DOM元素未找到，跳过状态恢复");
+      return;
+    }
+
+    // 恢复复选框状态
+    hideIgnoredEl.checked = appState.filterState.hideIgnored;
+    hideCommonEl.checked = appState.filterState.hideCommon;
+
+    // 恢复搜索状态
+    searchInputEl.value = appState.filterState.searchText;
+    searchMessageEl.checked = appState.filterState.searchMessage;
+    searchAuthorEl.checked = appState.filterState.searchAuthor;
+    searchHashEl.checked = appState.filterState.searchHash;
+
+    // 显示/隐藏清除按钮
+    if (appState.filterState.searchText) {
+      clearButton.classList.add("visible");
+    } else {
+      clearButton.classList.remove("visible");
+    }
+
+    // 设置子筛选器可见性
+    if (appState.filterState.mainFilter === "all") {
+      subFilterSection.classList.remove("hidden");
+    } else {
+      subFilterSection.classList.add("hidden");
+    }
+
+    // 应用筛选 - 使用另一个 requestAnimationFrame 确保所有 DOM 更新完成
+    requestAnimationFrame(() => {
+      if (appState.filterState.searchText) {
+        searchCommits(false);
+      } else {
+        applyFilters(appState.filterState.mainFilter);
+      }
+    });
   });
-
-  document.body.setAttribute(
-    "data-current-filter",
-    appState.filterState.mainFilter
-  );
-
-  // 获取DOM元素
-  const hideIgnoredEl = document.getElementById("hideIgnoredCommits");
-  const hideCommonEl = document.getElementById("hideCommonCommits");
-  const searchInputEl = document.getElementById("searchInput");
-  const searchMessageEl = document.getElementById("searchMessage");
-  const searchAuthorEl = document.getElementById("searchAuthor");
-  const searchHashEl = document.getElementById("searchHash");
-  const clearButton = document.getElementById("clearSearch");
-  const subFilterSection = document.getElementById("subFilterSection");
-
-  if (
-    !hideIgnoredEl ||
-    !hideCommonEl ||
-    !searchInputEl ||
-    !searchMessageEl ||
-    !searchAuthorEl ||
-    !searchHashEl ||
-    !clearButton ||
-    !subFilterSection
-  ) {
-    console.warn("部分筛选DOM元素未找到，跳过状态恢复");
-    return;
-  }
-
-  // 恢复复选框状态
-  hideIgnoredEl.checked = appState.filterState.hideIgnored;
-  hideCommonEl.checked = appState.filterState.hideCommon;
-
-  // 恢复搜索状态
-  searchInputEl.value = appState.filterState.searchText;
-  searchMessageEl.checked = appState.filterState.searchMessage;
-  searchAuthorEl.checked = appState.filterState.searchAuthor;
-  searchHashEl.checked = appState.filterState.searchHash;
-
-  // 显示/隐藏清除按钮
-  if (appState.filterState.searchText) {
-    clearButton.classList.add("visible");
-  } else {
-    clearButton.classList.remove("visible");
-  }
-
-  // 设置子筛选器可见性
-  if (appState.filterState.mainFilter === "all") {
-    subFilterSection.classList.remove("hidden");
-  } else {
-    subFilterSection.classList.add("hidden");
-  }
-
-  // 应用筛选
-  if (appState.filterState.searchText) {
-    searchCommits(false);
-  } else {
-    applyFilters(appState.filterState.mainFilter);
-  }
 }
 
 /**

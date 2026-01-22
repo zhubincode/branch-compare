@@ -1,45 +1,49 @@
 /**
  * Layout Styles 布局样式
- * Neumorphism Design System - Layout Components
+ * Playful Geometric Design System - Layout Components
  */
 
 /* ========== Container 容器 ========== */
 
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  background: var(--color-bg);
-  border-radius: var(--radius-container);
-  box-shadow: var(--shadow-extruded);
-  padding: var(--spacing-3);
+  background: var(--color-card);
+  border-radius: var(--radius-xl);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-card);
+  padding: var(--spacing-8);
 }
 
 /* ========== Header 头部 ========== */
 
 .header {
-  margin-bottom: var(--spacing-3);
-  padding-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-8);
+  padding-bottom: var(--spacing-6);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: var(--spacing-3);
-  border-bottom: 1px solid rgba(163, 177, 198, 0.15);
+  gap: var(--spacing-6);
+  border-bottom: 3px dashed var(--color-border);
 }
 
 .header h1 {
-  margin: 0 0 var(--spacing-2) 0;
+  margin: 0 0 var(--spacing-4) 0;
   color: var(--color-fg);
   font-family: var(--font-display);
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-4xl);
   font-weight: var(--font-weight-extrabold);
   letter-spacing: -0.02em;
+  position: relative;
+  display: inline-block;
 }
 
 .meta-info {
   color: var(--color-muted);
   font-size: var(--font-size-sm);
-  line-height: 1.6;
+  line-height: 1.8;
+  font-weight: var(--font-weight-medium);
 }
 
 .meta-info > div {
@@ -53,7 +57,7 @@
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: var(--spacing-4);
-  margin-top: var(--spacing-4);
+  margin-top: var(--spacing-5);
 }
 
 .legend-item {
@@ -147,26 +151,47 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-2) 0;
+  padding: var(--spacing-4) 0;
   width: 100%;
 }
 
 .commit-row {
   display: flex;
-  margin-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
   position: relative;
   width: 100%;
-  animation: fadeIn 0.4s ease-out;
 }
 
-@keyframes fadeIn {
+/* 只在首次加载时播放动画 */
+.commit-row.initial-load {
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 状态改变时的动画 */
+.commit-row.state-changed {
+  animation: stateChange 0.3s ease-out;
+}
+
+@keyframes stateChange {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes popIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: scale(0.9) translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
   }
 }
 
@@ -215,28 +240,30 @@ body[data-layout="flat"] .timeline .commit-container.both {
 /* ========== Filter Section 筛选区域 ========== */
 
 .filter-section {
-  margin-bottom: var(--spacing-3);
-  padding: var(--spacing-3);
-  background: var(--color-bg);
-  border-radius: var(--radius-container);
-  box-shadow: var(--shadow-inset);
+  margin-bottom: var(--spacing-6);
+  padding: var(--spacing-6);
+  background: var(--color-card);
+  border-radius: var(--radius-xl);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-card);
 }
 
 .filter-buttons {
   display: flex;
   gap: var(--spacing-3);
-  margin-bottom: var(--spacing-5);
+  margin-bottom: var(--spacing-6);
   flex-wrap: wrap;
 }
 
 .sub-filter-section {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-4);
-  margin: var(--spacing-4) 0 0 0;
-  padding: var(--spacing-4);
-  background: rgba(163, 177, 198, 0.05);
-  border-radius: var(--radius-base);
+  gap: var(--spacing-5);
+  margin: var(--spacing-5) 0 0 0;
+  padding: var(--spacing-5);
+  background: rgba(139, 92, 246, 0.05);
+  border-radius: var(--radius-md);
+  border: 2px dashed var(--color-accent);
   transition: all var(--transition-base);
   max-height: 200px;
   overflow: hidden;
@@ -247,15 +274,17 @@ body[data-layout="flat"] .timeline .commit-container.both {
   margin: 0;
   padding: 0;
   opacity: 0;
+  border: none;
 }
 
 /* ========== Search Section 搜索区域 ========== */
 
 .search-section {
-  margin-top: var(--spacing-5);
-  padding: var(--spacing-4);
-  background: rgba(163, 177, 198, 0.05);
-  border-radius: var(--radius-base);
+  margin-top: var(--spacing-6);
+  padding: var(--spacing-5);
+  background: rgba(251, 191, 36, 0.08);
+  border-radius: var(--radius-md);
+  border: 2px dashed var(--color-tertiary);
 }
 
 .search-container {
@@ -263,74 +292,91 @@ body[data-layout="flat"] .timeline .commit-container.both {
   width: 100%;
   display: flex;
   align-items: center;
-  margin-bottom: var(--spacing-4);
+  margin-bottom: var(--spacing-5);
   gap: var(--spacing-3);
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 .search-input {
-  flex: 0 0 300px;
-  max-width: 300px;
+  flex: 1 1 280px;
+  min-width: 200px;
+  max-width: 100%;
+  padding-right: 44px;
 }
 
 .clear-search {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   flex-shrink: 0;
   width: 32px;
   height: 32px;
   min-width: 32px;
   min-height: 32px;
   border-radius: 50%;
-  background: var(--color-bg);
-  color: var(--color-muted);
-  border: none;
+  background: var(--color-secondary);
+  color: white;
+  border: var(--border-width) solid var(--color-fg);
   cursor: pointer;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  box-shadow: var(--shadow-extruded-small);
+  font-weight: var(--font-weight-extrabold);
+  box-shadow: var(--shadow-small);
   transition: all var(--transition-base);
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.clear-search.visible {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
 }
 
 .clear-search:hover {
-  color: var(--color-danger);
-  transform: scale(1.05);
-  box-shadow: var(--shadow-extruded-hover);
+  background: var(--color-danger);
+  transform: translateY(-50%) translate(-2px, -2px) rotate(-5deg);
+  box-shadow: var(--shadow-small-hover);
 }
 
 .clear-search:active {
-  transform: scale(0.95);
-  box-shadow: var(--shadow-inset-small);
+  transform: translateY(-50%) translate(1px, 1px) rotate(0deg);
+  box-shadow: var(--shadow-pop-active);
 }
 
 .search-options {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: var(--spacing-4);
   align-items: center;
-  white-space: nowrap;
+  width: 100%;
 }
 
 /* ========== Command Section 命令区域 ========== */
 
 .command-section {
-  margin-top: var(--spacing-3);
-  background: var(--color-bg);
-  padding: var(--spacing-3);
-  border-radius: var(--radius-container);
-  box-shadow: var(--shadow-inset);
+  margin-top: var(--spacing-8);
+  background: var(--color-card);
+  padding: var(--spacing-8);
+  border-radius: var(--radius-xl);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-card);
 }
 
 .command-section h3 {
-  margin: 0 0 var(--spacing-2) 0;
+  margin: 0 0 var(--spacing-5) 0;
   color: var(--color-fg);
   font-family: var(--font-display);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-extrabold);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--spacing-3);
+  gap: var(--spacing-4);
   flex-wrap: nowrap;
 }
 
@@ -346,11 +392,11 @@ body[data-layout="flat"] .timeline .commit-container.both {
 .command-tabs {
   display: flex;
   gap: var(--spacing-2);
-  margin-bottom: var(--spacing-3);
+  margin-bottom: var(--spacing-6);
   background: var(--color-bg);
-  padding: var(--spacing-1);
+  padding: var(--spacing-2);
   border-radius: var(--radius-full);
-  box-shadow: var(--shadow-inset);
+  border: var(--border-width) solid var(--color-border);
 }
 
 .command-content {
@@ -364,26 +410,25 @@ body[data-layout="flat"] .timeline .commit-container.both {
 .command-line {
   display: flex;
   align-items: center;
-  margin: var(--spacing-2) 0;
+  margin: var(--spacing-3) 0;
   gap: var(--spacing-3);
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: var(--spacing-4) var(--spacing-5);
   background: linear-gradient(
     135deg,
-    rgba(40, 44, 52, 0.98) 0%,
-    rgba(33, 37, 43, 0.98) 100%
+    rgba(30, 41, 59, 0.98) 0%,
+    rgba(15, 23, 42, 0.98) 100%
   );
-  border-radius: var(--radius-base);
-  border-left: 3px solid var(--color-accent);
-  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3),
-    inset -1px -1px 2px rgba(255, 255, 255, 0.05), 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--color-accent);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-small);
   transition: all var(--transition-fast);
 }
 
 .command-line:hover {
   border-left-color: var(--color-accent-light);
-  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3),
-    inset -1px -1px 2px rgba(255, 255, 255, 0.05),
-    0 4px 12px rgba(108, 99, 255, 0.15);
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-small-hover);
 }
 
 .command-line pre {
@@ -393,24 +438,56 @@ body[data-layout="flat"] .timeline .commit-container.both {
   font-size: var(--font-size-sm);
   white-space: pre-wrap;
   overflow-x: auto;
-  color: #abb2bf;
-  line-height: 1.6;
+  color: #e2e8f0;
+  line-height: 1.7;
   font-weight: var(--font-weight-medium);
 }
 
 .command-line pre code {
-  color: #61afef;
-  text-shadow: 0 0 8px rgba(97, 175, 239, 0.3);
+  color: #8b5cf6;
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Git 命令语法高亮 */
+.git-keyword {
+  color: #f472b6;
+  font-weight: var(--font-weight-extrabold);
+  text-shadow: 0 0 8px rgba(244, 114, 182, 0.5);
+}
+
+.git-subcommand {
+  color: #8b5cf6;
+  font-weight: var(--font-weight-bold);
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+}
+
+.git-hash {
+  color: #fbbf24;
+  font-weight: var(--font-weight-bold);
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+}
+
+.git-branch {
+  color: #34d399;
+  font-weight: var(--font-weight-semibold);
+  text-shadow: 0 0 8px rgba(52, 211, 153, 0.3);
+}
+
+.git-comment {
+  color: #94a3b8;
+  font-style: italic;
+  font-weight: var(--font-weight-normal);
 }
 
 #source-to-target-commands-container,
 #target-to-source-commands-container {
-  max-height: 400px;
+  max-height: 450px;
   overflow-y: auto;
-  padding: var(--spacing-3);
-  background: rgba(163, 177, 198, 0.03);
-  border-radius: var(--radius-base);
-  box-shadow: var(--shadow-inset-small);
+  padding: var(--spacing-4);
+  background: rgba(139, 92, 246, 0.03);
+  border-radius: var(--radius-md);
+  border: 2px dashed var(--color-border);
 }
 
 /* ========== Responsive Design 响应式设计 ========== */
@@ -436,7 +513,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
 
   .container {
     padding: var(--spacing-5);
-    border-radius: var(--radius-base);
+    border-radius: var(--radius-md);
   }
 
   .header {
@@ -446,7 +523,11 @@ body[data-layout="flat"] .timeline .commit-container.both {
   }
 
   .header h1 {
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-3xl);
+  }
+
+  .header h1::after {
+    display: none;
   }
 
   .timeline-legend {
@@ -456,7 +537,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
 
   .legend-item {
     font-size: var(--font-size-xs);
-    padding: var(--spacing-2) var(--spacing-3);
+    padding: var(--spacing-2) var(--spacing-4);
   }
 
   .theme-switcher {
@@ -498,8 +579,19 @@ body[data-layout="flat"] .timeline .commit-container.both {
     gap: var(--spacing-3);
   }
 
+  .search-input {
+    flex: 1;
+    max-width: 100%;
+    min-width: 100%;
+  }
+
+  .clear-search {
+    right: 8px;
+  }
+
   .search-options {
     gap: var(--spacing-3);
+    flex-wrap: wrap;
   }
 
   .command-section {
@@ -511,6 +603,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-3);
+    font-size: var(--font-size-xl);
   }
 
   .command-tabs {
@@ -525,7 +618,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
   }
 
   .header h1 {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-2xl);
   }
 
   .filter-section,
@@ -534,7 +627,7 @@ body[data-layout="flat"] .timeline .commit-container.both {
   }
 
   .legend-item {
-    padding: var(--spacing-1) var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-3);
   }
 
   .legend-dot {

@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "dev": "node index.js",
     "pkg:fix": "npm pkg fix",
     "postinstall": "node -e \"const fs=require('fs'); const path=require('path'); const dir=path.join(require('os').homedir(), '.config', 'branch-commit-compare'); !fs.existsSync(dir) && fs.mkdirSync(dir, {recursive:true});\""
   },

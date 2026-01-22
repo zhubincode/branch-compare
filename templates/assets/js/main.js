@@ -33,8 +33,8 @@ async function initApp() {
     console.error("加载服务器数据失败:", error);
   }
 
-  // 渲染提交列表
-  renderCommits(false);
+  // 渲染提交列表（首次加载，带动画）
+  renderCommits(false, null, true);
 
   // 初始化布局
   initializeLayout();
@@ -71,6 +71,9 @@ function bindEvents() {
 
   // 浏览器前进后退事件
   window.addEventListener("popstate", handlePopState);
+
+  // 键盘事件
+  document.addEventListener("keydown", handleGlobalKeydown);
 }
 
 /**
@@ -173,8 +176,14 @@ function handleGlobalClick(event) {
   }
 
   // 处理命令标签切换
-  if (target.classList.contains("command-tab")) {
-    const tab = target.getAttribute("data-command");
+  if (
+    target.classList.contains("command-tab") ||
+    target.closest(".command-tab")
+  ) {
+    const tabElement = target.classList.contains("command-tab")
+      ? target
+      : target.closest(".command-tab");
+    const tab = tabElement.getAttribute("data-command");
     switchCommandTab(tab);
     return;
   }
@@ -368,6 +377,31 @@ function handlePopState() {
 }
 
 /**
+ * 处理全局键盘事件
+ */
+function handleGlobalKeydown(event) {
+  // ESC 键关闭模态框
+  if (event.key === "Escape" || event.keyCode === 27) {
+    const ignoreModal = document.getElementById("ignoreModal");
+    const remarkModal = document.getElementById("remarkModal");
+
+    // 检查忽略原因模态框是否打开
+    if (ignoreModal && ignoreModal.classList.contains("show")) {
+      closeIgnoreModal();
+      event.preventDefault();
+      return;
+    }
+
+    // 检查备注模态框是否打开
+    if (remarkModal && remarkModal.classList.contains("show")) {
+      closeRemarkModal();
+      event.preventDefault();
+      return;
+    }
+  }
+}
+
+/**
  * 初始化布局
  */
 function initializeLayout() {
@@ -379,6 +413,11 @@ function initializeLayout() {
  * 切换布局
  */
 function switchLayout(layout) {
+  console.log("切换布局到:", layout);
+
+  // 保存当前筛选状态
+  saveCurrentFilterState();
+
   // 更新布局按钮
   document
     .getElementById("chatLayoutBtn")
@@ -398,11 +437,16 @@ function switchLayout(layout) {
   // 存储当前布局
   document.body.setAttribute("data-layout", layout);
 
-  // 重新渲染提交
-  renderCommits();
-
   // 保存偏好到localStorage
   localStorage.setItem("preferredLayout", layout);
+
+  // 重新渲染提交 - 明确传递 false 避免重复保存状态
+  renderCommits(false);
+
+  // 恢复筛选状态
+  restoreFilterState();
+
+  console.log("布局切换完成");
 }
 
 /**

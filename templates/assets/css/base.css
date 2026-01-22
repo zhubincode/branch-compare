@@ -1,6 +1,6 @@
 /**
  * Base Styles - Global Resets and Typography
- * Neumorphism Design System
+ * Playful Geometric Design System
  */
 
 /* ========== Global Reset ========== */
@@ -24,8 +24,33 @@ body {
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding: var(--spacing-2);
+  padding: var(--spacing-4);
   min-height: 100vh;
+  position: relative;
+}
+
+/* Playful dot grid background pattern */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(
+    circle,
+    var(--color-border) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* ========== Typography ========== */
@@ -37,15 +62,29 @@ h4,
 h5,
 h6 {
   font-family: var(--font-display);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-extrabold);
   line-height: var(--line-height-tight);
   color: var(--color-fg);
-  margin-bottom: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
 }
 
 h1 {
   font-size: var(--font-size-4xl);
-  font-weight: var(--font-weight-extrabold);
+  position: relative;
+  display: inline-block;
+}
+
+/* Squiggle decoration under h1 */
+h1::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='4' viewBox='0 0 100 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 2 Q 5 0, 10 2 T 20 2 T 30 2 T 40 2 T 50 2 T 60 2 T 70 2 T 80 2 T 90 2 T 100 2' stroke='%238B5CF6' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 100px 4px;
 }
 
 h2 {
@@ -148,37 +187,55 @@ select:focus {
   border-width: 0;
 }
 
-/* ========== Scrollbar Styling ========== */
+/* ========== Scrollbar Styling - Playful ========== */
 
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
 }
 
 ::-webkit-scrollbar-track {
   background: var(--color-bg);
-  border-radius: var(--radius-small);
-  box-shadow: var(--shadow-inset-small);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-muted);
-  border-radius: var(--radius-small);
-  box-shadow: var(--shadow-extruded-small);
+  background: var(--color-accent);
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-fg);
+  box-shadow: var(--shadow-small);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-fg);
+  background: var(--color-accent-light);
+  box-shadow: var(--shadow-small-hover);
 }
 
 /* ========== Selection ========== */
 
 ::selection {
-  background: var(--color-accent);
-  color: white;
+  background: var(--color-tertiary);
+  color: var(--color-fg);
 }
 
 ::-moz-selection {
-  background: var(--color-accent);
-  color: white;
+  background: var(--color-tertiary);
+  color: var(--color-fg);
+}
+
+/* ========== Reduced Motion ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
 }

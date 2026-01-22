@@ -1,9 +1,9 @@
 /**
- * Component Styles - Neumorphism Design System
- * All UI components with proper shadow physics
+ * Component Styles - Playful Geometric Design System
+ * All UI components with hard "pop" shadows and playful interactions
  */
 
-/* ========== Buttons ========== */
+/* ========== Buttons - "Candy Button" Style ========== */
 
 .btn,
 .filter-button,
@@ -16,19 +16,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-2) var(--spacing-4);
-  border-radius: var(--radius-base);
+  padding: var(--spacing-3) var(--spacing-5);
+  border-radius: var(--radius-full);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
   font-family: var(--font-body);
-  background: var(--color-bg);
+  background: var(--color-card);
   color: var(--color-fg);
-  border: none;
+  border: var(--border-width) solid var(--color-fg);
   cursor: pointer;
-  box-shadow: var(--shadow-extruded-small);
+  box-shadow: var(--shadow-pop);
   transition: all var(--transition-base);
-  min-height: 36px;
-  min-width: 36px;
+  min-height: 40px;
+  min-width: 40px;
+  position: relative;
 }
 
 .btn:hover,
@@ -37,8 +38,8 @@
 .copy-line-button:hover,
 .modal-button:hover,
 .remark-modal-button:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-extruded-hover);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-pop-hover);
 }
 
 .btn:active,
@@ -46,11 +47,11 @@
 .copy-button:active,
 .modal-button:active,
 .remark-modal-button:active {
-  transform: translateY(0.5px);
-  box-shadow: var(--shadow-inset-small);
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-pop-active);
 }
 
-/* Primary Button (Accent) */
+/* Primary Button (Accent) - The "Candy Button" */
 .btn-primary,
 .filter-button.active,
 .command-tab.active,
@@ -59,8 +60,7 @@
 .remark-save {
   background: var(--color-accent);
   color: white;
-  box-shadow: 5px 5px 10px rgba(108, 99, 255, 0.3),
-    -5px -5px 10px rgba(255, 255, 255, 0.1);
+  border-color: var(--color-fg);
 }
 
 .btn-primary:hover,
@@ -68,27 +68,42 @@
 .modal-button.confirm:hover,
 .remark-save:hover {
   background: var(--color-accent-light);
-  box-shadow: 7px 7px 14px rgba(108, 99, 255, 0.4),
-    -7px -7px 14px rgba(255, 255, 255, 0.15);
+}
+
+/* Secondary Button - Fills with yellow on hover */
+.btn-secondary,
+.filter-button {
+  background: transparent;
+  color: var(--color-fg);
+  border: var(--border-width) solid var(--color-fg);
+}
+
+.btn-secondary:hover,
+.filter-button:hover:not(.active) {
+  background: var(--color-tertiary);
+  color: var(--color-fg);
 }
 
 /* Success Button */
 .btn-success {
   background: var(--color-success);
-  color: white;
+  color: var(--color-fg);
+  border-color: var(--color-fg);
 }
 
 /* Danger Button */
 .btn-danger,
 .remark-delete {
-  background: var(--color-danger);
+  background: var(--color-secondary);
   color: white;
+  border-color: var(--color-fg);
 }
 
 /* Info Button */
 .btn-info {
   background: var(--color-info);
   color: white;
+  border-color: var(--color-fg);
 }
 
 /* Small Buttons */
@@ -99,37 +114,38 @@
 .view-changes-btn,
 .compare-in-vscode,
 .copy-line-button {
-  padding: var(--spacing-1) var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  min-height: 26px;
-  border-radius: var(--radius-small);
+  font-weight: var(--font-weight-bold);
+  min-height: 32px;
+  border-radius: var(--radius-md);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .ignore-button {
-  background: var(--color-danger);
+  background: var(--color-secondary);
   color: white;
-  opacity: 0.9;
+  border-color: var(--color-fg);
 }
 
 .remark-button {
   background: var(--color-info);
   color: white;
-  opacity: 0.9;
+  border-color: var(--color-fg);
 }
 
 .ignore-button:hover,
 .remark-button:hover {
-  opacity: 1;
-  transform: translateY(-1px);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-pop-hover);
 }
 
 .vscode-button,
 .compare-in-vscode {
   background: #0066b8;
   color: white;
+  border-color: var(--color-fg);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -139,53 +155,120 @@
 
 .vscode-button svg,
 .compare-in-vscode svg {
-  width: 12px;
-  height: 12px;
-  min-width: 12px;
-  min-height: 12px;
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  min-height: 14px;
   fill: currentColor;
   display: block;
   flex-shrink: 0;
+  stroke-width: 2.5px;
 }
 
 .view-changes-btn {
-  background: var(--color-bg);
+  background: var(--color-card);
   color: var(--color-fg);
-  box-shadow: var(--shadow-extruded-small);
+  border-color: var(--color-fg);
 }
 
-/* Command Tab */
+/* Command Tab - Lightweight with SVG Icons */
 .command-tab {
   background: transparent;
   box-shadow: none;
   color: var(--color-muted);
-  border-radius: var(--radius-base);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
   padding: var(--spacing-2) var(--spacing-4);
   min-height: 36px;
   font-weight: var(--font-weight-medium);
-  transition: all var(--transition-base);
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  white-space: nowrap;
 }
 
 .command-tab:hover:not(.active) {
   color: var(--color-fg);
-  background: rgba(163, 177, 198, 0.1);
+  background: rgba(251, 191, 36, 0.1);
+  border-color: var(--color-border);
 }
 
 .command-tab.active {
   background: var(--color-accent);
   color: white;
-  font-weight: var(--font-weight-bold);
-  box-shadow: var(--shadow-extruded-small);
+  border-color: var(--color-accent);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: 0 1px 3px rgba(139, 92, 246, 0.3);
+}
+
+/* Branch Badge in Command Tab */
+.branch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-semibold);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.branch-badge.source {
+  background: rgba(52, 211, 153, 0.15);
+  color: #059669;
+}
+
+.branch-badge.target {
+  background: rgba(251, 191, 36, 0.15);
+  color: #d97706;
+}
+
+.command-tab.active .branch-badge {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Branch Icon SVG */
+.branch-icon {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+/* Arrow Icon SVG */
+.arrow-icon {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: all var(--transition-fast);
+}
+
+.command-tab:hover .arrow-icon {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+.command-tab.active .arrow-icon {
+  opacity: 1;
 }
 
 /* Theme/Layout Switcher */
 .theme-switcher {
   display: inline-flex;
   align-items: center;
-  background: var(--color-bg);
+  background: var(--color-card);
   border-radius: var(--radius-full);
   padding: var(--spacing-1);
-  box-shadow: var(--shadow-inset-small);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-pop);
   gap: var(--spacing-1);
 }
 
@@ -197,123 +280,149 @@
   box-shadow: none;
   background: transparent;
   color: var(--color-muted);
+  border: var(--border-width) solid transparent;
 }
 
 .theme-button.active {
   background: var(--color-accent);
   color: white;
-  box-shadow: var(--shadow-extruded-small);
+  border-color: var(--color-fg);
+  box-shadow: var(--shadow-small);
 }
 
 .theme-button:hover:not(.active) {
   color: var(--color-fg);
+  background: var(--color-tertiary);
+  transform: none;
+  box-shadow: none;
 }
 
-/* ========== Cards ========== */
+/* ========== Cards - "Sticker" Style ========== */
 
 .card,
 .container {
-  background: var(--color-bg);
-  border-radius: var(--radius-container);
+  background: var(--color-card);
+  border-radius: var(--radius-xl);
   padding: var(--spacing-8);
-  box-shadow: var(--shadow-extruded);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-card);
   transition: all var(--transition-base);
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-extruded-hover);
+  transform: rotate(-1deg) scale(1.02);
+  box-shadow: var(--shadow-card-hover);
 }
 
-/* ========== Commit Cards ========== */
+/* ========== Commit Cards - Playful Stickers ========== */
 
 .commit {
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-2) var(--spacing-3);
-  border-radius: var(--radius-base);
-  background: var(--color-bg);
-  box-shadow: var(--shadow-extruded);
+  padding: var(--spacing-4) var(--spacing-5);
+  border-radius: var(--radius-md);
+  background: var(--color-card);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-card);
   position: relative;
   transition: all var(--transition-base);
-  margin-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
+}
+
+.commit:hover {
+  transform: rotate(-0.5deg) scale(1.01);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .commit-container.source .commit {
   border-left: 4px solid var(--color-success);
-  border-top-left-radius: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(40, 167, 69, 0.02) 0%,
-    var(--color-bg) 100%
-  );
+  box-shadow: var(--shadow-card-success);
 }
 
 .commit-container.target .commit {
   border-right: 4px solid var(--color-warning);
-  border-top-right-radius: 0;
-  background: linear-gradient(
-    225deg,
-    rgba(255, 152, 0, 0.02) 0%,
-    var(--color-bg) 100%
-  );
+  box-shadow: var(--shadow-card-warning);
 }
 
 .commit-container.both .commit {
   border-top: 4px solid var(--color-success);
-  border-left: none;
-  border-right: none;
-  border-radius: var(--radius-base);
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(40, 167, 69, 0.02) 0%,
-    var(--color-bg) 100%
-  );
+  box-shadow: var(--shadow-card-success);
 }
 
 .commit-container.both .commit.matched-by-message {
-  background: linear-gradient(
-    180deg,
-    rgba(24, 144, 255, 0.02) 0%,
-    var(--color-bg) 100%
-  );
   border-top-color: var(--color-info);
+  box-shadow: var(--shadow-card-accent);
 }
 
 .commit.ignored {
   opacity: 0.5;
-  box-shadow: var(--shadow-inset-small);
+  filter: grayscale(0.7);
+  box-shadow: var(--shadow-small);
+  position: relative;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-card),
+    var(--color-card) 10px,
+    rgba(100, 116, 139, 0.05) 10px,
+    rgba(100, 116, 139, 0.05) 20px
+  );
 }
 
-/* Commit Badge */
+.commit.ignored::before {
+  content: "已忽略";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(244, 114, 182, 0.15);
+  color: #be185d;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-semibold);
+  border: 1px solid rgba(244, 114, 182, 0.3);
+  z-index: 10;
+}
+
+.commit.ignored:hover {
+  opacity: 0.7;
+  transform: none;
+}
+
+/* Commit Badge - Colorful sticker labels */
 .commit-badge {
   position: absolute;
-  top: -10px;
-  padding: var(--spacing-1) var(--spacing-3);
+  top: -12px;
+  padding: var(--spacing-1) var(--spacing-4);
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-extrabold);
   color: white;
-  box-shadow: var(--shadow-extruded-small);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-small);
   z-index: var(--z-base);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+  transition: transform var(--transition-fast);
+}
+
+.commit:hover .commit-badge {
+  transform: rotate(2deg);
 }
 
 .commit-container.source .commit-badge {
-  left: var(--spacing-3);
+  left: var(--spacing-4);
   background: var(--color-success);
 }
 
 .commit-container.target .commit-badge {
-  right: var(--spacing-3);
+  right: var(--spacing-4);
   background: var(--color-warning);
 }
 
 .commit-container.both .commit-badge {
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) rotate(-2deg);
   background: var(--color-success);
 }
 
@@ -321,23 +430,29 @@
   background: var(--color-info);
 }
 
+.commit:hover .commit-container.both .commit-badge {
+  transform: translateX(-50%) rotate(2deg);
+}
+
 /* Commit Content */
 .commit-time {
   color: var(--color-muted);
   font-size: var(--font-size-xs);
-  margin-bottom: var(--spacing-1);
-  margin-top: var(--spacing-2);
-  font-weight: var(--font-weight-normal);
+  margin-bottom: var(--spacing-2);
+  margin-top: var(--spacing-3);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .commit-message {
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
   color: var(--color-fg);
-  margin-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-3);
   cursor: pointer;
   transition: color var(--transition-fast);
   font-size: var(--font-size-base);
-  line-height: 1.5;
+  line-height: 1.6;
   word-wrap: break-word;
   word-break: break-word;
   overflow-wrap: break-word;
@@ -354,13 +469,13 @@
   font-size: var(--font-size-xs);
   color: var(--color-muted);
   gap: var(--spacing-2);
-  margin-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-3);
   align-items: center;
 }
 
 .commit-author {
   margin-right: var(--spacing-1);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-bold);
   color: var(--color-fg);
 }
 
@@ -368,85 +483,103 @@
   font-family: var(--font-mono);
   cursor: pointer;
   background: var(--color-bg);
-  padding: var(--spacing-1) var(--spacing-2);
-  border-radius: var(--radius-small);
-  box-shadow: var(--shadow-inset-small);
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
   transition: all var(--transition-fast);
   font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
 }
 
 .commit-hash:hover {
-  box-shadow: var(--shadow-inset);
-  transform: translateY(1px);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-small);
 }
 
 .commit-hash-pair {
   background: var(--color-bg);
-  padding: var(--spacing-3);
-  border-radius: var(--radius-base);
-  box-shadow: var(--shadow-inset-small);
-  margin-top: var(--spacing-2);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--color-border);
+  margin-top: var(--spacing-3);
 }
 
 .commit-hash-branch {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
-  padding: var(--spacing-1);
-  margin-bottom: var(--spacing-1);
+  padding: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
 }
 
 .commit-hash-branch:last-child {
-  background: rgba(255, 152, 0, 0.05);
-  border-radius: var(--radius-small);
+  background: rgba(251, 191, 36, 0.1);
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--color-warning);
 }
 
 .branch-label {
-  min-width: 80px;
-  font-weight: var(--font-weight-bold);
+  min-width: 90px;
+  font-weight: var(--font-weight-extrabold);
   color: var(--color-fg);
   font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* ========== Inputs ========== */
+/* ========== Inputs - Clean with Hard Shadow on Focus ========== */
 
 .input,
 .search-input,
 .remark-textarea {
   width: 100%;
   padding: var(--spacing-3) var(--spacing-4);
-  border: none;
-  border-radius: var(--radius-base);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
   font-family: var(--font-body);
-  background: var(--color-bg);
+  background: var(--color-input);
   color: var(--color-fg);
-  box-shadow: var(--shadow-inset);
+  box-shadow: none;
   transition: all var(--transition-base);
 }
 
 .input:focus,
 .search-input:focus,
 .remark-textarea:focus {
-  box-shadow: var(--shadow-inset-deep);
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-pop);
+  outline: none;
+  transform: translate(-2px, -2px);
 }
 
 .input::placeholder,
 .search-input::placeholder,
 .remark-textarea::placeholder {
   color: var(--color-muted);
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .remark-textarea {
-  min-height: 120px;
+  min-height: 140px;
   resize: vertical;
   line-height: var(--line-height-relaxed);
 }
 
-/* ========== Checkboxes ========== */
+/* Input Labels - Bold, uppercase, tracking */
+.input-label {
+  display: block;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--spacing-2);
+  color: var(--color-fg);
+}
+
+/* ========== Checkboxes - Playful Toggle ========== */
 
 .filter-checkbox,
 .search-checkbox {
@@ -454,10 +587,11 @@
   align-items: center;
   cursor: pointer;
   font-size: var(--font-size-sm);
-  color: var(--color-muted);
+  color: var(--color-fg);
   gap: var(--spacing-2);
   white-space: nowrap;
   flex-shrink: 0;
+  font-weight: var(--font-weight-medium);
 }
 
 .filter-checkbox input[type="checkbox"],
@@ -466,27 +600,30 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  min-height: 20px;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  min-height: 22px;
   flex-shrink: 0;
-  border-radius: var(--radius-small);
-  background: var(--color-bg);
-  box-shadow: var(--shadow-inset-small);
+  border-radius: var(--radius-sm);
+  background: var(--color-card);
+  border: var(--border-width) solid var(--color-fg);
   position: relative;
   transition: all var(--transition-base);
+  box-shadow: var(--shadow-small);
 }
 
 .filter-checkbox input[type="checkbox"]:hover,
 .search-checkbox input[type="checkbox"]:hover {
-  box-shadow: var(--shadow-inset);
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-small-hover);
 }
 
 .filter-checkbox input[type="checkbox"]:checked,
 .search-checkbox input[type="checkbox"]:checked {
   background: var(--color-accent);
-  box-shadow: var(--shadow-extruded-small);
+  border-color: var(--color-fg);
+  box-shadow: var(--shadow-pop);
 }
 
 .filter-checkbox input[type="checkbox"]:checked::after,
@@ -497,8 +634,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-size: 14px;
-  font-weight: var(--font-weight-bold);
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
 }
 
 .filter-checkbox span,
@@ -507,7 +644,7 @@
   user-select: none;
 }
 
-/* ========== Modals ========== */
+/* ========== Modals - Playful Pop-up ========== */
 
 .modal,
 .remark-modal {
@@ -517,8 +654,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
   z-index: var(--z-modal-backdrop);
   align-items: center;
   justify-content: center;
@@ -527,22 +664,43 @@
 .modal.show,
 .remark-modal.show {
   display: flex;
+  animation: fadeIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-content,
 .remark-modal-content {
   position: relative;
   background: var(--color-bg);
-  padding: var(--spacing-5);
-  border-radius: var(--radius-container);
-  box-shadow: 20px 20px 60px rgba(163, 177, 198, 0.6),
-    -20px -20px 60px rgba(255, 255, 255, 0.8),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  padding: var(--spacing-8);
+  border-radius: var(--radius-xl);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: 16px 16px 0px var(--color-fg);
   width: 90%;
-  max-width: 500px;
+  max-width: 520px;
   max-height: 90vh;
   overflow: auto;
   z-index: var(--z-modal);
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8) rotate(-5deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
 }
 
 .modal h3,
@@ -550,51 +708,67 @@
   margin-top: 0;
   margin-bottom: var(--spacing-6);
   color: var(--color-fg);
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-extrabold);
   font-family: var(--font-display);
 }
 
 /* Reason List */
 .reason-list {
   margin: var(--spacing-4) 0;
-  max-height: 300px;
+  max-height: 320px;
   overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--spacing-1);
 }
 
 .reason-option {
   display: flex;
   align-items: center;
   padding: var(--spacing-3) var(--spacing-4);
-  border-radius: var(--radius-base);
+  border-radius: var(--radius-md);
   margin-bottom: var(--spacing-3);
   cursor: pointer;
-  background: var(--color-bg);
-  box-shadow: var(--shadow-extruded-small);
+  background: var(--color-card);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-small);
   transition: all var(--transition-base);
+  width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .reason-option:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-extruded-hover);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-small-hover);
 }
 
 .reason-option.selected {
-  box-shadow: var(--shadow-inset-small);
-  background: rgba(108, 99, 255, 0.05);
+  background: var(--color-tertiary);
+  box-shadow: var(--shadow-pop);
+  transform: translate(-2px, -2px);
 }
 
 .reason-option input[type="radio"] {
   margin-right: var(--spacing-3);
   width: 20px;
   height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   cursor: pointer;
+  accent-color: var(--color-accent);
+  flex-shrink: 0;
 }
 
 .reason-option label {
   flex: 1;
   cursor: pointer;
   font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .custom-reason {
@@ -612,43 +786,52 @@
   display: flex;
   justify-content: flex-end;
   gap: var(--spacing-3);
-  margin-top: var(--spacing-6);
+  margin-top: var(--spacing-8);
 }
 
 .remark-delete {
   margin-right: auto;
 }
 
-/* ========== Info Displays ========== */
+/* ========== Info Displays - Colorful Callouts ========== */
 
 .ignore-reason,
 .commit-remark {
   font-size: var(--font-size-xs);
-  color: var(--color-muted);
+  color: var(--color-fg);
   margin: var(--spacing-3) 0 0 0;
   padding: var(--spacing-3) var(--spacing-4);
-  background: var(--color-bg);
-  border-radius: var(--radius-small);
-  box-shadow: var(--shadow-inset-small);
+  background: var(--color-card);
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--color-secondary);
+  box-shadow: var(--shadow-small);
   line-height: var(--line-height-relaxed);
   display: flex;
   align-items: flex-start;
   gap: var(--spacing-2);
 }
 
+.commit-remark {
+  border-color: var(--color-info);
+  background: rgba(139, 92, 246, 0.05);
+}
+
 .ignore-reason-title,
 .commit-remark-title {
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-extrabold);
   color: var(--color-fg);
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: var(--font-size-xs);
 }
 
 .cherry-pick-time {
   margin-top: var(--spacing-3);
-  padding: var(--spacing-2) var(--spacing-4);
-  background: rgba(255, 152, 0, 0.05);
-  border-left: 3px solid var(--color-warning);
-  border-radius: var(--radius-small);
+  padding: var(--spacing-3) var(--spacing-4);
+  background: rgba(251, 191, 36, 0.1);
+  border-left: 4px solid var(--color-warning);
+  border-radius: var(--radius-sm);
   font-size: var(--font-size-xs);
   display: flex;
   align-items: center;
@@ -656,11 +839,13 @@
 }
 
 .cherry-pick-label {
-  font-weight: var(--font-weight-bold);
-  color: #e07600;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-warning);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* ========== Loading & Toast ========== */
+/* ========== Loading & Toast - Playful Feedback ========== */
 
 .loading-overlay {
   position: fixed;
@@ -668,8 +853,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(4px);
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -685,12 +870,14 @@
 }
 
 .loading-spinner {
-  width: 60px;
-  height: 60px;
-  border: 6px solid rgba(255, 255, 255, 0.3);
+  width: 64px;
+  height: 64px;
+  border: 6px solid var(--color-card);
   border-radius: 50%;
   border-top-color: var(--color-accent);
-  animation: spin 1s ease-in-out infinite;
+  border-right-color: var(--color-secondary);
+  border-bottom-color: var(--color-tertiary);
+  animation: spin 1s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
 }
 
 @keyframes spin {
@@ -701,48 +888,50 @@
 
 .success-toast {
   position: fixed;
-  top: var(--spacing-6);
-  right: var(--spacing-6);
+  top: var(--spacing-8);
+  right: var(--spacing-8);
   background: var(--color-success);
-  color: white;
+  color: var(--color-fg);
   padding: var(--spacing-4) var(--spacing-6);
-  border-radius: var(--radius-base);
-  box-shadow: var(--shadow-extruded-hover);
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-pop);
   z-index: var(--z-tooltip);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-bold);
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(-20px) rotate(-2deg);
   transition: all var(--transition-base);
 }
 
 .success-toast.show {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) rotate(0deg);
 }
 
-/* ========== Back to Top ========== */
+/* ========== Back to Top - Floating Candy Button ========== */
 
 .back-to-top {
   position: fixed;
   bottom: var(--spacing-8);
   right: var(--spacing-8);
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   background: var(--color-accent);
   color: white;
   border-radius: 50%;
+  border: var(--border-width) solid var(--color-fg);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: var(--shadow-extruded);
+  box-shadow: var(--shadow-pop);
   opacity: 0;
   visibility: hidden;
   transition: all var(--transition-base);
   font-size: var(--font-size-2xl);
   z-index: var(--z-fixed);
-  border: none;
+  font-weight: var(--font-weight-extrabold);
 }
 
 .back-to-top.show {
@@ -751,33 +940,43 @@
 }
 
 .back-to-top:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-extruded-hover);
+  transform: translate(-3px, -3px) rotate(-5deg);
+  box-shadow: var(--shadow-pop-hover);
+  background: var(--color-accent-light);
 }
 
-/* ========== Legend ========== */
+.back-to-top:active {
+  transform: translate(1px, 1px) rotate(0deg);
+  box-shadow: var(--shadow-pop-active);
+}
+
+/* ========== Legend - Colorful Badges ========== */
 
 .legend-item {
   display: inline-flex;
   align-items: center;
-  background: var(--color-bg);
+  background: var(--color-card);
   padding: var(--spacing-2) var(--spacing-5);
   border-radius: var(--radius-full);
-  box-shadow: var(--shadow-extruded-small);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-small);
   font-size: var(--font-size-sm);
-  transition: transform var(--transition-fast);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
   gap: var(--spacing-2);
 }
 
 .legend-item:hover {
-  transform: translateY(-1px);
+  transform: translate(-1px, -1px) rotate(-1deg);
+  box-shadow: var(--shadow-small-hover);
 }
 
 .legend-dot {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  box-shadow: var(--shadow-extruded-small);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-small);
 }
 
 .legend-dot.source {
@@ -792,24 +991,30 @@
   background: var(--color-info);
 }
 
-/* ========== Branch Indicator (Flat Layout) ========== */
+/* ========== Branch Indicator (Flat Layout) - Playful Dots ========== */
 
 .timeline.flat-layout .branch-indicator {
   position: absolute;
-  top: var(--spacing-4);
-  width: 14px;
-  height: 14px;
+  top: var(--spacing-5);
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  box-shadow: var(--shadow-extruded-small);
+  border: var(--border-width) solid var(--color-fg);
+  box-shadow: var(--shadow-small);
+  transition: transform var(--transition-fast);
+}
+
+.commit:hover .timeline.flat-layout .branch-indicator {
+  transform: scale(1.2);
 }
 
 .timeline.flat-layout .commit-container.source .branch-indicator {
-  right: var(--spacing-4);
+  right: var(--spacing-5);
   background: var(--color-success);
 }
 
 .timeline.flat-layout .commit-container.target .branch-indicator {
-  left: var(--spacing-4);
+  left: var(--spacing-5);
   background: var(--color-warning);
 }
 
@@ -821,27 +1026,139 @@
   );
 }
 
-/* ========== Responsive ========== */
+/* ========== Responsive - Mobile Optimizations ========== */
 
 @media (max-width: 768px) {
+  body {
+    padding: var(--spacing-2);
+  }
+
+  /* Reduce shadow sizes on mobile */
   .btn,
   .filter-button,
   .modal-button,
   .remark-modal-button {
     min-height: 48px;
     padding: var(--spacing-3) var(--spacing-5);
+    box-shadow: var(--shadow-small);
+  }
+
+  .btn:hover,
+  .filter-button:hover,
+  .modal-button:hover,
+  .remark-modal-button:hover {
+    box-shadow: var(--shadow-small-hover);
+  }
+
+  .commit {
+    box-shadow: var(--shadow-small);
+  }
+
+  .commit:hover {
+    transform: none;
+    box-shadow: var(--shadow-small);
+  }
+
+  .card,
+  .container {
+    box-shadow: var(--shadow-small);
+  }
+
+  .card:hover {
+    transform: none;
+    box-shadow: var(--shadow-small);
   }
 
   .modal-content,
   .remark-modal-content {
     width: 95%;
     padding: var(--spacing-6);
+    box-shadow: 8px 8px 0px var(--color-fg);
   }
 
   .back-to-top {
     bottom: var(--spacing-6);
     right: var(--spacing-6);
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
+  }
+
+  /* Hide decorative background on mobile */
+  body::before {
+    opacity: 0.2;
+  }
+
+  h1::after {
+    display: none;
+  }
+
+  /* Command Tab Mobile Adjustments */
+  .command-tab {
+    flex-direction: column;
+    gap: 6px;
+    padding: var(--spacing-2) var(--spacing-3);
+    min-height: auto;
+  }
+
+  .branch-badge {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+  }
+
+  .branch-icon {
+    width: 11px;
+    height: 11px;
+  }
+
+  .arrow-icon {
+    width: 12px;
+    height: 12px;
+    transform: rotate(90deg);
+  }
+
+  .command-tab:hover .arrow-icon {
+    transform: rotate(90deg) translateX(2px);
+  }
+}
+
+/* ========== Wiggle Animation for Icons ========== */
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(3deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+}
+
+.vscode-button:hover svg,
+.compare-in-vscode:hover svg {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+/* ========== Accessibility - Respect Reduced Motion ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  .commit:hover,
+  .card:hover,
+  .back-to-top:hover,
+  .legend-item:hover,
+  .commit-badge {
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .modal-content,
+  .remark-modal-content {
+    animation: none !important;
+  }
+
+  .loading-spinner {
+    animation: spin 2s linear infinite !important;
   }
 }

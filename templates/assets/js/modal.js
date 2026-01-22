@@ -119,25 +119,36 @@ async function confirmIgnore() {
   saveCurrentFilterState();
 
   try {
-    const commitElement = currentIgnoreElement.closest(".commit");
+    // 先加载最新的完整数据
+    const latestIgnoredCommits = await loadIgnoredCommits();
 
-    const index = appState.ignoredCommits.findIndex(
+    // 检查是否已存在
+    const index = latestIgnoredCommits.findIndex(
       (item) => item.hash === currentIgnoreHash
     );
+
+    // 如果不存在，添加新的忽略记录
     if (index === -1) {
-      appState.ignoredCommits.push({
+      latestIgnoredCommits.push({
         hash: currentIgnoreHash,
         reason: finalReason,
         timestamp: new Date().toISOString(),
       });
+    } else {
+      // 如果已存在，更新原因和时间戳
+      latestIgnoredCommits[index].reason = finalReason;
+      latestIgnoredCommits[index].timestamp = new Date().toISOString();
     }
 
-    await saveIgnoredCommits(appState.ignoredCommits);
+    // 保存更新后的完整数据
+    await saveIgnoredCommits(latestIgnoredCommits);
 
-    // 重新加载数据
+    // 重新加载数据到应用状态
     appState.ignoredCommits = await loadIgnoredCommits();
 
-    renderCommits();
+    // 只更新改变的卡片
+    renderCommits(false, currentIgnoreHash);
+    restoreFilterState();
     closeIgnoreModal();
     showSuccessMessage("忽略提交成功");
   } catch (error) {
@@ -153,33 +164,39 @@ async function confirmIgnore() {
  * @param {string} hash - 提交哈希
  * @param {HTMLElement} element - 触发元素
  */
-function toggleIgnoreCommit(hash, element) {
-  const index = appState.ignoredCommits.findIndex((item) => item.hash === hash);
+async function toggleIgnoreCommit(hash, element) {
+  try {
+    // 先加载最新的完整数据来检查状态
+    const latestIgnoredCommits = await loadIgnoredCommits();
+    const index = latestIgnoredCommits.findIndex((item) => item.hash === hash);
 
-  if (index === -1) {
-    showIgnoreModal(hash, element);
-  } else {
-    showLoading();
-    saveCurrentFilterState();
+    if (index === -1) {
+      // 不存在，显示模态框添加忽略
+      showIgnoreModal(hash, element);
+    } else {
+      // 已存在，直接删除（取消忽略）
+      showLoading();
+      saveCurrentFilterState();
 
-    appState.ignoredCommits.splice(index, 1);
+      const updatedCommits = latestIgnoredCommits.filter(
+        (item) => item.hash !== hash
+      );
 
-    saveIgnoredCommits(appState.ignoredCommits)
-      .then(() => {
-        return loadIgnoredCommits();
-      })
-      .then((commits) => {
-        appState.ignoredCommits = commits;
-        renderCommits();
-        showSuccessMessage("取消忽略成功");
-      })
-      .catch((error) => {
-        console.error("保存忽略提交失败:", error);
-        alert("保存忽略提交失败: " + error.message);
-      })
-      .finally(() => {
-        hideLoading();
-      });
+      await saveIgnoredCommits(updatedCommits);
+
+      // 重新加载数据到应用状态
+      appState.ignoredCommits = await loadIgnoredCommits();
+
+      // 只更新改变的卡片
+      renderCommits(false, hash);
+      restoreFilterState();
+      showSuccessMessage("取消忽略成功");
+      hideLoading();
+    }
+  } catch (error) {
+    console.error("切换忽略状态失败:", error);
+    alert("操作失败: " + error.message);
+    hideLoading();
   }
 }
 
@@ -229,18 +246,22 @@ async function confirmRemark() {
     showLoading();
     saveCurrentFilterState();
 
-    const existingIndex = appState.commitRemarks.findIndex(
+    // 先加载最新的完整数据
+    const latestRemarks = await loadCommitRemarks();
+
+    const existingIndex = latestRemarks.findIndex(
       (r) => r.hash === currentCommitHash
     );
 
     if (remarkText) {
       if (existingIndex >= 0) {
-        appState.commitRemarks[existingIndex].content = remarkText;
-        appState.commitRemarks[existingIndex].timestamp =
-          new Date().toISOString();
+        // 更新现有备注
+        latestRemarks[existingIndex].content = remarkText;
+        latestRemarks[existingIndex].timestamp = new Date().toISOString();
         console.log("已更新现有备注");
       } else {
-        appState.commitRemarks.push({
+        // 添加新备注
+        latestRemarks.push({
           hash: currentCommitHash,
           content: remarkText,
           timestamp: new Date().toISOString(),
@@ -248,15 +269,22 @@ async function confirmRemark() {
         console.log("已添加新备注");
       }
     } else if (existingIndex >= 0) {
-      appState.commitRemarks.splice(existingIndex, 1);
+      // 删除备注
+      latestRemarks.splice(existingIndex, 1);
       console.log("已删除备注");
     }
 
-    await saveCommitRemarks(appState.commitRemarks);
+    // 保存更新后的完整数据
+    await saveCommitRemarks(latestRemarks);
     console.log("服务器保存备注完成");
 
+    // 重新加载数据到应用状态
+    appState.commitRemarks = await loadCommitRemarks();
+
     closeRemarkModal();
-    renderCommits();
+    // 只更新改变的卡片
+    renderCommits(false, currentCommitHash);
+    restoreFilterState();
     showSuccessMessage("备注已保存");
   } catch (error) {
     console.error("保存备注操作失败:", error);
@@ -276,18 +304,28 @@ async function deleteRemark() {
     showLoading();
     saveCurrentFilterState();
 
-    const existingIndex = appState.commitRemarks.findIndex(
+    // 先加载最新的完整数据
+    const latestRemarks = await loadCommitRemarks();
+
+    const existingIndex = latestRemarks.findIndex(
       (r) => r.hash === currentCommitHash
     );
 
     if (existingIndex >= 0) {
-      appState.commitRemarks.splice(existingIndex, 1);
+      // 从完整数据中移除该备注
+      latestRemarks.splice(existingIndex, 1);
       console.log("已删除备注");
 
-      await saveCommitRemarks(appState.commitRemarks);
+      // 保存更新后的完整数据
+      await saveCommitRemarks(latestRemarks);
+
+      // 重新加载数据到应用状态
+      appState.commitRemarks = await loadCommitRemarks();
 
       closeRemarkModal();
-      renderCommits();
+      // 只更新改变的卡片
+      renderCommits(false, currentCommitHash);
+      restoreFilterState();
       showSuccessMessage("备注已删除");
     }
   } catch (error) {

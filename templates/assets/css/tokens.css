@@ -1,74 +1,68 @@
 /**
- * Neumorphism Design Tokens
- * Cool Grey Monochromatic Palette with RGBA Shadows
+ * Playful Geometric Design Tokens
+ * Punchy, High-Saturation Palette with Hard Shadows
  */
 
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
 
 :root {
-  /* ========== Colors - Cool Grey Monochromatic ========== */
+  /* ========== Colors - Playful Geometric ========== */
 
-  /* Base "Cool Clay" Surface */
-  --color-bg: #e0e5ec;
+  /* Base Surface */
+  --color-bg: #fffdf5; /* Warm Cream/Off-White (Paper feel) */
 
   /* Text Colors - WCAG Compliant */
-  --color-fg: #3d4852; /* Primary text - 7.5:1 contrast (AAA) */
-  --color-muted: #6b7280; /* Secondary text - 4.6:1 contrast (AA) */
+  --color-fg: #1e293b; /* Slate 800 (Softer than black) - AAA */
+  --color-muted: #64748b; /* Slate 500 - AA */
 
-  /* Accent Colors */
-  --color-accent: #6c63ff; /* Soft violet for CTAs */
-  --color-accent-light: #8b84ff; /* Lighter violet for hover */
-  --color-accent-secondary: #38b2ac; /* Teal for success */
+  /* Accent Colors - Playful Palette */
+  --color-accent: #8b5cf6; /* Vivid Violet (Primary Brand) */
+  --color-accent-light: #a78bfa; /* Lighter violet for hover */
+  --color-secondary: #f472b6; /* Hot Pink (Playful pop) */
+  --color-tertiary: #fbbf24; /* Amber/Yellow (Optimism) */
+  --color-quaternary: #34d399; /* Emerald/Mint (Freshness) */
 
   /* Semantic Colors */
-  --color-success: #28a745;
-  --color-warning: #ff9800;
-  --color-danger: #dc3545;
-  --color-info: #1890ff;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-danger: #f472b6;
+  --color-info: #8b5cf6;
 
-  /* ========== Shadows - RGBA for Premium Smoothness ========== */
+  /* Neutral Colors */
+  --color-border: #e2e8f0; /* Slate 200 */
+  --color-card: #ffffff; /* White */
+  --color-input: #ffffff; /* White */
 
-  /* Shadow Colors */
-  --shadow-light: rgba(255, 255, 255, 0.5);
-  --shadow-light-strong: rgba(255, 255, 255, 0.6);
-  --shadow-dark: rgba(163, 177, 198, 0.6);
-  --shadow-dark-strong: rgba(163, 177, 198, 0.7);
+  /* ========== Shadows - Hard "Pop" Shadows ========== */
 
-  /* Extruded (Raised) - Default State */
-  --shadow-extruded: 9px 9px 16px var(--shadow-dark),
-    -9px -9px 16px var(--shadow-light);
+  /* The "Pop" Shadow (Hard Shadow) - No blur, solid offset */
+  --shadow-pop: 4px 4px 0px 0px var(--color-fg);
+  --shadow-pop-hover: 6px 6px 0px 0px var(--color-fg);
+  --shadow-pop-active: 2px 2px 0px 0px var(--color-fg);
 
-  /* Extruded Hover - Lifted State */
-  --shadow-extruded-hover: 12px 12px 20px var(--shadow-dark-strong),
-    -12px -12px 20px var(--shadow-light-strong);
+  /* Card Shadows - Colored for different states */
+  --shadow-card: 8px 8px 0px 0px var(--color-border);
+  --shadow-card-hover: 10px 10px 0px 0px var(--color-border);
+  --shadow-card-success: 8px 8px 0px 0px var(--color-success);
+  --shadow-card-warning: 8px 8px 0px 0px var(--color-warning);
+  --shadow-card-accent: 8px 8px 0px 0px var(--color-accent);
 
-  /* Extruded Small - For Smaller Elements */
-  --shadow-extruded-small: 5px 5px 10px var(--shadow-dark),
-    -5px -5px 10px var(--shadow-light);
+  /* Small Shadows */
+  --shadow-small: 2px 2px 0px 0px var(--color-fg);
+  --shadow-small-hover: 3px 3px 0px 0px var(--color-fg);
 
-  /* Inset (Pressed) - Standard Pressed State */
-  --shadow-inset: inset 6px 6px 10px var(--shadow-dark),
-    inset -6px -6px 10px var(--shadow-light);
+  /* ========== Border Radius - Playful & Varied ========== */
 
-  /* Inset Deep - For Inputs and Deep Wells */
-  --shadow-inset-deep: inset 10px 10px 20px var(--shadow-dark-strong),
-    inset -10px -10px 20px var(--shadow-light-strong);
-
-  /* Inset Small - For Subtle Tracks */
-  --shadow-inset-small: inset 3px 3px 6px var(--shadow-dark),
-    inset -3px -3px 6px var(--shadow-light);
-
-  /* ========== Border Radius - Soft & Rounded ========== */
-
-  --radius-container: 32px; /* Cards and major containers */
-  --radius-base: 16px; /* Buttons and medium elements */
-  --radius-small: 12px; /* Inner elements */
+  --radius-sm: 8px; /* Small elements */
+  --radius-md: 16px; /* Medium elements */
+  --radius-lg: 24px; /* Large elements */
+  --radius-xl: 32px; /* Extra large containers */
   --radius-full: 9999px; /* Pills and circles */
 
   /* ========== Typography ========== */
 
-  --font-display: "Plus Jakarta Sans", sans-serif;
-  --font-body: "DM Sans", sans-serif;
+  --font-display: "Outfit", system-ui, sans-serif; /* Geometric, friendly headings */
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif; /* Legible, modern body */
   --font-mono: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
 
   /* Font Weights */
@@ -78,17 +72,16 @@
   --font-weight-bold: 700;
   --font-weight-extrabold: 800;
 
-  /* Font Sizes - 平衡的尺寸 */
+  /* Font Sizes - Balanced scale (Major Third 1.25) */
   --font-size-xs: 0.75rem; /* 12px */
   --font-size-sm: 0.875rem; /* 14px */
-  --font-size-base: 0.9375rem; /* 15px */
-  --font-size-lg: 1.0625rem; /* 17px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
   --font-size-xl: 1.25rem; /* 20px */
-  --font-size-2xl: 1.5rem; /* 24px */
-  --font-size-3xl: 1.875rem; /* 30px */
-  --font-size-4xl: 2.25rem; /* 36px */
-  --font-size-5xl: 2.75rem; /* 44px */
-  --font-size-7xl: 3.5rem; /* 56px */
+  --font-size-2xl: 1.563rem; /* 25px */
+  --font-size-3xl: 1.953rem; /* 31px */
+  --font-size-4xl: 2.441rem; /* 39px */
+  --font-size-5xl: 3.052rem; /* 49px */
 
   /* Line Heights */
   --line-height-tight: 1.25;
@@ -108,13 +101,18 @@
   --spacing-12: 3rem; /* 48px */
   --spacing-16: 4rem; /* 64px */
   --spacing-20: 5rem; /* 80px */
-  --spacing-32: 8rem; /* 128px */
+  --spacing-24: 6rem; /* 96px */
 
-  /* ========== Transitions ========== */
+  /* ========== Borders ========== */
 
-  --transition-fast: 150ms ease-out;
-  --transition-base: 300ms ease-out;
-  --transition-slow: 500ms ease-out;
+  --border-width: 2px; /* Chunky borders by default */
+  --border-color: var(--color-fg);
+
+  /* ========== Transitions - Bouncy & Elastic ========== */
+
+  --transition-fast: 150ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-base: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-slow: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* ========== Z-Index ========== */
 

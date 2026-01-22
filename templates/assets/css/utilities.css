@@ -485,15 +485,19 @@
 }
 
 .rounded-sm {
-  border-radius: var(--radius-small) !important;
+  border-radius: var(--radius-sm) !important;
 }
 
 .rounded {
-  border-radius: var(--radius-base) !important;
+  border-radius: var(--radius-md) !important;
 }
 
 .rounded-lg {
-  border-radius: var(--radius-large) !important;
+  border-radius: var(--radius-lg) !important;
+}
+
+.rounded-xl {
+  border-radius: var(--radius-xl) !important;
 }
 
 .rounded-full {
@@ -555,35 +559,122 @@
 /* ========== Highlight 高亮 ========== */
 
 .highlight {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 223, 0, 0.3),
-    rgba(255, 235, 59, 0.3)
-  );
-  border-radius: var(--radius-small);
-  padding: 2px 4px;
-  box-shadow: inset 1px 1px 2px rgba(255, 235, 59, 0.4),
-    inset -1px -1px 2px rgba(255, 255, 255, 0.2);
+  background: var(--color-tertiary);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  border: 1px solid var(--color-fg);
+  box-shadow: var(--shadow-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-fg);
+  display: inline;
+}
+
+/* 可选的高亮样式 */
+.highlight-accent {
+  background: var(--color-accent);
+  color: white;
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  border: 1px solid var(--color-fg);
+  box-shadow: var(--shadow-small);
+  font-weight: var(--font-weight-bold);
+  display: inline;
+}
+
+.highlight-secondary {
+  background: var(--color-secondary);
+  color: white;
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  border: 1px solid var(--color-fg);
+  box-shadow: var(--shadow-small);
+  font-weight: var(--font-weight-bold);
+  display: inline;
+}
+
+.highlight-underline {
+  background: transparent;
+  border-bottom: 3px solid var(--color-tertiary);
+  padding: 0 2px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-fg);
+  display: inline;
 }
 
 /* ========== Scrollbar Styling 滚动条样式 ========== */
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(163, 177, 198, 0.1);
+  background: var(--color-bg);
   border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(163, 177, 198, 0.3);
+  background: var(--color-accent);
   border-radius: var(--radius-full);
+  border: 1px solid var(--color-fg);
   transition: background var(--transition-fast);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(163, 177, 198, 0.5);
+  background: var(--color-accent-light);
+}
+
+/* ========== Playful Animations 趣味动画 ========== */
+
+.bounce-in {
+  animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.wiggle {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(3deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
