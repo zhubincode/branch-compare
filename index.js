@@ -35,8 +35,8 @@ async function getSourceBranch() {
         return branches.filter((branch) =>
           branch.toLowerCase().includes((input || "").toLowerCase())
         );
-      },
-    },
+      }
+    }
   ]);
   return sourceBranch;
 }
@@ -55,8 +55,8 @@ async function getTargetBranch(sourceBranch) {
           .filter((branch) =>
             branch.toLowerCase().includes((input || "").toLowerCase())
           );
-      },
-    },
+      }
+    }
   ]);
   return targetBranch;
 }
@@ -75,9 +75,9 @@ async function getTimeRange() {
         "最近一个月",
         "最近三个月",
         "最近半年",
-        "最近一年",
-      ],
-    },
+        "最近一年"
+      ]
+    }
   ]);
   return timeRange;
 }
@@ -95,8 +95,8 @@ async function getAuthor() {
         return authorChoices.filter((choice) =>
           choice.toLowerCase().includes((input || "").toLowerCase())
         );
-      },
-    },
+      }
+    }
   ]);
   return author;
 }
@@ -110,8 +110,26 @@ async function getCommits(sourceBranch, targetBranch, timeRange, author) {
   const sourceCommits = getAllCommits(sourceBranch, null, author, timeRange);
   console.log(`获取到 ${sourceBranch} 分支的提交数量: ${sourceCommits.length}`);
 
+  // 调试：检查是否有 body
+  const sourceWithBody = sourceCommits.filter((c) => c.body && c.body.trim());
+  console.log(`其中包含描述的提交: ${sourceWithBody.length}`);
+  if (sourceWithBody.length > 0) {
+    console.log(
+      `示例: ${sourceWithBody[0].hash.substring(0, 7)} - body: "${sourceWithBody[0].body.substring(0, 50)}..."`
+    );
+  }
+
   const targetCommits = getAllCommits(targetBranch, null, author, timeRange);
   console.log(`获取到 ${targetBranch} 分支的提交数量: ${targetCommits.length}`);
+
+  // 调试：检查是否有 body
+  const targetWithBody = targetCommits.filter((c) => c.body && c.body.trim());
+  console.log(`其中包含描述的提交: ${targetWithBody.length}`);
+  if (targetWithBody.length > 0) {
+    console.log(
+      `示例: ${targetWithBody[0].hash.substring(0, 7)} - body: "${targetWithBody[0].body.substring(0, 50)}..."`
+    );
+  }
 
   // 获取cherry-pick时间映射
   const cherryPickTimes = new Map();
@@ -151,7 +169,7 @@ async function getCommits(sourceBranch, targetBranch, timeRange, author) {
       ...commit,
       status: "source",
       branches: [sourceBranch],
-      normalizedMessage,
+      normalizedMessage
     });
 
     if (!messageMap.has(normalizedMessage)) {
@@ -196,7 +214,7 @@ async function getCommits(sourceBranch, targetBranch, timeRange, author) {
       ...commit,
       status: "target",
       branches: [targetBranch],
-      normalizedMessage,
+      normalizedMessage
     });
   });
 
@@ -317,7 +335,7 @@ const server = http.createServer(async (req, res) => {
                 remarkArray.push({
                   hash: hash,
                   content: commitRemarks[hash] || "",
-                  timestamp: new Date().toISOString(),
+                  timestamp: new Date().toISOString()
                 });
               }
             }
@@ -355,7 +373,7 @@ const server = http.createServer(async (req, res) => {
               message: "备注保存成功",
               timestamp: new Date().toISOString(),
               commitRemarks: commitRemarks,
-              count: commitRemarks.length,
+              count: commitRemarks.length
             })
           );
         } catch (saveError) {
@@ -368,7 +386,7 @@ const server = http.createServer(async (req, res) => {
         res.end(
           JSON.stringify({
             error: error.message,
-            timestamp: new Date().toISOString(),
+            timestamp: new Date().toISOString()
           })
         );
       }
@@ -383,7 +401,7 @@ const server = http.createServer(async (req, res) => {
         res.end(
           JSON.stringify({
             success: false,
-            message: "缺少提交哈希参数",
+            message: "缺少提交哈希参数"
           })
         );
         return;
@@ -395,14 +413,14 @@ const server = http.createServer(async (req, res) => {
       try {
         // 验证提交哈希是否存在和有效
         const objectType = execSync(`git cat-file -t ${hash}`, {
-          encoding: "utf-8",
+          encoding: "utf-8"
         }).trim();
         console.log(`提交 ${hash} 的对象类型: ${objectType}`);
 
         // 获取提交差异 - 添加参数使输出更完整
         const diff = execSync(`git show --patch --stat ${hash}`, {
           encoding: "utf-8",
-          maxBuffer: 5 * 1024 * 1024, // 5MB缓冲区
+          maxBuffer: 5 * 1024 * 1024 // 5MB缓冲区
         });
 
         console.log(`获取到提交 ${hash} 的差异数据, 长度: ${diff.length} 字节`);
@@ -414,8 +432,8 @@ const server = http.createServer(async (req, res) => {
           success: true,
           data: {
             hash,
-            diff: diff,
-          },
+            diff: diff
+          }
         };
 
         console.log(
@@ -433,7 +451,7 @@ const server = http.createServer(async (req, res) => {
         res.end(
           JSON.stringify({
             success: false,
-            message: `Git操作失败: ${gitError.message}`,
+            message: `Git操作失败: ${gitError.message}`
           })
         );
       }
@@ -443,7 +461,7 @@ const server = http.createServer(async (req, res) => {
       res.end(
         JSON.stringify({
           success: false,
-          message: `服务器错误: ${error.message}`,
+          message: `服务器错误: ${error.message}`
         })
       );
     }
@@ -510,7 +528,7 @@ async function main() {
       targetBranch,
       author,
       timeRange,
-      commits,
+      commits
     };
 
     // 生成并保存 Markdown 报告
@@ -545,8 +563,8 @@ async function main() {
         process.platform === "darwin"
           ? `open "${htmlPath}"`
           : process.platform === "win32"
-          ? `start "" "${htmlPath}"`
-          : `xdg-open "${htmlPath}"`;
+            ? `start "" "${htmlPath}"`
+            : `xdg-open "${htmlPath}"`;
 
       exec(command, (error) => {
         if (error) {

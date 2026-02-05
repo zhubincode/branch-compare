@@ -23,6 +23,19 @@ function renderCommits(
     isInitialLoad
   );
 
+  // 调试：检查是否有 commit 包含 body
+  const commitsWithBody = appState.commits.filter(
+    (c) => c.body && c.body.trim()
+  );
+  console.log(`发现 ${commitsWithBody.length} 个包含描述的提交`);
+  if (commitsWithBody.length > 0) {
+    console.log(
+      "示例:",
+      commitsWithBody[0].hash.substring(0, 7),
+      commitsWithBody[0].body
+    );
+  }
+
   const timeline = document.getElementById("timeline");
   const currentLayout = document.body.getAttribute("data-layout") || "flat";
 

@@ -473,10 +473,10 @@
   word-break: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  padding: var(--spacing-3) var(--spacing-4);
-  background: rgba(139, 92, 246, 0.03);
-  border-left: 3px solid var(--color-accent);
+  padding: var(--spacing-3);
+  background: var(--color-bg);
   border-radius: var(--radius-sm);
+  border: 1px dashed var(--color-border);
 }
 
 .commit-details {
