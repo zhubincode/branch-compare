@@ -174,13 +174,18 @@ function renderCommitCard(commit, layout) {
 
   commitContainer.innerHTML = `
     <div class="${commitClasses}" data-hash="${commit.hash}" data-status="${
-    commit.status
-  }">
+      commit.status
+    }">
       ${branchIndicator}
       <span class="commit-badge ${badgeClass}">${badgeText}</span>
       <div class="commit-time">${commit.formattedDate}</div>
       <div class="commit-info">
         <div class="commit-message">${escapeHtml(commit.message)}</div>
+        ${
+          commit.body && commit.body.trim()
+            ? `<div class="commit-body">${escapeHtml(commit.body)}</div>`
+            : ""
+        }
         <div class="commit-details">
           <span class="commit-author">作者: ${escapeHtml(
             commit.authorName

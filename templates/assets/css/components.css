@@ -463,6 +463,22 @@
   color: var(--color-accent);
 }
 
+.commit-body {
+  font-weight: var(--font-weight-normal);
+  color: var(--color-muted);
+  margin-bottom: var(--spacing-3);
+  font-size: var(--font-size-sm);
+  line-height: 1.7;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  padding: var(--spacing-3) var(--spacing-4);
+  background: rgba(139, 92, 246, 0.03);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+}
+
 .commit-details {
   display: flex;
   flex-wrap: wrap;
