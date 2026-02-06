@@ -1,6 +1,6 @@
 {
   "name": "branch-commit-compare",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Git branch comparison tool",
   "main": "index.js",
   "bin": {
