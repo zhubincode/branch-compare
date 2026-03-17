@@ -112,7 +112,7 @@ The tool generates comprehensive HTML reports with the following features:
 - **Search Functionality**: Quickly find specific commits or changes using the search feature
 - **Export Options**: Export the report data for further analysis
 
-The HTML reports are generated in your local directory and can be viewed in any modern web browser.
+The HTML reports are generated in the user-level application data directory and can be viewed in any modern web browser.
 
 ## Dependencies
 
@@ -323,7 +323,7 @@ npm start
 - **搜索功能**：使用搜索功能快速找到特定的提交或更改
 - **导出选项**：导出报告数据以供进一步分析
 
-HTML 报告生成在您的本地目录中，可以在任何现代网页浏览器中查看。
+HTML 报告生成在用户级应用数据目录中，可以在任何现代网页浏览器中查看。
 
 ## 依赖项
 

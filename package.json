@@ -1,6 +1,6 @@
 {
   "name": "branch-commit-compare",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Git branch comparison tool",
   "main": "index.js",
   "bin": {
@@ -10,7 +10,7 @@
     "start": "node index.js",
     "dev": "node index.js",
     "pkg:fix": "npm pkg fix",
-    "postinstall": "node -e \"const fs=require('fs'); const path=require('path'); const dir=path.join(require('os').homedir(), '.config', 'branch-commit-compare'); !fs.existsSync(dir) && fs.mkdirSync(dir, {recursive:true});\""
+    "postinstall": "node -e \"const fs=require('fs'); const os=require('os'); const path=require('path'); const appName='branch-commit-compare'; const dir=process.platform==='darwin'?path.join(os.homedir(),'Library','Application Support',appName):process.platform==='win32'?path.join(process.env.APPDATA||path.join(os.homedir(),'AppData','Roaming'),appName):path.join(process.env.XDG_CONFIG_HOME||path.join(os.homedir(),'.config'),appName); !fs.existsSync(dir) && fs.mkdirSync(dir,{recursive:true});\""
   },
   "files": [
     "index.js",
